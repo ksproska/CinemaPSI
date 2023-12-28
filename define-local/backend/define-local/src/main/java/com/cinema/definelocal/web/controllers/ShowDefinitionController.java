@@ -26,7 +26,11 @@ public class ShowDefinitionController {
                     "https://fwcdn.pl/fpo/16/29/851629/8095510.6.jpg",
                     List.of("Action", "Adventure", "Fantasy"),
                     LocalDate.now().minusDays(20),
-                    LocalDate.now().plusDays(30)
+                    LocalDate.now().plusDays(30),
+                    List.of(
+                            new LanguageVersion(1L, "NAPISY PL"),
+                            new LanguageVersion(3L, "DUBBING PL")
+                    )
             ),
             new Movie(
                     2L,
@@ -35,7 +39,11 @@ public class ShowDefinitionController {
                     "https://fwcdn.pl/fpo/79/62/857962/8095499.6.jpg",
                     List.of("Animation", "Drama", "History"),
                     LocalDate.now().minusDays(10),
-                    LocalDate.now().plusDays(50)
+                    LocalDate.now().plusDays(50),
+                    List.of(
+                            new LanguageVersion(2L, "NAPISY EN"),
+                            new LanguageVersion(4L, "NAPISY UK")
+                    )
             ),
             new Movie(
                     3L,
@@ -44,20 +52,18 @@ public class ShowDefinitionController {
                     "https://fwcdn.pl/fpo/52/04/805204/8092241.6.jpg",
                     List.of("Crime", "Drama", "History", "Mystery", "Romance", "Western"),
                     LocalDate.now().minusDays(5),
-                    LocalDate.now().plusDays(25)
+                    LocalDate.now().plusDays(25),
+                    List.of(
+                            new LanguageVersion(1L, "NAPISY PL")
+                    )
             )
     );
 
-    @GetMapping("/get-cinemas")
-    public ResponseEntity<List<Cinema>> getCinemas() {
+    @GetMapping("/get-cinemas-and-movies")
+    public ResponseEntity<MovieAndCinemaOptionsResponse> getCinemasAndMovies() {
+        var movieTitles = movies.stream().map(movie -> new MovieTitle(movie.id(), movie.title())).toList();
         // TODO: Connect to database
-        return ResponseEntity.ok(cinemas);
-    }
-
-    @GetMapping("/get-movies")
-    public ResponseEntity<List<MovieTitle>> getMovies() {
-        // TODO: Connect to database
-        return ResponseEntity.ok(movies.stream().map(movie -> new MovieTitle(movie.id(), movie.title())).toList());
+        return ResponseEntity.ok(new MovieAndCinemaOptionsResponse(movieTitles, cinemas));
     }
 
     @GetMapping("/get-define-repertoire-info")

@@ -10,6 +10,7 @@ public record Movie(
         String imageUrl,
         List<String> genres,
         LocalDate availabilityStart,
-        LocalDate availabilityEnd
+        LocalDate availabilityEnd,
+        List<LanguageVersion> availableLanguageVersions
 ) {
 }
