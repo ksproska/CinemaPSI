@@ -7,6 +7,7 @@ public record Movie(
         Long id,
         String title,
         String description,
+        int lengthMinutes,
         String imageUrl,
         List<String> genres,
         LocalDate availabilityStart,
