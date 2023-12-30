@@ -1,17 +1,18 @@
 package com.cinema.definelocal.web.requests;
 
+import com.cinema.definelocal.web.dtos.LanguageVersionNameDto;
+
 import java.time.LocalDate;
 import java.util.List;
 
-public record Movie(
+public record MovieData(
         Long id,
         String title,
         String description,
         int lengthMinutes,
         String imageUrl,
+        LocalDate dateSince,
+        LocalDate dateUntil,
         List<String> genres,
-        LocalDate availabilityStart,
-        LocalDate availabilityEnd,
-        List<LanguageVersion> availableLanguageVersions
-) {
-}
+        List<LanguageVersionNameDto> languageVersionNames
+) {}

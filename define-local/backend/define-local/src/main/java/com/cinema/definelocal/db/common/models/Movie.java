@@ -18,21 +18,6 @@ public class Movie {
     private Double rating;
     private String image;
 
-    public Movie(Long id, String title, String description, String director, String script, String actors, Integer duration, Double rating, String image) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.director = director;
-        this.script = script;
-        this.actors = actors;
-        this.duration = duration;
-        this.rating = rating;
-        this.image = image;
-    }
-
-    public Movie() {
-    }
-
     public Long getId() {
         return id;
     }

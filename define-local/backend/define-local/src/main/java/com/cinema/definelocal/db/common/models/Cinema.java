@@ -13,4 +13,19 @@ public class Cinema {
 
     @Column(name = "localization")
     private String localization;
+
+    public Cinema() {}
+
+    public Cinema(Long id, String localization) {
+        this.id = id;
+        this.localization = localization;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLocalization() {
+        return localization;
+    }
 }
