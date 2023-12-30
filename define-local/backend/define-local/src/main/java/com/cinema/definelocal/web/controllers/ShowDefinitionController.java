@@ -6,7 +6,6 @@ import com.cinema.definelocal.web.requests.MovieAndCinemaSelectionRequest;
 import com.cinema.definelocal.web.requests.MovieData;
 import com.cinema.definelocal.web.services.CinemaService;
 import com.cinema.definelocal.web.services.GenreService;
-import com.cinema.definelocal.web.services.LanguageVersionService;
 import com.cinema.definelocal.web.services.MovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,13 +17,11 @@ public class ShowDefinitionController {
     private final CinemaService cinemaService;
     private final MovieService movieService;
     private final GenreService genreService;
-    private final LanguageVersionService languageVersionService;
 
-    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService, LanguageVersionService languageVersionService) {
+    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService) {
         this.cinemaService = cinemaService;
         this.movieService = movieService;
         this.genreService = genreService;
-        this.languageVersionService = languageVersionService;
     }
 
     @GetMapping("/get-cinemas-and-movies")
@@ -42,7 +39,7 @@ public class ShowDefinitionController {
         var cinema = cinemaService.findById(movieAndCinemaSelectionRequest.cinemaId()).orElseThrow();
         var movie = movieService.findMovieDataById(movieAndCinemaSelectionRequest.movieId()).orElseThrow();
         var genres = genreService.findAllForMovieId(movie.id());
-        var languageVersions = languageVersionService.findAllLanguageVersionNamesForMovieId(movie.id());
+        var movieOffersVersion = movieService.findMovieOffersVersionForMovieId(movie.id());
         return ResponseEntity.ok(
                 new DefineRepertoireInfoResponse(
                         cinema,
@@ -52,10 +49,8 @@ public class ShowDefinitionController {
                                 movie.description(),
                                 movie.lengthMinutes(),
                                 movie.imageUrl(),
-                                movie.dateSince(),
-                                movie.dateUntil(),
                                 genres,
-                                languageVersions
+                                movieOffersVersion
                         )
                 )
         );

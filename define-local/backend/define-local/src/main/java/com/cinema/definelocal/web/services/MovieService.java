@@ -1,7 +1,8 @@
 package com.cinema.definelocal.web.services;
 
 import com.cinema.definelocal.db.common.repositories.MovieRepository;
-import com.cinema.definelocal.web.dtos.MovieDataWithOfferDatesDto;
+import com.cinema.definelocal.web.dtos.MovieDataDto;
+import com.cinema.definelocal.web.dtos.MovieOfferVersionDto;
 import com.cinema.definelocal.web.dtos.MovieTitleDto;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,11 @@ public class MovieService {
         return movieRepository.findAllMovieTitles();
     }
 
-    public Optional<MovieDataWithOfferDatesDto> findMovieDataById(Long movieId) {
+    public Optional<MovieDataDto> findMovieDataById(Long movieId) {
         return movieRepository.findMovieDataForMovieId(movieId).stream().findFirst();
+    }
+
+    public List<MovieOfferVersionDto> findMovieOffersVersionForMovieId(Long movieId) {
+        return movieRepository.findMovieOffersVersionForMovieId(movieId);
     }
 }
