@@ -16,7 +16,7 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackageClasses = CommonTemp.class,
+        basePackages = "com.cinema.repertoire.db.common",
         entityManagerFactoryRef = "commonEntityManagerFactory",
         transactionManagerRef = "commonTransactionManager"
 )
@@ -29,7 +29,7 @@ public class CommonJpaConfiguration {
             EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(dataSource)
-                .packages(CommonTemp.class)
+                .packages("com.cinema.repertoire.db.common")
                 .build();
     }
 

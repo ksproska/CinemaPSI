@@ -16,7 +16,7 @@ import java.util.Objects;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackageClasses = InstanceTemp.class,
+        basePackages = "com.cinema.repertoire.db.instance",
         entityManagerFactoryRef = "instanceEntityManagerFactory",
         transactionManagerRef = "instanceTransactionManager"
 )
@@ -29,7 +29,7 @@ public class InstanceJpaConfiguration {
     ) {
         return builder
                 .dataSource(dataSource)
-                .packages(InstanceTemp.class)
+                .packages("com.cinema.repertoire.db.instance")
                 .build();
     }
 
