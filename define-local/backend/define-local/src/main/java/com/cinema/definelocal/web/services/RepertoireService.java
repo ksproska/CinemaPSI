@@ -61,7 +61,7 @@ public class RepertoireService {
             ));
         }
         // TODO fix so that endpoint saves required repertoires
-//        repertoireRepository.saveAll(repertoiresToSave);
+        repertoireRepository.saveAll(repertoiresToSave);
         return Optional.empty();
     }
 

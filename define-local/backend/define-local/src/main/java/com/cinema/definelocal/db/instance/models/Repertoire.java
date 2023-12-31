@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name="REPERTOIRE")
 public class Repertoire {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "repertoire_id")
     private Long id;
     private LocalDateTime starting;
