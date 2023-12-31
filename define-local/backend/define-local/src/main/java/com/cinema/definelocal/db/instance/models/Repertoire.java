@@ -18,6 +18,15 @@ public class Repertoire {
     @Column(name="MOVIE_VERSION_ID")
     private Long movieVersionId;
 
+    public Repertoire() {}
+
+    public Repertoire(LocalDateTime starting, LocalDateTime ending, Long hallId, Long movieVersionId) {
+        this.starting = starting;
+        this.ending = ending;
+        this.hallId = hallId;
+        this.movieVersionId = movieVersionId;
+    }
+
     public Long getId() {
         return id;
     }

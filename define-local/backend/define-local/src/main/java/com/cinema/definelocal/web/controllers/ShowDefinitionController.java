@@ -1,15 +1,14 @@
 package com.cinema.definelocal.web.controllers;
 
-import com.cinema.definelocal.web.requests.DefineRepertoireInfoResponse;
-import com.cinema.definelocal.web.requests.MovieAndCinemaOptionsResponse;
-import com.cinema.definelocal.web.requests.MovieAndCinemaSelectionRequest;
-import com.cinema.definelocal.web.requests.MovieData;
+import com.cinema.definelocal.web.requests.*;
 import com.cinema.definelocal.web.services.CinemaService;
 import com.cinema.definelocal.web.services.GenreService;
 import com.cinema.definelocal.web.services.MovieService;
+import com.cinema.definelocal.web.services.RepertoireService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -17,11 +16,13 @@ public class ShowDefinitionController {
     private final CinemaService cinemaService;
     private final MovieService movieService;
     private final GenreService genreService;
+    private final RepertoireService repertoireService;
 
-    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService) {
+    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService, RepertoireService repertoireService) {
         this.cinemaService = cinemaService;
         this.movieService = movieService;
         this.genreService = genreService;
+        this.repertoireService = repertoireService;
     }
 
     @GetMapping("/get-cinemas-and-movies")
@@ -54,5 +55,14 @@ public class ShowDefinitionController {
                         )
                 )
         );
+    }
+
+    @PostMapping("/add-repertoire-for-movie")
+    public ResponseEntity<String> addRepertoire(@RequestBody RepertoiresRequest repertoireRequest) {
+        // TODO this endpoint creates required Repertoires but does not save it to db
+        var responseMessage = repertoireService.addRepertoires(repertoireRequest);
+        return responseMessage
+                .map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Repertoires were added successfully."));
     }
 }
