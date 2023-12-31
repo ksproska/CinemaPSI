@@ -1,3 +1,3 @@
 # CinemaPSI
 ## Overall architecture
-![architecture.drawio.png](images/architecture.drawio.png)
+![architecture.drawio.png](.images/architecture.drawio.png)
