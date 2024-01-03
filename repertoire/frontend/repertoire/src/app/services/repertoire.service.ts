@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {BASE_URL} from "../utility/globals";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Repertoire} from "../models/repertoire";
 
 @Injectable({

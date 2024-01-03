@@ -1,7 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MovieInfoComponent} from "../movie-info/movie-info.component";
 import {ShowtimeComponent} from "../showtime/showtime.component";
-import {repeat} from "rxjs";
 import {RepertoireService} from "../../services/repertoire.service";
 import {Repertoire} from "../../models/repertoire";
 import {NgForOf} from "@angular/common";
