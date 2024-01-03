@@ -1,0 +1,5 @@
+<div class="timeline-container">
+  <div *ngFor="let hour of next5Hours" class="timeline-item" [ngStyle]="getHourStyles(hour)">
+    <span>{{ hour }}:00</span>
+  </div>
+</div>

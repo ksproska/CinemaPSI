@@ -1,0 +1,18 @@
+:host {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  width: 100%;
+}
+

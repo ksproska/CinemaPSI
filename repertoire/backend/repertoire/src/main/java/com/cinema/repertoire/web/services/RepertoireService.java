@@ -24,21 +24,32 @@ public class RepertoireService {
     public List<RepertoireMovieResponseDto> createRepertoireResponses(Long cinemaId, LocalDateTime endTime) {
         List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(cinemaId, endTime);
         List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(repertoire.stream().map(RepertoireDTO::getMovieVersionId).collect(Collectors.toList()));
-        Map<Long, MovieDto> map = movies.stream()
+
+        Map<Long, MovieDto> movieMap = movies.stream()
                 .collect(Collectors.toMap(MovieDto::getVersionId, Function.identity()));
+
+        Map<Long, List<RepertoireDTO>> repertoiresByMovie = repertoire.stream()
+                .collect(Collectors.groupingBy(RepertoireDTO::getMovieVersionId));
+
         List<RepertoireMovieResponseDto> responses = new ArrayList<>();
-        for (RepertoireDTO rep : repertoire) {
+
+        for (Map.Entry<Long, List<RepertoireDTO>> entry : repertoiresByMovie.entrySet()) {
+            Long movieVersionId = entry.getKey();
+            List<RepertoireDTO> repertoiresForMovie = entry.getValue();
+
             RepertoireMovieResponseDto response = new RepertoireMovieResponseDto();
-            response.setEnding(rep.getEnding());
-            response.setStarting(rep.getStarting());
-            response.setHallNumber(rep.getHallNumber());
-            MovieDto movie = map.get(rep.getMovieVersionId());
+            MovieDto movie = movieMap.get(movieVersionId);
+
             response.setTitle(movie.getTitle());
             response.setDescription(movie.getDescription());
             response.setImage(movie.getImage());
+            response.setShowings(repertoiresForMovie.toArray(new RepertoireDTO[0]));
+
             responses.add(response);
         }
+
         return responses;
     }
+
 
 }
