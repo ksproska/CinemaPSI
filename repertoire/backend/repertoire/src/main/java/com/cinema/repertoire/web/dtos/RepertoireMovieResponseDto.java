@@ -1,29 +1,16 @@
 package com.cinema.repertoire.web.dtos;
 
-import java.time.LocalDateTime;
-
 public class RepertoireMovieResponseDto {
-    private LocalDateTime starting;
-    private LocalDateTime ending;
     private String title;
-    private Integer hallNumber;
     private String description;
     private String image;
+    private RepertoireDTO[] showings;
 
-    public LocalDateTime getStarting() {
-        return starting;
+    public RepertoireDTO[] getShowings() {
+        return showings;
     }
-
-    public void setStarting(LocalDateTime starting) {
-        this.starting = starting;
-    }
-
-    public LocalDateTime getEnding() {
-        return ending;
-    }
-
-    public void setEnding(LocalDateTime ending) {
-        this.ending = ending;
+    public void setShowings(RepertoireDTO[] repertoires) {
+        this.showings = repertoires;
     }
 
     public String getTitle() {
@@ -32,14 +19,6 @@ public class RepertoireMovieResponseDto {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Integer getHallNumber() {
-        return hallNumber;
-    }
-
-    public void setHallNumber(Integer hallNumber) {
-        this.hallNumber = hallNumber;
     }
 
     public String getDescription() {

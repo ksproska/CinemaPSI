@@ -6,7 +6,6 @@ public class RepertoireDTO {
     private LocalDateTime starting;
     private LocalDateTime ending;
     private Integer hallNumber;
-
     private Long movieVersionId;
 
     public LocalDateTime getStarting() {

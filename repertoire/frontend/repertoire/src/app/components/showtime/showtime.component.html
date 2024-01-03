@@ -1,0 +1,6 @@
+<div class="seances">
+  <app-time-line></app-time-line>
+  <div *ngFor="let showing of showingsFiltered" class="seance">
+    <div class="room-number" [ngStyle]="calculateWidth(showing)">Room {{ showing.hallNumber }}</div>
+  </div>
+</div>

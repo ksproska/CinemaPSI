@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RepertoireController {
@@ -23,7 +24,7 @@ public class RepertoireController {
     RepertoireService repertoireService;
 
     @GetMapping("/get-repertoire2")
-    public ResponseEntity<List<RepertoireMovieResponseDto>> getRepertoire2ForCinema(@RequestBody RepertoireRequestDto request) {
+    public ResponseEntity<List<RepertoireMovieResponseDto>> getRepertoire2ForCinema(RepertoireRequestDto request) {
         LocalDateTime end = LocalDateTime.now().plusHours(request.getHoursInterval());
         return ResponseEntity.ok(repertoireService.createRepertoireResponses(request.getCinemaId(), end));
     }

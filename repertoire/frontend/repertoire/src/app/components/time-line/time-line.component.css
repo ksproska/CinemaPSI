@@ -1,0 +1,18 @@
+.timeline-container {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 2px solid gray;
+}
+
+.timeline-item {
+  flex: 1;
+  padding: 10px 0 10px 0;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.timeline-item.current-hour {
+  border-radius: 5px;
+  color: #000;
+}
