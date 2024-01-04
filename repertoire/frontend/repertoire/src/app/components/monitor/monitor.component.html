@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" #scrollContainer>
   <ng-container *ngFor="let rep of repertoireInfo">
-    <div class="row">
+    <div class="row item">
       <app-movie-info [description]=rep.description [title]=rep.title [image]=rep.image></app-movie-info>
       <app-showtime [showings]=rep.showings></app-showtime>
     </div>

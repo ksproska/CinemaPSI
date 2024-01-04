@@ -5,8 +5,17 @@
 }
 
 .container {
+  height: 100svh;
   display: flex;
   flex-wrap: wrap;
+  overflow: auto;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+  overflow-y: scroll;
+}
+
+.container::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 .row {

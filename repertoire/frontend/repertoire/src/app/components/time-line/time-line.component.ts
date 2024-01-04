@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForOf, NgStyle} from "@angular/common";
-import {interval} from "rxjs";
+import {interval, startWith} from "rxjs";
 
 @Component({
   selector: 'app-time-line',
@@ -12,15 +12,13 @@ import {interval} from "rxjs";
   templateUrl: './time-line.component.html',
   styleUrl: './time-line.component.css'
 })
-export class TimeLineComponent implements OnInit {
+export class TimeLineComponent implements OnInit, OnDestroy {
   next5Hours: number[] = [];
   currentMinutePercentage: number = 0;
   private intervalSubscription: any;
 
   ngOnInit() {
-    this.updateTimeline();
-
-    this.intervalSubscription = interval(60000).subscribe(() => {
+    this.intervalSubscription = interval(60000).pipe(startWith(0)).subscribe(() => {
       this.updateTimeline();
       this.getHourStyles(new Date().getHours());
     });
@@ -43,7 +41,6 @@ export class TimeLineComponent implements OnInit {
   }
 
   isCurrentHour(hour: number): boolean {
-    // Check if the provided hour is the current hour
     return hour === new Date().getHours();
   }
   getHourStyles(hour: number): any {

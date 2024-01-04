@@ -22,7 +22,8 @@ public class RepertoireService {
     @Autowired
     MovieRepository movieRepository;
     public List<RepertoireMovieResponseDto> createRepertoireResponses(Long cinemaId, LocalDateTime endTime) {
-        List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(cinemaId, endTime);
+        LocalDateTime startTime = LocalDateTime.now().minusHours(5);
+        List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(cinemaId, endTime, startTime);
         List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(repertoire.stream().map(RepertoireDTO::getMovieVersionId).collect(Collectors.toList()));
 
         Map<Long, MovieDto> movieMap = movies.stream()
