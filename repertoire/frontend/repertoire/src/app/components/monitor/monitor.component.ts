@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MovieInfoComponent} from "../movie-info/movie-info.component";
 import {ShowtimeComponent} from "../showtime/showtime.component";
 import {RepertoireService} from "../../services/repertoire.service";
