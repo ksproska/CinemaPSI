@@ -1,5 +1,6 @@
 package com.cinema.ticketcollector.web.services;
 
+import com.cinema.ticketcollector.web.dtos.TicketCollectionResponseDto;
 import com.cinema.ticketcollector.web.dtos.TicketDto;
 import com.cinema.ticketcollector.web.repository.TicketRepository;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,12 @@ public class TicketService {
         return ticketRepository.findTicketDtos(ticketId).stream().findFirst();
     }
 
-    public Optional<String> validateTicketForId(Long ticketId) {
+    public Optional<TicketCollectionResponseDto> validateTicketForId(Long ticketId) {
         var ticketOptional = ticketRepository.findById(ticketId);
-        if (ticketOptional.isEmpty()) return Optional.of("Ticket not found");
+        if (ticketOptional.isEmpty()) return Optional.of(new TicketCollectionResponseDto("Nie znaleziono biletu"));
         var ticket = ticketOptional.get();
         var wasValidationSuccessful = ticket.setValidated();
-        if (!wasValidationSuccessful) return Optional.of("Ticket cannot be validated");
+        if (!wasValidationSuccessful) return Optional.of(new TicketCollectionResponseDto("Bilet nie może zostać skasowany"));
         ticketRepository.save(ticket);
         return Optional.empty();
     }

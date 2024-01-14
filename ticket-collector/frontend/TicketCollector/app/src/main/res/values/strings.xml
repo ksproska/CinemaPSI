@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Ticket Collector</string>
+    <string name="enter_code">Wpisz kod biletu</string>
+    <string name="confirm_code">Zatwierdź kod</string>
+    <string name="no_code_error">Wpisz kod</string>
+    <string name="active_ticket">Bilet ważny</string>
+    <string name="student_ticket">Bilet ulgowy</string>
+    <string name="regular_ticket">Bilet normalny</string>
+    <string name="confirmation_required">konieczność zatwierdzenia</string>
+    <string name="id">Id: %s</string>
+    <string name="room">Sala: %s</string>
+    <string name="seat">Miejsce: %s</string>
+    <string name="row">Rząd: %s</string>
+    <string name="collect_ticket">Skasuj bilet</string>
+    <string name="error">Wystąpił błąd</string>
+    <string name="try_again">Spróbuj ponownie</string>
+</resources>
