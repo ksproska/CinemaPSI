@@ -1,12 +1,16 @@
 package com.cinema.ticketcollector.web.controllers;
 
+import com.cinema.ticketcollector.web.dtos.TicketCollectionResponseDto;
+import com.cinema.ticketcollector.web.dtos.TicketDto;
 import com.cinema.ticketcollector.web.request.TicketRequest;
 import com.cinema.ticketcollector.web.services.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,20 +24,17 @@ public class StatusController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/get-ticket")
-    public ResponseEntity getTicketForId(@RequestBody TicketRequest ticketRequest) {
-        LOG.info("Requested ticket with id {}", ticketRequest.ticketId());
+    @GetMapping("/get-ticket/{ticketId}")
+    public ResponseEntity<TicketDto> getTicketForId(@PathVariable Long ticketId) {
+        LOG.info("Requested ticket with id {}", ticketId);
         var response = ticketService
-                .getTicketDtoForId(ticketRequest.ticketId())
+                .getTicketDtoForId(ticketId)
                 .map(ResponseEntity::ok);
-        if (response.isEmpty()) {
-            return ResponseEntity.badRequest().body("Ticket not found");
-        }
-        return response.get();
+        return response.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/collect")
-    public ResponseEntity<String> collectTicketWithId(@RequestBody TicketRequest ticketRequest) {
+    public ResponseEntity<TicketCollectionResponseDto> collectTicketWithId(@RequestBody TicketRequest ticketRequest) {
         LOG.info("Requested ticket with id {}", ticketRequest.ticketId());
         var validationResponse = ticketService.validateTicketForId(ticketRequest.ticketId());
         return validationResponse
@@ -42,7 +43,7 @@ public class StatusController {
                 )
                 .orElseGet(
                         () -> ResponseEntity.ok(
-                                String.format("Ticket with requested id %d is collected successfully.", ticketRequest.ticketId())
+                                new TicketCollectionResponseDto(String.format("Bilet z id %d skasowany", ticketRequest.ticketId()))
                         )
                 );
     }
