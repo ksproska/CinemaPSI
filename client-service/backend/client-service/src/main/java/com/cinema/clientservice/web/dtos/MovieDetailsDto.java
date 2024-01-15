@@ -6,6 +6,7 @@ public record MovieDetailsDto(
         String movieTitle,
         String movieDescription,
         Integer movieLengthMinutes,
-        String movieImageUrl
+        String movieImageUrl,
+        Double rating
 ) {
 }

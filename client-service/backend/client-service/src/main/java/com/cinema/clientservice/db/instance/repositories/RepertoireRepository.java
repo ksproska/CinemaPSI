@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface RepertoireRepository extends JpaRepository<Repertoire, Long> {
     List<Repertoire> getRepertoireByStartingAfterOrderByStarting(LocalDateTime localDateTime);
+    List<Repertoire> getRepertoireByStartingAfterAndMovieVersionIdIsInOrderByStarting(LocalDateTime localDateTime, List<Long> movieVersionIds);
 }

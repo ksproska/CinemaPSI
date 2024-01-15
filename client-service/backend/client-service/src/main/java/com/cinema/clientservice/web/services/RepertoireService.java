@@ -1,14 +1,13 @@
 package com.cinema.clientservice.web.services;
 
+import com.cinema.clientservice.db.common.repositories.MovieRepository;
 import com.cinema.clientservice.db.common.repositories.VersionOfferMovieMapRepository;
 import com.cinema.clientservice.db.instance.models.Repertoire;
 import com.cinema.clientservice.db.instance.repositories.RepertoireRepository;
 import com.cinema.clientservice.web.dtos.GenreForMovie;
 import com.cinema.clientservice.web.dtos.MovieDetailsDto;
 import com.cinema.clientservice.web.dtos.MovieVersionWithLanguageDto;
-import com.cinema.clientservice.web.requests.MovieWithRepertoires;
-import com.cinema.clientservice.web.requests.MovieWithRepertoiresAndDateResponse;
-import com.cinema.clientservice.web.requests.RepertoireDetails;
+import com.cinema.clientservice.web.requests.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,13 +19,42 @@ public class RepertoireService {
     private final RepertoireRepository repertoireRepository;
 
     private final VersionOfferMovieMapRepository versionOfferMovieMapRepository;
+    private final MovieRepository movieRepository;
 
-    public RepertoireService(RepertoireRepository repertoireRepository, VersionOfferMovieMapRepository versionOfferMovieMapRepository) {
+    public RepertoireService(RepertoireRepository repertoireRepository, VersionOfferMovieMapRepository versionOfferMovieMapRepository, MovieRepository movieRepository) {
         this.repertoireRepository = repertoireRepository;
         this.versionOfferMovieMapRepository = versionOfferMovieMapRepository;
+        this.movieRepository = movieRepository;
     }
 
-    public List<MovieWithRepertoiresAndDateResponse> getMovieWithRepertoireDetails() {
+    public RepertoiresForSingleMovie getFutureRepertoireForMovie(Long movieId) {
+        var movie = this.movieRepository.findById(movieId).orElseThrow();
+        var movieVersionIds = this.versionOfferMovieMapRepository.getMovieVersionsForMovieId(movieId);
+        var repertoires = getRepertoireAfterNowForMovieVersions(movieVersionIds);
+        var dates = getRepertoireDatesSorted(repertoires);
+        var movieVersionWithLanguageList = versionOfferMovieMapRepository.getVersionWithLanguagesForMovieVersionIds(movieVersionIds);
+        return new RepertoiresForSingleMovie(movie, dates.stream().map(
+                date -> new RepertoiresForDates(
+                        date,
+                        repertoires
+                                .stream()
+                                .filter(r -> r.getStarting().toLocalDate().equals(date))
+                                .map(repertoire -> {
+                                            var languageVersion = getLanguageVersionForRepertoire(repertoire, movieVersionWithLanguageList);
+                                            return new RepertoireDetails(
+                                                    repertoire.getId(),
+                                                    repertoire.getStarting().toLocalTime(),
+                                                    repertoire.getMovieVersionId(),
+                                                    languageVersion.languageVersionId(),
+                                                    languageVersion.languageVersionName());
+                                        }
+                                )
+                                .toList()
+                )
+        ).toList());
+    }
+
+    public List<MovieWithRepertoiresAndDateResponse> getFutureRepertoiresWithMovieDetails() {
         var repertoires = getRepertoireAfterNow();
         List<Long> movieVersionIds = getMovieVersionIds(repertoires);
         var movieDetailsList = getVersionDetailsForMovieIds(movieVersionIds);
@@ -76,6 +104,11 @@ public class RepertoireService {
     public List<Repertoire> getRepertoireAfterNow() {
         LocalDateTime localDateTime = LocalDateTime.now();
         return repertoireRepository.getRepertoireByStartingAfterOrderByStarting(localDateTime);
+    }
+
+    public List<Repertoire> getRepertoireAfterNowForMovieVersions(List<Long> movieVersionsIds) {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        return repertoireRepository.getRepertoireByStartingAfterAndMovieVersionIdIsInOrderByStarting(localDateTime, movieVersionsIds);
     }
 
     private static List<Long> getMovieVersionIds(List<Repertoire> repertoires) {
