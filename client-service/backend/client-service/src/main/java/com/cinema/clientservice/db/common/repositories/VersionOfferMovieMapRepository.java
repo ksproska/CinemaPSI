@@ -4,6 +4,7 @@ import com.cinema.clientservice.db.common.models.VersionOfferMovieMap;
 import com.cinema.clientservice.web.dtos.GenreForMovie;
 import com.cinema.clientservice.web.dtos.MovieDetailsDto;
 import com.cinema.clientservice.web.dtos.MovieVersionWithLanguageDto;
+import com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,8 @@ public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOff
 
     @Query(value = "SELECT DISTINCT vomm.versionId FROM VersionOfferMovieMap vomm")
     List<Long> getMovieVersionsForMovieId(Long movieId);
+
+    @Query(value = "SELECT DISTINCT new com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto(m.title, lv.versionName) FROM VersionOfferMovieMap vomm LEFT JOIN " +
+            "LanguageVersion lv ON vomm.versionId = lv.id LEFT JOIN Movie m ON vomm.movieId = m.id WHERE vomm.id = :movieVersionId")
+    List<MovieWithLanguageVersionNameDto> getMovieWithLanguageName(Long movieVersionId);
 }

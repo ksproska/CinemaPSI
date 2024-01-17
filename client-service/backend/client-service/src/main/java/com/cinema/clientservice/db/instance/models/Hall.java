@@ -18,7 +18,15 @@ public class Hall {
 
     @Column(name="seats_in_row")
     private Integer seatsInRow;
+
     @Column(name="cinema_id")
     private Integer cinemaId;
 
+    public Integer getRowsNum() {
+        return rowsNum;
+    }
+
+    public Integer getSeatsInRow() {
+        return seatsInRow;
+    }
 }
