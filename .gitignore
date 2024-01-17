@@ -1,2 +1,3 @@
 .idea/
-.H2-file-dbs/*.trace.db
+/.H2-file-dbs/*.trace.db
+/.H2-file-dbs/*.lock.db

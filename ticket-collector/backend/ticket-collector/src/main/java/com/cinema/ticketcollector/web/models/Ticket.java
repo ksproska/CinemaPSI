@@ -19,8 +19,8 @@ public class Ticket {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "hall_id")
-    private Long hallId;
+    @Column(name = "repertoire_id")
+    private Long repertoireId;
 
     @Column(name = "seat_id")
     private Long seatId;

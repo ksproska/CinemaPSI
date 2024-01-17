@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query(value = "SELECT new com.cinema.ticketcollector.web.dtos.TicketDto(t.id, t.isValidated, t.isStudent, h.hallNumber, s.row, s.number) " +
-            "FROM Ticket t LEFT JOIN Hall h ON t.hallId = h.id LEFT JOIN Seat s ON t.seatId = s.id WHERE t.id = :ticketId")
+            "FROM Ticket t LEFT JOIN Repertoire r ON t.repertoireId = r.id LEFT JOIN Hall h ON r.hallId = h.id LEFT JOIN Seat s ON t.seatId = s.id WHERE t.id = :ticketId")
     List<TicketDto> findTicketDtos(Long ticketId);
 }
