@@ -20,6 +20,7 @@ public class MockPaymentAPI implements PaymentAPI {
     @Override
     public Long registerPayment(Long reservationId, double total) {
         // registering payment in the external service
+        if (total <= 0) throw new IllegalStateException("total must be a positive number");
         var paymentId = counter;
         counter += 1;
         registeredPayments.put(paymentId, round(total, 2));

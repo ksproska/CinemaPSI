@@ -1,5 +1,67 @@
 version: "2.4"
 services:
+  db-instance:
+    container_name: db-instance
+    hostname: db-instance
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    networks:
+      - priv-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./../.postgres/instance:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db-common:
+    container_name: db-common
+    hostname: db-common
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    networks:
+      - priv-network
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./../.postgres/common:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    container_name: backend
+    hostname: backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      target: "backend"
+    environment:
+      SPRING_DATASOURCE_COMMON_URL: jdbc:postgresql://db-common:5432/postgres?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_COMMON_USERNAME: postgres
+      SPRING_DATASOURCE_COMMON_PASSWORD: password
+      SPRING_DATASOURCE_COMMON_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_INSTANCE_URL: jdbc:postgresql://db-instance:5432/postgres?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_INSTANCE_USERNAME: postgres
+      SPRING_DATASOURCE_INSTANCE_PASSWORD: password
+      SPRING_DATASOURCE_INSTANCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+    networks:
+      - priv-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      db-common:
+        condition: service_healthy
+      db-instance:
+        condition: service_healthy
+
   payment-service:
     container_name: payment-service
     hostname: payment-service

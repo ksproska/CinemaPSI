@@ -31,7 +31,12 @@ public class PaymentController {
     public String payment(@RequestParam("reservationId") Long reservationId, @RequestParam("paymentService") String paymentService) {
         PaymentAPI paymentAPI = Optional.ofNullable(paymentServices.get(paymentService)).orElseThrow();
         var total = ticketService.getTotal(reservationId);
-        var paymentId = paymentAPI.registerPayment(reservationId, total);
+        Long paymentId;
+        try {
+            paymentId = paymentAPI.registerPayment(reservationId, total);
+        } catch (IllegalStateException e) {
+            return "redirect:" + failureReturnUrl;
+        }
         ticketService.savePaymentIdForReservation(reservationId, paymentId, paymentService);
         return paymentAPI.getExternalUrlToRedirectTo(paymentId);
     }
@@ -43,7 +48,11 @@ public class PaymentController {
 
     @GetMapping(value = "pay/success")
     public String successPay(@RequestParam("paymentId") Long paymentId) {
-        ticketService.moveTicketReservationsToTickets(paymentId);
+        try {
+            ticketService.moveTicketReservationsToTickets(paymentId);
+        } catch (IllegalStateException e) {
+            return "redirect:" + failureReturnUrl;
+        }
         return "redirect:" + successReturnUrl;
     }
 }
