@@ -1,1 +1,41 @@
-<p>movie-list works!</p>
+<body>
+<app-top-bar></app-top-bar>
+<article class="p-3" id="selection-bar">
+  <section>
+    <select id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
+      <option *ngFor="let cinema of cinemas" [value]="cinema">{{ cinema }}</option>
+    </select>
+    <mat-icon>arrow_back_ios</mat-icon>
+  </section>
+  <section class="d-flex flex-column gap-2">
+    <div *ngFor="let movie of movies" class="card">
+      <div class="card-body">
+        <div class="row">
+          <img src="assets/images/{{movie.movieVersionDetails.movieImageUrl}}">
+          <div class="row col-10">
+            <h5 class="card-title">{{ movie.movieVersionDetails.movieTitle }}</h5>
+            <div class="genre-list">
+              <div *ngFor="let genre of movie.genres" class="genre-item">{{ genre }}
+                <span class="genre-item" *ngIf="!isLast(movie, genre)">|</span>
+              </div>
+            </div>
+            <p id="desc">
+              {{ movie.movieVersionDetails.movieDescription }}
+            </p>
+            <ng-container class="row container">
+              <ng-container *ngFor="let screening of movie.repertoires">
+                <button type="button" id="{{screening.repertoireId}}"
+                        [ngClass]="datePassed(screening.starting) ? 'passed' : 'future'"
+                        (click)="navigateToBuyView(screening.repertoireId)">
+                  {{ screening.starting | date: 'HH:mm' }}
+                  {{ screening.languageVersionName.toUpperCase() }}
+                </button>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+</body>

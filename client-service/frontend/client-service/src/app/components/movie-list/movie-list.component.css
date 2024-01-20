@@ -1,0 +1,89 @@
+#content{
+  background-color: #333333;
+  width: 70%;
+  margin: auto;
+  height: 100%;
+}
+
+.card{
+  background-color: #3f3f3f;
+}
+
+body{
+  background-color: #0b0b0b;
+  min-width: 600px;
+}
+
+h1{
+  color: #00a2d9;
+}
+
+img {
+  width: 150px;
+  height: 200px;
+}
+
+h5{
+  color: #e4e4e4;
+}
+
+#desc{
+  color: #e4e4e4;
+}
+
+.card-link{
+  color: #00a2d9;
+}
+
+.passed, .future{
+  margin-top: 5px;
+  border-radius: 10px;
+  width: 100px;
+  text-align: center;
+  font-family: Arial;
+  border-color: #3f3f3f;
+  border-style: solid;
+}
+
+.container {
+  display: inline-flex;
+  column-gap: 10px;
+  justify-items: flex-start;
+}
+
+.screenings-list {
+  display: inline-flex;
+  justify-items: flex-start;
+}
+
+.passed {
+  background-color: #333333;
+  cursor: auto;
+}
+
+.future {
+  background-color: gray;
+}
+
+.card-link {
+  text-decoration: none;
+}
+
+.genre-list {
+  display: flex;
+}
+
+.genre-item {
+  margin-bottom: 10px;
+  color: #e4e4e4;
+}
+
+span {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+select {
+  margin-bottom: 15px;
+}
+

@@ -4,5 +4,7 @@ export interface MovieDetailsDto {
   movieDescription: string,
   movieLengthMinutes: number,
   movieImageUrl: number,
+  // string for test only
+  // movieImageUrl: string,
   rating: number
 }
