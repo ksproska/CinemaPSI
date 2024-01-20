@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -141,5 +144,59 @@ public class RepertoireService {
 
     private static List<LocalDate> getRepertoireDatesSorted(List<Repertoire> repertoires) {
         return repertoires.stream().map(Repertoire::getStarting).map(LocalDateTime::toLocalDate).distinct().sorted().toList();
+    }
+
+    private List<RepertoireDetailsWithMovieId> getRepertoireDetailsForRepertoires(List<Repertoire> repertoires) {
+        var movieVersionIds = repertoires.stream().map(repertoire -> repertoire.getMovieVersionId()).toList();
+        var movieVersionWithLanguageDto = versionOfferMovieMapRepository.getVersionWithLanguagesForMovieVersionIds(movieVersionIds);
+        List<RepertoireDetailsWithMovieId> repertoireDetails = new ArrayList<>();
+        for (Repertoire repertoire : repertoires) {
+            var languageVersionForRepertoire = getLanguageVersionForRepertoire(repertoire, movieVersionWithLanguageDto);
+            var repertoireDetail = new RepertoireDetailsWithMovieId(repertoire.getId(), repertoire.getStarting().toLocalTime(),
+                    repertoire.getMovieVersionId(), languageVersionForRepertoire.languageVersionId(),
+                    languageVersionForRepertoire.languageVersionName(), languageVersionForRepertoire.movieId());
+            repertoireDetails.add(repertoireDetail);
+        }
+        return repertoireDetails;
+    }
+
+    private static List<RepertoireDetails> getRepertoireDetailsForMovieIds(List<RepertoireDetailsWithMovieId> repertoireDetailsWithMovieId, Long movieId) {
+        return repertoireDetailsWithMovieId.stream()
+                .filter(repertoire -> repertoire.movieId().equals(movieId))
+                .map(repertoire -> new RepertoireDetails(
+                        repertoire.repertoireId(),
+                        repertoire.starting(),
+                        repertoire.movieVersionId(),
+                        repertoire.languageVersionId(),
+                        repertoire.languageVersionName())).toList();
+    }
+
+    private static List<Repertoire> sortRepertoires(List<Repertoire> repertoires) {
+        repertoires.sort(Comparator.comparing(Repertoire::getStarting));
+        return repertoires;
+    }
+
+    public List<MovieWithRepertoires> getRepertoireDetailsByDate(LocalDate afterDate) {
+        LocalDateTime startingBefore = afterDate.atTime(LocalTime.MAX);
+        LocalDateTime startingAfter = afterDate.atTime(LocalTime.now());
+        //movie version ids in this particular date
+        List<Long> movieVersionIds = this.repertoireRepository.getMovieVersionIdByStartingAfterAndStartingBeforeOrderByStarting(startingAfter, startingBefore);
+        //repertoires for the date
+        List<Repertoire> repertoires = sortRepertoires(this.repertoireRepository.getRepertoireByStartingAfterAndStartingBefore(startingAfter, startingBefore));
+        //repetoire details for the date, including movie id
+        List<RepertoireDetailsWithMovieId> repertoireDetailsWithMovieId = getRepertoireDetailsForRepertoires(repertoires);
+        //movie details for the movie version ids
+        var movieDetailsList = getVersionDetailsForMovieIds(movieVersionIds);
+        //genres for the movie ids
+        var genres = this.versionOfferMovieMapRepository.getGenresForMoviesWithIds(movieDetailsList.stream().map(MovieDetailsDto::movieId).distinct().toList());
+
+        return
+                movieDetailsList.stream().map(
+                        movieDetails -> new MovieWithRepertoires(
+                                movieDetails,
+                                genres.stream().filter(genreForMovie -> genreForMovie.movieId().equals(movieDetails.movieId())).map(GenreForMovie::genreName).toList(),
+                                getRepertoireDetailsForMovieIds(repertoireDetailsWithMovieId, movieDetails.movieId())
+                        )
+                ).filter(movieWithRepertoires -> !movieWithRepertoires.repertoires().isEmpty()).toList();
     }
 }

@@ -31,4 +31,6 @@ public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOff
     @Query(value = "SELECT DISTINCT new com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto(m.title, lv.versionName) FROM VersionOfferMovieMap vomm LEFT JOIN " +
             "LanguageVersion lv ON vomm.versionId = lv.id LEFT JOIN Movie m ON vomm.movieId = m.id WHERE vomm.id = :movieVersionId")
     List<MovieWithLanguageVersionNameDto> getMovieWithLanguageName(Long movieVersionId);
+
+
 }
