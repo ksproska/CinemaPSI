@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="fake-payment-service-logo.png">
+        <title>Mock Payment Service</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            #successButton {
+                background-color: forestgreen;
+            }
+
+            #failureButton {
+                background-color: crimson;
+            }
+
+            #disableCountdownButton {
+                background-color: cornflowerblue;
+            }
+
+            button, input {
+                border-radius: 8px;
+                color: white;
+                padding: 10px 20px;
+                margin: 10px;
+                border: none;
+                cursor: pointer;
+                font-size: large;
+            }
+
+            #countdown {
+                font-size: large;
+            }
+
+            img {
+                max-width: 10vw;
+                height: auto;
+            }
+
+            form {
+                width: 300px;
+                padding: 10px;
+                text-align: center;
+            }
+
+            .invisible {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="fake-payment-service-logo.png" alt="Fake Payment Service Logo">
+        <h1>Mock Payment Service</h1>
+        <h2>Total:</h2>
+        <h2 id="total"></h2>
+
+        <form method="GET" action="http://localhost:8080/pay/success">
+            <input id="paymentIdSuccess" type="text" name="paymentId" class="invisible">
+            <input id="successButton" type="submit" value="Make a successful payment" class="btn">
+        </form>
+
+        <form id="failureForm" method="GET" action="http://localhost:8080/pay/failure">
+            <input id="paymentIdFailure" type="text" name="paymentId" class="invisible">
+            <input id="failureButton" type="submit" value="Make an unsuccessful payment" class="btn">
+        </form>
+
+        <p id="countdown">15 seconds remaining</p>
+        <button id="disableCountdownButton" onclick="disableCountdown()">Disable Countdown</button>
+
+        <script>
+            const paymentIdContent = getURLParameters()['paymentId'];
+            const totalContent = getURLParameters()['total'] + " zł";
+            document.getElementById("paymentIdSuccess").value = paymentIdContent;
+            document.getElementById("paymentIdFailure").value = paymentIdContent;
+            document.getElementById("total").textContent = totalContent;
+
+            function handleTimeout() {
+                disableCountdown()
+                const form = document.getElementById("failureForm");
+                form.submit()
+            }
+
+            function getURLParameters() {
+                const searchParams = new URLSearchParams(window.location.search);
+                const params = {};
+
+                for (const [key, value] of searchParams.entries()) {
+                    params[key] = value;
+                }
+
+                return params;
+            }
+
+            let remainingSeconds = 15;
+            let intervalId;
+
+            function countdown() {
+                function update() {
+                    if (remainingSeconds >= 0) {
+                        updateCountdown(remainingSeconds);
+                        remainingSeconds--;
+                    } else {
+                        clearInterval(intervalId);
+                        handleTimeout();
+                    }
+                }
+
+                update();
+                intervalId = setInterval(update, 1000);
+            }
+
+            function updateCountdown(seconds) {
+                const countdownParagraph = document.getElementById('countdown');
+                countdownParagraph.textContent = `${seconds} seconds remaining`;
+            }
+
+            function disableCountdown() {
+                clearInterval(intervalId);
+                const countdownParagraph = document.getElementById('countdown');
+                countdownParagraph.style.display = 'none';
+
+                const disableButton = document.getElementById('disableCountdownButton');
+                disableButton.style.display = 'none';
+            }
+
+            countdown();
+        </script>
+    </body>
+</html>
