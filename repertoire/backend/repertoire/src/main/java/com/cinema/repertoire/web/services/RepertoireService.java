@@ -5,7 +5,7 @@ import com.cinema.repertoire.db.instance.repositories.RepertoireRepository;
 import com.cinema.repertoire.web.dtos.MovieDto;
 import com.cinema.repertoire.web.dtos.RepertoireDTO;
 import com.cinema.repertoire.web.dtos.RepertoireMovieResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cinema.repertoire.web.dtos.RepertoireRequestDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,17 +17,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class RepertoireService {
-    @Autowired
-    RepertoireRepository repertoireRepository;
-    @Autowired
-    MovieRepository movieRepository;
-    public List<RepertoireMovieResponseDto> createRepertoireResponses(Long cinemaId, LocalDateTime endTime) {
+    private final RepertoireRepository repertoireRepository;
+    private final MovieRepository movieRepository;
+
+    public RepertoireService(RepertoireRepository repertoireRepository, MovieRepository movieRepository) {
+        this.repertoireRepository = repertoireRepository;
+        this.movieRepository = movieRepository;
+    }
+
+    public List<RepertoireMovieResponseDto> createRepertoireResponsesForRequest(RepertoireRequestDto request) {
+        LocalDateTime endTime = LocalDateTime.now().plusHours(request.hoursInterval());
+        Long cinemaId = request.cinemaId();
         LocalDateTime startTime = LocalDateTime.now().minusHours(5);
+
         List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(cinemaId, endTime, startTime);
-        List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(repertoire.stream().map(RepertoireDTO::getMovieVersionId).collect(Collectors.toList()));
+        List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(repertoire.stream().map(RepertoireDTO::getMovieVersionId).toList());
 
         Map<Long, MovieDto> movieMap = movies.stream()
-                .collect(Collectors.toMap(MovieDto::getVersionId, Function.identity()));
+                .collect(Collectors.toMap(MovieDto::versionId, Function.identity()));
 
         Map<Long, List<RepertoireDTO>> repertoiresByMovie = repertoire.stream()
                 .collect(Collectors.groupingBy(RepertoireDTO::getMovieVersionId));
@@ -41,9 +48,9 @@ public class RepertoireService {
             RepertoireMovieResponseDto response = new RepertoireMovieResponseDto();
             MovieDto movie = movieMap.get(movieVersionId);
 
-            response.setTitle(movie.getTitle());
-            response.setDescription(movie.getDescription());
-            response.setImage(movie.getImage());
+            response.setTitle(movie.title());
+            response.setDescription(movie.description());
+            response.setImage(movie.image());
             response.setShowings(repertoiresForMovie.toArray(new RepertoireDTO[0]));
 
             responses.add(response);
@@ -51,6 +58,4 @@ public class RepertoireService {
 
         return responses;
     }
-
-
 }

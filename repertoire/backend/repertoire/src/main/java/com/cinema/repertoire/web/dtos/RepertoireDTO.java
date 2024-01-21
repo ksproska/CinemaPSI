@@ -12,32 +12,16 @@ public class RepertoireDTO {
         return starting;
     }
 
-    public void setStarting(LocalDateTime starting) {
-        this.starting = starting;
-    }
-
     public LocalDateTime getEnding() {
         return ending;
-    }
-
-    public void setEnding(LocalDateTime ending) {
-        this.ending = ending;
     }
 
     public Integer getHallNumber() {
         return hallNumber;
     }
 
-    public void setHallNumber(Integer hallNumber) {
-        this.hallNumber = hallNumber;
-    }
-
     public Long getMovieVersionId() {
         return movieVersionId;
-    }
-
-    public void setMovieVersionId(Long movieVersionId) {
-        this.movieVersionId = movieVersionId;
     }
 
     public RepertoireDTO(LocalDateTime starting, LocalDateTime ending, Integer hallNumber, Long versionId) {
