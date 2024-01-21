@@ -1,6 +1,7 @@
 package com.cinema.clientservice.web.controllers;
 
 import com.cinema.clientservice.web.exceptions.SeatTakenException;
+import com.cinema.clientservice.web.requests.AllBoughtTicketsDetails;
 import com.cinema.clientservice.web.requests.Reservation;
 import com.cinema.clientservice.web.requests.ReservationDetails;
 import com.cinema.clientservice.web.services.TicketService;
@@ -34,5 +35,10 @@ public class TicketController {
     @GetMapping("/get-reservation-details/{reservationId}")
     public ResponseEntity<ReservationDetails> getReservationDetails(@PathVariable Long reservationId) {
         return ResponseEntity.ok(ticketService.getReservationDetails(reservationId));
+    }
+
+    @GetMapping("/get-all-tickets")
+    public ResponseEntity<AllBoughtTicketsDetails> getAllTickets() {
+        return ResponseEntity.ok(ticketService.getAllBoughtTicketDetails());
     }
 }

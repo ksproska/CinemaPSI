@@ -10,9 +10,7 @@ import com.cinema.clientservice.db.instance.repositories.TicketRepository;
 import com.cinema.clientservice.db.instance.repositories.TicketReservationRepository;
 import com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto;
 import com.cinema.clientservice.web.exceptions.SeatTakenException;
-import com.cinema.clientservice.web.requests.Reservation;
-import com.cinema.clientservice.web.requests.ReservationDetails;
-import com.cinema.clientservice.web.requests.TicketReservationDetailsDto;
+import com.cinema.clientservice.web.requests.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -144,6 +142,25 @@ public class TicketService {
                         )
                 ).toList(),
                 round(ticketReservations.stream().map(TicketReservationDetailsDto::price).mapToDouble(p -> round(p, 2)).sum(), 2)
+        );
+    }
+
+    public AllBoughtTicketsDetails getAllBoughtTicketDetails() {
+        var allTicketsDetails = ticketRepository.findAllTicketDetails();
+        return new AllBoughtTicketsDetails(
+                allTicketsDetails.stream().map(
+                        ticketDetails -> new SingleTicketDetails(
+                                versionOfferMovieMapRepository.getMovieTitleFovMovieVersionId(ticketDetails.movieVersionId()).orElseThrow(),
+                                ticketDetails.isStudent(),
+                                round(ticketDetails.price(), 2),
+                                ticketDetails.repertoireStarting().toLocalDate(),
+                                ticketDetails.repertoireStarting().toLocalTime(),
+                                ticketDetails.seatNumber(),
+                                ticketDetails.seatRow(),
+                                ticketDetails.ticketId(),
+                                ticketDetails.isValidated()
+                        )
+                ).toList()
         );
     }
 }
