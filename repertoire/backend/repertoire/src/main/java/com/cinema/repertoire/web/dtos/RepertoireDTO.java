@@ -3,10 +3,10 @@ package com.cinema.repertoire.web.dtos;
 import java.time.LocalDateTime;
 
 public class RepertoireDTO {
-    private LocalDateTime starting;
-    private LocalDateTime ending;
-    private Integer hallNumber;
-    private Long movieVersionId;
+    private final LocalDateTime starting;
+    private final LocalDateTime ending;
+    private final Integer hallNumber;
+    private final Long movieVersionId;
 
     public LocalDateTime getStarting() {
         return starting;

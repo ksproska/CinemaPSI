@@ -30,8 +30,10 @@ public class RepertoireService {
         Long cinemaId = request.cinemaId();
         LocalDateTime startTime = LocalDateTime.now().minusHours(5);
 
-        List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(cinemaId, endTime, startTime);
-        List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(repertoire.stream().map(RepertoireDTO::getMovieVersionId).toList());
+        List<Long> repertoireIds = repertoireRepository.findRepertoireIdsByStartingAndCinemaId(cinemaId, endTime, startTime);
+        List<RepertoireDTO> repertoire = repertoireRepository.findRepertoireDtoByStartingAndCinemaId(repertoireIds);
+        List<Long> movieVersionIds = repertoire.stream().map(RepertoireDTO::getMovieVersionId).toList();
+        List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(movieVersionIds);
 
         Map<Long, MovieDto> movieMap = movies.stream()
                 .collect(Collectors.toMap(MovieDto::versionId, Function.identity()));
