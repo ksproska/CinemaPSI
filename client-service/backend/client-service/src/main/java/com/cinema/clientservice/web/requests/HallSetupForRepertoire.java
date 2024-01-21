@@ -4,7 +4,7 @@ import com.cinema.clientservice.web.dtos.SeatInfo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.ArrayList;
 
 public record HallSetupForRepertoire(
         String movieTitle,
@@ -16,5 +16,5 @@ public record HallSetupForRepertoire(
 
         Integer numbOfRows,
         Integer numbOfSeatsInRow,
-        List<List<SeatInfo>> seats
+        ArrayList<ArrayList<SeatInfo>> seats
 ) {}

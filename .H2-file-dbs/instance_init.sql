@@ -1323,9 +1323,9 @@ CREATE TABLE "TICKETS"
     "PRICE_ID"      BIGINT  NOT NULL
 );
 INSERT INTO "TICKETS"(IS_VALIDATED, IS_STUDENT, PRICE, REPERTOIRE_ID, SEAT_ID, PRICE_ID)
-VALUES (true, false, 16.99, 1, 10, 5)
-     , (true, true, 15.99, 1, 9, 6)
-     , (false, false, 16.99, 1, 3, 2);
+VALUES (true, false, 16.99, 1, 913, 5)
+     , (true, true, 15.99, 1, 914, 6)
+     , (false, false, 16.99, 1, 915, 2);
 
 CREATE TABLE "TICKETS_RESERVATIONS"
 (
