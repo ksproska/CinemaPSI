@@ -1,19 +1,24 @@
 package com.cinema.clientservice.web.services;
 
 import com.cinema.clientservice.db.common.repositories.PriceRepository;
+import com.cinema.clientservice.db.common.repositories.VersionOfferMovieMapRepository;
 import com.cinema.clientservice.db.instance.models.Repertoire;
 import com.cinema.clientservice.db.instance.models.Ticket;
 import com.cinema.clientservice.db.instance.models.TicketReservation;
 import com.cinema.clientservice.db.instance.repositories.RepertoireRepository;
 import com.cinema.clientservice.db.instance.repositories.TicketRepository;
 import com.cinema.clientservice.db.instance.repositories.TicketReservationRepository;
+import com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto;
 import com.cinema.clientservice.web.exceptions.SeatTakenException;
 import com.cinema.clientservice.web.requests.Reservation;
+import com.cinema.clientservice.web.requests.ReservationDetails;
+import com.cinema.clientservice.web.requests.TicketReservationDetailsDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.apache.commons.math3.util.Precision.round;
 
@@ -23,12 +28,14 @@ public class TicketService {
     private final PriceRepository priceRepository;
     private final RepertoireRepository repertoireRepository;
     private final TicketRepository ticketRepository;
+    private final VersionOfferMovieMapRepository versionOfferMovieMapRepository;
 
-    public TicketService(TicketReservationRepository ticketReservationRepository, PriceRepository priceRepository, RepertoireRepository repertoireRepository, TicketRepository ticketRepository) {
+    public TicketService(TicketReservationRepository ticketReservationRepository, PriceRepository priceRepository, RepertoireRepository repertoireRepository, TicketRepository ticketRepository, VersionOfferMovieMapRepository versionOfferMovieMapRepository) {
         this.ticketReservationRepository = ticketReservationRepository;
         this.priceRepository = priceRepository;
         this.repertoireRepository = repertoireRepository;
         this.ticketRepository = ticketRepository;
+        this.versionOfferMovieMapRepository = versionOfferMovieMapRepository;
     }
 
     @Value("${promotion.min.days}")
@@ -52,19 +59,21 @@ public class TicketService {
 
     private void checkIfSeatIdsInRepertoireHall(Reservation reservation) {
         var allSeatIdsForRepertoireHall = repertoireRepository.getSeatIdsForRepertoireId(reservation.repertoireId());
-        for(var seatId : reservation.seatIds()) {
-            if (!allSeatIdsForRepertoireHall.contains(seatId)) throw new IllegalStateException("Seat " + seatId + " is not assigned to repertoire " + reservation.repertoireId());
+        for (var seatId : reservation.seatIds()) {
+            if (!allSeatIdsForRepertoireHall.contains(seatId))
+                throw new IllegalStateException("Seat " + seatId + " is not assigned to repertoire " + reservation.repertoireId());
         }
     }
 
     private void checkIfSeatsAlreadyTaken(Reservation reservation) throws SeatTakenException {
         var boughtTickets = ticketRepository.findAllSeatIdsForRepertoireId(reservation.repertoireId());
-        for(var seatId : reservation.seatIds()) {
+        for (var seatId : reservation.seatIds()) {
             if (boughtTickets.contains(seatId)) throw new SeatTakenException("Seat " + seatId + " is already bought.");
         }
         var reservedTickets = ticketReservationRepository.findAllSeatIdsForRepertoireId(reservation.repertoireId());
-        for(var seatId : reservation.seatIds()) {
-            if (reservedTickets.contains(seatId)) throw new SeatTakenException("Seat " + seatId + " is already reserved.");
+        for (var seatId : reservation.seatIds()) {
+            if (reservedTickets.contains(seatId))
+                throw new SeatTakenException("Seat " + seatId + " is already reserved.");
         }
     }
 
@@ -111,10 +120,30 @@ public class TicketService {
 
     public void savePaymentIdForReservation(Long reservationId, Long paymentId, String paymentService) {
         var ticketReservations = ticketReservationRepository.findAllByReservationId(reservationId);
-        for (var reservation: ticketReservations) {
+        for (var reservation : ticketReservations) {
             reservation.setPaymentId(paymentId);
             reservation.setPaymentServiceName(paymentService);
         }
         ticketReservationRepository.saveAll(ticketReservations);
+    }
+
+    public ReservationDetails getReservationDetails(Long reservationId) {
+        List<TicketReservationDetailsDto> ticketReservations = ticketReservationRepository.findAllTicketReservationDetails(reservationId);
+        Repertoire repertoire = repertoireRepository.findRepertoireByReservationId(reservationId).orElseThrow();
+        MovieWithLanguageVersionNameDto movieDetails = versionOfferMovieMapRepository.getMovieWithLanguageName(repertoire.getMovieVersionId()).getFirst();
+        return new ReservationDetails(
+                movieDetails.movieTitle(),
+                movieDetails.languageVersionName(),
+                repertoire.getStarting().toLocalDate(),
+                repertoire.getStarting().toLocalTime(),
+                ticketReservations.stream().map(ticketReservation -> new TicketReservationDetailsDto(
+                                ticketReservation.seatRow(),
+                                ticketReservation.seatNumber(),
+                                ticketReservation.isStudent(),
+                                round(ticketReservation.price(), 2)
+                        )
+                ).toList(),
+                round(ticketReservations.stream().map(TicketReservationDetailsDto::price).mapToDouble(p -> round(p, 2)).sum(), 2)
+        );
     }
 }
