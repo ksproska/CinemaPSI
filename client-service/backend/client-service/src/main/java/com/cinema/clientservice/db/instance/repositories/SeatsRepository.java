@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface SeatsRepository extends JpaRepository<Seat, Long> {
     @Query(value = "SELECT new com.cinema.clientservice.web.dtos.SeatsDto(s.id, s.number, s.row, t) FROM Seat s" +
-            " LEFT JOIN Ticket t ON s.id = t.seatId WHERE t IS NULL OR t.repertoireId = :repertoireId")
-    List<SeatsDto> findAllSeatsForRepertoireId(Long repertoireId);
+            " LEFT JOIN Ticket t ON s.id = t.seatId WHERE s.hallId = :hallId AND (t IS NULL OR t.repertoireId = :repertoireId)")
+    List<SeatsDto> findAllSeatsForRepertoireId(Long repertoireId, Long hallId);
 }

@@ -28,7 +28,7 @@ public class HallSetupService {
     public HallSetupForRepertoire getHallSetup(Long repertoireId) {
         var repertoire = this.repertoireRepository.findById(repertoireId).orElseThrow();
         var hall = this.hallRepository.findById(repertoire.getHallId()).orElseThrow();
-        var seats = this.seatsRepository.findAllSeatsForRepertoireId(repertoireId);
+        var seats = this.seatsRepository.findAllSeatsForRepertoireId(repertoireId, repertoire.getHallId());
         var seatPlacement = new ArrayList<List<SeatInfo>>(){};
         for (int i = 0; i < hall.getRowsNum(); i++) {
             var j = i + 1;
