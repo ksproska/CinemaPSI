@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -179,26 +180,30 @@ public class RepertoireService {
     }
 
     public List<MovieWithRepertoires> getRepertoireDetailsByDate(LocalDate afterDate) {
-        LocalDateTime startingBefore = afterDate.atTime(LocalTime.MAX);
-        LocalDateTime startingAfter = afterDate.atTime(LocalTime.now());
-        //movie version ids in this particular date
-        List<Long> movieVersionIds = this.repertoireRepository.getMovieVersionIdByStartingAfterAndStartingBeforeOrderByStarting(startingAfter, startingBefore);
-        //repertoires for the date
-        List<Repertoire> repertoires = sortRepertoires(this.repertoireRepository.getRepertoireByStartingAfterAndStartingBefore(startingAfter, startingBefore));
-        //repetoire details for the date, including movie id
-        List<RepertoireDetailsWithMovieId> repertoireDetailsWithMovieId = getRepertoireDetailsForRepertoires(repertoires);
-        //movie details for the movie version ids
-        var movieDetailsList = getVersionDetailsForMovieIds(movieVersionIds);
-        //genres for the movie ids
-        var genres = this.versionOfferMovieMapRepository.getGenresForMoviesWithIds(movieDetailsList.stream().map(MovieDetailsDto::movieId).distinct().toList());
+        if (afterDate.isAfter(LocalDate.now())) {
+            LocalDateTime startingBefore = afterDate.atTime(LocalTime.MAX);
+            LocalDateTime startingAfter = (afterDate.equals(LocalDate.now())) ? afterDate.atTime(LocalTime.now()) : afterDate.atTime(LocalTime.MIN);
+            //movie version ids in this particular date
+            List<Long> movieVersionIds = this.repertoireRepository.getMovieVersionIdByStartingAfterAndStartingBeforeOrderByStarting(startingAfter, startingBefore);
+            //repertoires for the date
+            List<Repertoire> repertoires = sortRepertoires(this.repertoireRepository.getRepertoireByStartingAfterAndStartingBefore(startingAfter, startingBefore));
+            //repetoire details for the date, including movie id
+            List<RepertoireDetailsWithMovieId> repertoireDetailsWithMovieId = getRepertoireDetailsForRepertoires(repertoires);
+            //movie details for the movie version ids
+            var movieDetailsList = getVersionDetailsForMovieIds(movieVersionIds);
+            //genres for the movie ids
+            var genres = this.versionOfferMovieMapRepository.getGenresForMoviesWithIds(movieDetailsList.stream().map(MovieDetailsDto::movieId).distinct().toList());
 
-        return
-                movieDetailsList.stream().map(
-                        movieDetails -> new MovieWithRepertoires(
-                                movieDetails,
-                                genres.stream().filter(genreForMovie -> genreForMovie.movieId().equals(movieDetails.movieId())).map(GenreForMovie::genreName).toList(),
-                                getRepertoireDetailsForMovieIds(repertoireDetailsWithMovieId, movieDetails.movieId())
-                        )
-                ).filter(movieWithRepertoires -> !movieWithRepertoires.repertoires().isEmpty()).toList();
+            return
+                    movieDetailsList.stream().map(
+                            movieDetails -> new MovieWithRepertoires(
+                                    movieDetails,
+                                    genres.stream().filter(genreForMovie -> genreForMovie.movieId().equals(movieDetails.movieId())).map(GenreForMovie::genreName).toList(),
+                                    getRepertoireDetailsForMovieIds(repertoireDetailsWithMovieId, movieDetails.movieId())
+                            )
+                    ).filter(movieWithRepertoires -> !movieWithRepertoires.repertoires().isEmpty()).toList();
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

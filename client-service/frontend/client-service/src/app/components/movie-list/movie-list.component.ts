@@ -1,5 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {RepertoireService} from "../../services/repertoire.service";
+import {RepertoireByDate} from "../../models/repertoireByDate";
+import {GenreService} from "../../services/genre.service";
 
 @Component({
   selector: 'app-movie-list',
@@ -7,70 +10,43 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent {
+  private repertoireService = inject(RepertoireService)
+  private genreService = inject(GenreService)
 
   cinemas = ['Wrocław'];
   selectedCinema: string = 'Wrocław';
 
   genres = new FormControl('');
-  genresList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-  selectedGenres : string[] = [];
+  genresList: string[] = [];
+  selectedGenres: string[] = [];
+  movies: RepertoireByDate[] = [];
+  moviesInSelectedGenre: RepertoireByDate[] = this.movies;
+  selectedDate: Date = new Date();
 
-  movies = [
-    {
-      movieVersionDetails: {
-        movieId: 1,
-        movieTitle: 'The Shawshank Redemption',
-        movieDescription: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-        movieLengthMinutes: 142,
-        movieImageUrl: 'image-1.jpg',
-        rating: 9.3
-      },
-      genres: ['Drama', 'Science fiction'],
-      repertoires: [
-        {
-          repertoireId: 101,
-          starting: new Date('2024-01-21T18:00:00Z'),
-          movieVersionId: 1,
-          languageVersionId: 1,
-          languageVersionName: 'English'
-        },
-        {
-          repertoireId: 101,
-          starting: new Date('2024-01-21T18:00:00Z'),
-          movieVersionId: 1,
-          languageVersionId: 1,
-          languageVersionName: 'English'
+  ngOnInit() {
+    this.getRepertoireByDate(this.selectedDate)
+
+    this.genreService.getGenres().subscribe({
+      next: value => {
+        this.genresList = value
+      }
+    });
+  }
+
+  getRepertoireByDate(date: Date) {
+    this.repertoireService.getRepertoireByDate(date).subscribe({
+      next: value => {
+        this.movies = value
+        if (this.selectedGenres.length == 0) {
+          this.moviesInSelectedGenre = this.movies
+        } else {
+          this.moviesInSelectedGenre = this.movies.filter(movie => {
+            return this.selectedGenres.some(selectedGenre => movie.genres.includes(selectedGenre));
+          });
         }
-      ]
-    },
-    {
-      movieVersionDetails: {
-        movieId: 1,
-        movieTitle: 'The Shawshank Redemption',
-        movieDescription: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-        movieLengthMinutes: 142,
-        movieImageUrl: 'image-1.jpg',
-        rating: 9.3
-      },
-      genres: ['Drama', 'Science fiction'],
-      repertoires: [
-        {
-          repertoireId: 101,
-          starting: new Date('2024-01-21T18:00:00Z'),
-          movieVersionId: 1,
-          languageVersionId: 1,
-          languageVersionName: 'English'
-        },
-        {
-          repertoireId: 101,
-          starting: new Date('2024-01-21T18:00:00Z'),
-          movieVersionId: 1,
-          languageVersionId: 1,
-          languageVersionName: 'English'
-        }
-      ]
-    }
-  ];
+      }
+    });
+  }
 
   onSelectCinema(cinema: string): void {
     this.selectedCinema = cinema;
@@ -100,14 +76,29 @@ export class MovieListComponent {
       if (event.source.selected === true) {
         console.log(event.source.value)
         this.selectedGenres.push(event.source.value)
+        this.moviesInSelectedGenre = this.movies.filter(movie => {
+          return this.selectedGenres.some(selectedGenre => movie.genres.includes(selectedGenre));
+        });
         console.log(this.selectedGenres)
       } else {
         this.selectedGenres = this.selectedGenres.filter((element) => {
           return element !== event.source.value;
-        })
+        });
+        if (this.selectedGenres.length == 0) {
+          this.moviesInSelectedGenre = this.movies
+        } else {
+          this.moviesInSelectedGenre = this.movies.filter(movie => {
+            return this.selectedGenres.some(selectedGenre => movie.genres.includes(selectedGenre));
+          });
+        }
         console.log(event.source.value)
         console.log(this.selectedGenres)
       }
     }
+  }
+
+  onDateChange(newDate: Date) {
+    this.selectedDate = newDate;
+    this.getRepertoireByDate(this.selectedDate);
   }
 }

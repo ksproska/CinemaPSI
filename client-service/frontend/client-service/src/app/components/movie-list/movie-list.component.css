@@ -39,9 +39,10 @@ h5{
 .passed, .future{
   margin-top: 5px;
   border-radius: 10px;
-  width: 100px;
+  width: 300px;
+  height: 70px;
   text-align: center;
-  font-family: Arial;
+  font-family: Arial, serif;
   border-color: #3f3f3f;
   border-style: solid;
 }
@@ -84,12 +85,57 @@ span {
   margin-left: 5px;
 }
 
-select {
-  margin-bottom: 15px;
-}
+/*select {*/
+/*  margin-bottom: 15px;*/
+/*}*/
 
-.date-picker {
+#date-picker {
   margin-left: 10px;
   margin-right: 10px;
+
 }
 
+#cinemaSelect {
+  background-color: #3f3f3f;
+  color: #00abcd;
+  min-width: 100px;
+  justify-content: flex-end;
+  height: 55px;
+  border-radius: 5px;
+  border-color: #3f3f3f;
+}
+
+.filter-section {
+    display: flex;
+}
+
+#genres {
+  justify-content: flex-end;
+}
+
+/*datepicker and genre selector background*/
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #3f3f3f !important;
+}
+
+/*datepicker and gebres hint/label text*/
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label, .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label--float-above {
+  color: #00abcd !important;
+}
+
+/*datepicker calendar icon*/
+.mat-datepicker-toggle {
+  color: #00abcd !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: #00abcd !important;
+}
+
+.filter {
+  flex: 1;
+}
+
+.filter:nth-child(3) {
+  margin-right: auto;
+}
