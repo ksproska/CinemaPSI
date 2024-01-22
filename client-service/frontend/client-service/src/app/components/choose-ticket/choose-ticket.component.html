@@ -1,10 +1,9 @@
 <body>
 <app-top-bar></app-top-bar>
 <article class="p-3" id="content">
-  <h1>Choose your seat</h1>
-
+  <h3>{{data?.movieTitle}} | {{data?.languageVersion}} </h3>
   <section class="d-flex flex-column gap-2">
-    <div class="screen col-11 align-self-end hall-whole">SCREEN</div>
+    <div class="screen col-11 align-self-end justify-content-center hall-whole">EKRAN</div>
     <div *ngFor="let row of seats; index as i" class="row-m">
       <section class="hall row">
         <p class="col-1">{{numberToLetterMap[i+1]}}</p>
@@ -22,31 +21,9 @@
       </section>
     </div>
     <ng-container *ngIf="selectedMessage$ | async as message">
-      <p>Selected: {{message}}</p>
-      <button type="button" class="btn btn-dark">Buy</button>
+<!--      <p>Selected: {{message}}</p>-->
+<!--      <button type="button" class="btn btn-dark">Buy</button>-->
     </ng-container>
-
-<!--    <div *ngFor="let key of seatsTypeMap.keys()" class="ticket-type-row">-->
-<!--      <span>{{key}}</span>-->
-<!--      <div class="row">-->
-<!--&lt;!&ndash;        {{key}}&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="radio-toolbar">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;          <div class="ticket-type-buttons">&ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;              <input type="radio" name="ticketTypeU" id="ticketTypeU" [value]="TicketType.Uczniowski" (change)="selectTicket($event.target, key)">&ndash;&gt;-->
-<!--&lt;!&ndash;          <label for="ticketTypeU">Uczniowski</label>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;              <input type="radio" name="ticketTypeS" id="ticketTypeS" [value]="TicketType.Studencki" (change)="selectTicket($event.target, key)">&ndash;&gt;-->
-<!--&lt;!&ndash;              <label for="ticketTypeS"> Studencki</label>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;              <input type="radio"  name="ticketType" id="ticketType" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)" checked>&ndash;&gt;-->
-<!--&lt;!&ndash;          <label for="ticketType">Normalny </label>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
 
     <div *ngFor="let key of seatsTypeMap.keys()" class="ticket-type-row">
       <span>{{key}}</span>
@@ -60,6 +37,10 @@
       <input type="radio" id="{{'ticketType' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)">
       <label for="{{'ticketType' + key}}">Normalny</label>
     </div>
+    </div>
+
+    <div *ngIf="seatsTypeMap.size > 0" class="button-div">
+      <button type="button" class="btn btn-dar id summary">Podsumowanie</button>
     </div>
   </section>
 </article>
