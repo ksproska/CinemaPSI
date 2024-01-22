@@ -11,7 +11,6 @@ import com.cinema.clientservice.db.instance.repositories.TicketReservationReposi
 import com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto;
 import com.cinema.clientservice.web.exceptions.SeatTakenException;
 import com.cinema.clientservice.web.requests.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,9 +34,6 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
         this.versionOfferMovieMapRepository = versionOfferMovieMapRepository;
     }
-
-    @Value("${promotion.min.days}")
-    private int minDaysToApplyPromotion;
 
     public Long addMultipleTicketReservations(Reservation reservation) throws SeatTakenException {
         checkIfSeatsAlreadyTaken(reservation);
@@ -84,7 +80,7 @@ public class TicketService {
         var timeNow = LocalDateTime.now();
         var priceEntity = priceRepository.getPriceByDateSinceBeforeAndDateUntilAfter(timeNow, timeNow).orElseThrow();
         var repertoireStartingTime = repertoireRepository.findById(repertoireId).map(Repertoire::getStarting).orElseThrow();
-        var isPromotion = timeNow.plusDays(minDaysToApplyPromotion).isBefore(repertoireStartingTime);
+        var isPromotion = timeNow.plusDays(priceEntity.getPromotionMinDays()).isBefore(repertoireStartingTime);
         var studentPromotion = (isStudent) ? priceEntity.getBasePrice() * priceEntity.getReductionPct() * 0.01 : 0;
         var timePromotion = (isPromotion) ? priceEntity.getBasePrice() * priceEntity.getPromotionPct() * 0.01 : 0;
         var price = round(priceEntity.getBasePrice() - studentPromotion - timePromotion, 2);
