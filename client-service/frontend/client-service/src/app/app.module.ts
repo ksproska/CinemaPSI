@@ -12,6 +12,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.component';
 import { PaymentFailureComponent } from './components/payment-failure/payment-failure.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   declarations: [
@@ -21,14 +23,16 @@ import { PaymentSuccessComponent } from './components/payment-success/payment-su
     TopBarComponent,
     ChooseTicketComponent,
     PaymentFailureComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    ClientTicketsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

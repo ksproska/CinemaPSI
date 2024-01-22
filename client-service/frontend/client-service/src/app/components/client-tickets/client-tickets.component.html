@@ -1,0 +1,28 @@
+<article>
+  <h3>My tickets</h3>
+  <section>
+    <table>
+      <tbody *ngFor="let ticket of ticketDetails">
+        <tr>
+          <th>
+            <p>{{ ticket.movieTitle }}</p>
+            <p>Is student ticket: {{ ticket.isStudent }}</p>
+            <p>Price: {{ ticket.price }} zł</p>
+          </th>
+          <th>
+            <p>Date: {{ ticket.repertoireDate }}</p>
+            <p>Time: {{ ticket.repertoireTime }}</p>
+            <p>Row: {{ ticket.seatRow }}</p>
+            <p>Seat: {{ ticket.seatNumber }}</p>
+          </th>
+          <th>
+            <p>ID: {{ ticket.ticketId }}</p>
+            <qrcode [qrdata]="'' + ticket.ticketId"></qrcode>
+          </th>
+        </tr>
+      </tbody>
+      <div>=
+      </div>
+    </table>
+  </section>
+</article>

@@ -1,7 +1,7 @@
 FROM node:18.18.2 AS build
 WORKDIR /usr/src/app
 COPY client-service/package.json client-service/package-lock.json ./
-RUN npm install
+RUN npm install --force
 COPY client-service ./
 RUN npm run build
 

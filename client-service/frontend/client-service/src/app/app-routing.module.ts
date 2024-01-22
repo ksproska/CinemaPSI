@@ -8,6 +8,8 @@ import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
 import {PaymentSuccessComponent} from "./components/payment-success/payment-success.component";
 import {PaymentFailureComponent} from "./components/payment-failure/payment-failure.component";
+import {ClientTicketsComponent} from "./components/client-tickets/client-tickets.component";
+import {clientTicketsResolver} from "./resolvers/client-tickets.resolver";
 
 const routes: Routes = [
   {
@@ -44,6 +46,13 @@ const routes: Routes = [
   {
     path: 'payment-status/failure',
     component: PaymentFailureComponent
+  },
+  {
+    path: 'my-tickets',
+    component: ClientTicketsComponent,
+    resolve: {
+      data: clientTicketsResolver
+    }
   }
 ]
 
