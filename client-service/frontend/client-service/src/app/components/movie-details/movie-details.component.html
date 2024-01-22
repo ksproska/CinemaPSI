@@ -1,1 +1,67 @@
-<p>movie-details works!</p>
+<body>
+<app-top-bar></app-top-bar>
+<article class="p-3" id="content">
+  <section class="d-flex flex-column gap-2">
+    <a class="col-1" [routerLink]="['/movies']">
+      <button type="button" class="btn">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+    </a>
+    <div class="row mb-3">
+      <img id="movie-image" src="assets/images/{{movie?.image}}" style="max-width:300px;" class="col">
+      <div class="col">
+
+
+        <div class="flex-container" id="title-rating">
+
+          <div class="flex-child">
+            <h1>{{movie?.title}} </h1>
+          </div>
+
+
+          <div class="flex-child rating">
+            <div id="rating-border"><p id="rating">Ocena: {{movie?.rating}} </p></div>
+
+          </div>
+
+        </div>
+        <div class="flex-container" id="genres">
+
+          <div class="flex-child genres" *ngFor="let genre of genres">
+            {{genre}}
+          </div>
+
+
+        </div>
+        <p> reżyseria: {{movie?.director}}</p>
+        <p> scenariusz: {{movie?.director}}</p>
+        <p> aktorzy: {{movie?.actors}} min</p>
+        <p> Duration: {{movie?.duration}} min</p>
+        <p>{{movie?.description}}</p>
+      </div>
+    </div>
+    <h2>Seanse:</h2>
+    <div class="screnings"></div>
+
+    <section class="d-flex flex-column gap-2" id="screenings">
+      <select class="right" id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
+        <option *ngFor="let cinema of cinemas" [value]="cinema">{{ cinema }}</option>
+      </select>
+      <div class="row mb-3" *ngFor="let repertoireForDate of repertoiresForDates!.slice(0, showMax);">
+        <div>{{repertoireForDate.date | date: 'dd-MM-YYYY'}} </div>
+        <ng-container class="col" *ngFor="let repertoire of repertoireForDate.repertoires;">
+          <button type="button" id="{{repertoire.repertoireId}}"
+                  [ngClass]="datePassed(repertoire.starting) ? 'passed' : 'future'"
+                  (click)="navigateToBuyView(repertoire.repertoireId)">
+            {{ repertoire.starting | date: 'HH:mm' }}
+            {{ repertoire.languageVersionName.toUpperCase() }}
+          </button>
+        </ng-container>
+      </div>
+      <button type="button" class="btn" (click)="showMoreDates()">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </section>
+  </section>
+</article>
+</body>

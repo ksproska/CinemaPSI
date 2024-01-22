@@ -36,6 +36,7 @@ public class RepertoireService {
         var repertoires = getRepertoireAfterNowForMovieVersions(movieVersionIds);
         var dates = getRepertoireDatesSorted(repertoires);
         var movieVersionWithLanguageList = versionOfferMovieMapRepository.getVersionWithLanguagesForMovieVersionIds(movieVersionIds);
+        var genres = versionOfferMovieMapRepository.getGenresForMovieWithId(movieId);
         return new RepertoiresForSingleMovie(movie, dates.stream().map(
                 date -> new RepertoiresForDates(
                         date,
@@ -46,7 +47,7 @@ public class RepertoireService {
                                             var languageVersion = getLanguageVersionForRepertoire(repertoire, movieVersionWithLanguageList);
                                             return new RepertoireDetails(
                                                     repertoire.getId(),
-                                                    repertoire.getStarting().toLocalTime(),
+                                                    repertoire.getStarting(),
                                                     repertoire.getMovieVersionId(),
                                                     languageVersion.languageVersionId(),
                                                     languageVersion.languageVersionName());
@@ -54,7 +55,8 @@ public class RepertoireService {
                                 )
                                 .toList()
                 )
-        ).toList());
+        ).toList(),
+                genres);
     }
 
     public List<MovieWithRepertoiresAndDateResponse> getFutureRepertoiresWithMovieDetails() {
@@ -95,7 +97,7 @@ public class RepertoireService {
                             var languageVersion = getLanguageVersionForRepertoire(repertoire, movieVersionWithLanguageList);
                             return new RepertoireDetails(
                                     repertoire.getId(),
-                                    repertoire.getStarting().toLocalTime(),
+                                    repertoire.getStarting(),
                                     repertoire.getMovieVersionId(),
                                     languageVersion.languageVersionId(),
                                     languageVersion.languageVersionName());
@@ -152,7 +154,7 @@ public class RepertoireService {
         List<RepertoireDetailsWithMovieId> repertoireDetails = new ArrayList<>();
         for (Repertoire repertoire : repertoires) {
             var languageVersionForRepertoire = getLanguageVersionForRepertoire(repertoire, movieVersionWithLanguageDto);
-            var repertoireDetail = new RepertoireDetailsWithMovieId(repertoire.getId(), repertoire.getStarting().toLocalTime(),
+            var repertoireDetail = new RepertoireDetailsWithMovieId(repertoire.getId(), repertoire.getStarting(),
                     repertoire.getMovieVersionId(), languageVersionForRepertoire.languageVersionId(),
                     languageVersionForRepertoire.languageVersionName(), languageVersionForRepertoire.movieId());
             repertoireDetails.add(repertoireDetail);

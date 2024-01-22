@@ -8,6 +8,7 @@ import { MovieDetailsComponent } from './components/movie-details/movie-details.
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,9 +21,10 @@ import {MatIconModule} from "@angular/material/icon";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

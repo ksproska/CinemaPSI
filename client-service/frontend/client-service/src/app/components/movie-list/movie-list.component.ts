@@ -89,4 +89,5 @@ export class MovieListComponent {
   isLast(movie: any, genre: string): boolean {
     return movie.genres.indexOf(genre) === movie.genres.length - 1;
   }
+
 }
