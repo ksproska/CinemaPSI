@@ -10,6 +10,8 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {HttpClientModule} from "@angular/common/http";
 import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.component';
+import { PaymentFailureComponent } from './components/payment-failure/payment-failure.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.
     MovieListComponent,
     MovieDetailsComponent,
     TopBarComponent,
-    ChooseTicketComponent
+    ChooseTicketComponent,
+    PaymentFailureComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,8 @@ import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
 import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
+import {PaymentSuccessComponent} from "./components/payment-success/payment-success.component";
+import {PaymentFailureComponent} from "./components/payment-failure/payment-failure.component";
 
 const routes: Routes = [
   {
@@ -34,6 +36,14 @@ const routes: Routes = [
     resolve: {
       data: RepertoireResolver,
     }
+  },
+  {
+    path: 'payment-status/success',
+    component: PaymentSuccessComponent
+  },
+  {
+    path: 'payment-status/failure',
+    component: PaymentFailureComponent
   }
 ]
 
