@@ -92,7 +92,7 @@ p {
 button {
   background-color: #3f3f3f;
   color: #00abcd;
-  width: 70px;
+  width: fit-content;
 }
 
 .taken {
@@ -162,3 +162,13 @@ button {
   font-weight: bold; /* Optional: Apply bold font to key */
 }
 
+
+.button-div{
+  display: flex;
+  justify-content: end;
+}
+
+.hall-whole{
+  margin-top: 20px;
+  color: #0b0b0b;
+}

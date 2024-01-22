@@ -3,6 +3,10 @@ import {ActivatedRoute} from "@angular/router";
 import {SeatInfo} from "../../models/seatInfo";
 import {HallSetupForRepertoire} from "../../models/hallSetupforRepertoire";
 import {map, scan, share, startWith, Subject} from "rxjs";
+import {PriceService} from "../../services/price.service";
+import {Price} from "../../models/price";
+import {RepertoireDetails} from "../../models/RepertoireDetails";
+import {RepertoireService} from "../../services/repertoire.service";
 
 
 
@@ -39,16 +43,28 @@ export class ChooseTicketComponent implements OnInit {
   seatsTypeMap: Map<string, TicketType> =  new Map()
   readonly noneMessage = "nothing";
   readonly selectSeat$ = new Subject<string>();
+  price: Price | undefined;
+  studentPrice: number = 100;
+  repertoire: RepertoireDetails | undefined;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private priceService: PriceService) {}
   ngOnInit(): void {
     this.route.data.subscribe(
       ({data}) => {
         this.data = data;
         this.seats = data.seats;
+
       });
 
-    console.log(this.isTaken(0, 0));
+    this.priceService.getCurrentPrice().subscribe((price : Price )=> {
+      this.price = price;
+      this.studentPrice = this.price.basePrice * (this.price.reductionPct/100);
+      console.log(this.price);
+      }
+    )
+
+
+
   }
 
   registerSeats = (selected: Set<string>, seatName: string) => {
