@@ -35,4 +35,8 @@ public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOff
 
     @Query(value = "SELECT DISTINCT m.title FROM VersionOfferMovieMap vomm LEFT JOIN Movie m ON vomm.movieId = m.id WHERE vomm.id = :movieVersionId")
     Optional<String> getMovieTitleFovMovieVersionId(Long movieVersionId);
+
+    @Query(value = "SELECT DISTINCT g.name FROM MoviesGenresMap mgm " +
+            "LEFT JOIN Genre g ON mgm.id.genreId = g.id WHERE mgm.id.movieId = :movieId")
+    List<String> getGenresForMovieWithId(Long movieId);
 }
