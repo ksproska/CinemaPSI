@@ -19,7 +19,7 @@ export class MovieDetailsComponent implements OnInit {
   showMax: number = 1;
   selectedCinema: string = 'Wrocław';
   cinemas = ['Wrocław', 'Warszawa', 'Kraków'];
-  constructor(private route: ActivatedRoute, private moviesService: MoviesService) {}
+  constructor(private route: ActivatedRoute) {}
   ngOnInit(){
     this.route.data.subscribe(
       ({data}) => {

@@ -1,0 +1,13 @@
+import {SeatInfo} from "./seatInfo";
+
+export interface HallSetupForRepertoire {
+  movieTitle: string;
+  languageVersion: string;
+  repertoireId: number;
+  hallId: number;
+  date: Date;
+  startingTime: string;
+  numbOfRows: number;
+  numbOfSeatsInRow: number;
+  seats: SeatInfo[][];
+}

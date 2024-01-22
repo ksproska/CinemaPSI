@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import {MovieListComponent} from "./components/movie-list/movie-list.component";
 import {MovieDetailsComponent} from "./components/movie-details/movie-details.component";
 import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
+import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
+import {RepertoireService} from "./services/repertoire.service";
+import {RepertoireResolver} from "./resolvers/repertoire.resolver";
 
 const routes: Routes = [
   {
@@ -23,6 +26,13 @@ const routes: Routes = [
     component: MovieDetailsComponent,
     resolve: {
       data: MovieDetailsResolver,
+    }
+  },
+  {
+    path: 'tickets/:repertoireId',
+    component: ChooseTicketComponent,
+    resolve: {
+      data: RepertoireResolver,
     }
   }
 ]
