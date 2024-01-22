@@ -3,9 +3,28 @@
 <article class="p-3" id="selection-bar">
   <section>
     <select id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
-      <option *ngFor="let cinema of cinemas" [value]="cinema">{{ cinema }}</option>
+      <option *ngFor="let cinema of cinemas" [value]="cinema">
+        {{ cinema }}
+      </option>
     </select>
-    <mat-icon>arrow_back_ios</mat-icon>
+    <!--    <mat-icon>arrow_back_ios</mat-icon>-->
+    <mat-form-field class="date-picker">
+      <mat-label>Wybierz datę</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <!--      <mat-hint>MM/DD/YYYY</mat-hint>-->
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!--    <mat-icon>arrow_forward_ios</mat-icon>-->
+
+    <mat-form-field appearance="fill">
+      <mat-label>Gatunki</mat-label>
+      <mat-select [formControl]="genres" multiple>
+        <mat-option (onSelectionChange)="updateSelectedGenresList($event)" *ngFor="let genre of genresList"
+                    [value]="genre">{{ genre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </section>
   <section class="d-flex flex-column gap-2">
     <div *ngFor="let movie of movies" class="card">

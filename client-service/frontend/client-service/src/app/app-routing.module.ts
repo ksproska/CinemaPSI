@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {MovieListComponent} from "./components/movie-list/movie-list.component";
 import {MovieDetailsComponent} from "./components/movie-details/movie-details.component";
-import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
+// import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 
 const routes: Routes = [
   {
@@ -21,9 +21,9 @@ const routes: Routes = [
   {
     path: 'movies/:movieId',
     component: MovieDetailsComponent,
-    resolve: {
-      data: MovieDetailsResolver,
-    }
+    // resolve: {
+    //   data: MovieDetailsResolver,
+    // }
   }
 ]
 

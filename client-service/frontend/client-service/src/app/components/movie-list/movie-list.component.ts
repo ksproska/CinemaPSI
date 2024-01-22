@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
-import {MovieWithRepertoiresAndDate} from "../../models/movieWithRepertoiresAndDate";
+import {Component} from '@angular/core';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.css']
+  styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent {
 
-
-
-  cinemas = ['Wrocław', 'Warszawa', 'Kraków'];
+  cinemas = ['Wrocław'];
   selectedCinema: string = 'Wrocław';
+
+  genres = new FormControl('');
+  genresList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  selectedGenres : string[] = [];
 
   movies = [
     {
@@ -90,4 +92,22 @@ export class MovieListComponent {
     return movie.genres.indexOf(genre) === movie.genres.length - 1;
   }
 
+  updateSelectedGenresList(event: {
+    isUserInput: any;
+    source: { value: any; selected: any };
+  }) {
+    if (event.isUserInput) {
+      if (event.source.selected === true) {
+        console.log(event.source.value)
+        this.selectedGenres.push(event.source.value)
+        console.log(this.selectedGenres)
+      } else {
+        this.selectedGenres = this.selectedGenres.filter((element) => {
+          return element !== event.source.value;
+        })
+        console.log(event.source.value)
+        console.log(this.selectedGenres)
+      }
+    }
+  }
 }
