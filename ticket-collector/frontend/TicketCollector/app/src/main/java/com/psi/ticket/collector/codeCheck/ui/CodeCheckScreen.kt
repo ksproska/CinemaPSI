@@ -76,7 +76,7 @@ fun CodeCheckScreen(
                 value = text,
                 onValueChange = { code ->
                     text = code
-                    trigger(CodeCheckViewModel.Command.OnCodeChange(code.toLong()))
+                    trigger(CodeCheckViewModel.Command.OnCodeChange(code))
                 },
                 supportingText = {
                     if (viewState.isError) {

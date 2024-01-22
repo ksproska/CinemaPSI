@@ -36,8 +36,8 @@ class CodeCheckViewModel @Inject constructor(
         }
     }
 
-    private fun onCodeChange(newCode: Long) {
-        _state.value = _state.value.copy(code = newCode)
+    private fun onCodeChange(newCode: String) {
+        _state.value = _state.value.copy(code = newCode.toLongOrNull())
     }
 
     private fun onConfirmButtonClick() {
@@ -79,7 +79,7 @@ class CodeCheckViewModel @Inject constructor(
     }
 
     sealed class Command {
-        class OnCodeChange(val code: Long) : Command()
+        class OnCodeChange(val code: String) : Command()
         object OnConfirmButtonClick : Command()
     }
 

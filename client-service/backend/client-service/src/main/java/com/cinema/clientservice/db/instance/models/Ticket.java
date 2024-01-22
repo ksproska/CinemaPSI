@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name="TICKETS")
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ticket_id")
     private Long id;
 
@@ -27,4 +27,15 @@ public class Ticket {
 
     @Column(name = "price_id")
     private Long priceId;
+
+    public Ticket(){}
+
+    public Ticket(boolean isStudent, double price, Long repertoireId, Long seatId, Long priceId) {
+        this.isValidated = false;
+        this.isStudent = isStudent;
+        this.price = price;
+        this.repertoireId = repertoireId;
+        this.seatId = seatId;
+        this.priceId = priceId;
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOfferMovieMap, Long> {
@@ -32,5 +33,6 @@ public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOff
             "LanguageVersion lv ON vomm.versionId = lv.id LEFT JOIN Movie m ON vomm.movieId = m.id WHERE vomm.id = :movieVersionId")
     List<MovieWithLanguageVersionNameDto> getMovieWithLanguageName(Long movieVersionId);
 
-
+    @Query(value = "SELECT DISTINCT m.title FROM VersionOfferMovieMap vomm LEFT JOIN Movie m ON vomm.movieId = m.id WHERE vomm.id = :movieVersionId")
+    Optional<String> getMovieTitleFovMovieVersionId(Long movieVersionId);
 }
