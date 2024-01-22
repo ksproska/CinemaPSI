@@ -21,4 +21,43 @@ public class Hall {
     @Column(name="cinema_id")
     private Integer cinemaId;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getHallNumber() {
+        return hallNumber;
+    }
+
+    public void setHallNumber(Integer hallNumber) {
+        this.hallNumber = hallNumber;
+    }
+
+    public Integer getRowsNum() {
+        return rowsNum;
+    }
+
+    public void setRowsNum(Integer rowsNum) {
+        this.rowsNum = rowsNum;
+    }
+
+    public Integer getSeatsInRow() {
+        return seatsInRow;
+    }
+
+    public void setSeatsInRow(Integer seatsInRow) {
+        this.seatsInRow = seatsInRow;
+    }
+
+    public Integer getCinemaId() {
+        return cinemaId;
+    }
+
+    public void setCinemaId(Integer cinemaId) {
+        this.cinemaId = cinemaId;
+    }
 }

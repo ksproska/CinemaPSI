@@ -1,0 +1,35 @@
+<form class="container" (ngSubmit)="onSubmit()" [formGroup]="cinemaMovieForm">
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="location">
+        Wybierz placówkę z listy:
+        <select type="text" id="location" name="location" formControlName="cinema" required>
+          <option value="0" disabled selected>Wybierz placówkę</option>
+          @for(info of movieCinema?.cinemas; track info.id){
+            <option value="{{info.id}}"> {{info.localization}} </option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <div class="col-lg-4">
+      <label for="movie">
+        Wybierz flm z listy:
+        <select type="text" id="movie" name="movie" formControlName="movie" required>
+          <option value="0" disabled selected>Wybierz film</option>
+          @for(info of movieCinema?.movieTitles; track info.id){
+            <option value="{{info.id}}"> {{info.title}} </option>
+          }
+        </select>
+      </label>
+    </div>
+    <div style="height: 30px; margin-top: 35px" class="col-lg-4">
+      <button type="submit" class=""> Wybierz </button>
+    </div>
+
+
+  </div>
+</form>
+
+<app-seance-form [movieDetails]="movieDetails"></app-seance-form>
