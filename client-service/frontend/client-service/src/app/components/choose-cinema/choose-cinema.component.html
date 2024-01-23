@@ -1,12 +1,15 @@
 <body>
-<article>
+<app-top-bar></app-top-bar>
+<article class="content">
 <h3>Wybierz kino, dla którego chcesz zobaczyć repertuar:</h3>
-<mat-icon>location_on</mat-icon>
+  <mat-icon>location_on</mat-icon>
 <select class="filter" id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
   <option *ngFor="let cinema of cinemas" [value]="cinema">
     {{ cinema }}
   </option>
 </select>
-  <button (click)="onSelectClick()">Wybierz</button>
+  <div class="button-container">
+  <button type="button" class="btn btn-dark" (click)="onSelectClick()">Wybierz</button>
+  </div>
 </article>
 </body>

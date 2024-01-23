@@ -3,6 +3,7 @@ import {FormControl} from "@angular/forms";
 import {RepertoireService} from "../../services/repertoire.service";
 import {RepertoireByDate} from "../../models/repertoireByDate";
 import {GenreService} from "../../services/genre.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-movie-list',
@@ -10,6 +11,10 @@ import {GenreService} from "../../services/genre.service";
   styleUrls: ['./movie-list.component.css'],
 })
 export class MovieListComponent {
+
+  constructor(private router: Router) {
+  }
+
   private repertoireService = inject(RepertoireService)
   private genreService = inject(GenreService)
 
@@ -62,6 +67,10 @@ export class MovieListComponent {
     // if (!this.datePassed(new Date(screening.date))) {
     //   this.router.navigate([`/movies/${screening.id}/${screening.hallId}/book`]);
     // }
+  }
+
+  onMovieSelected(movieId: number) {
+    this.router.navigate([`/movies/${movieId}`])
   }
 
   isLast(movie: any, genre: string): boolean {

@@ -24,7 +24,7 @@
   </section>
   <section class="d-flex flex-column gap-2">
     <div *ngFor="let movie of moviesInSelectedGenre" class="card">
-      <div class="card-body">
+      <div class="card-body" (click)="onMovieSelected(movie.movieVersionDetails.movieId)">
         <div class="row">
           <img src="https://drive.google.com/thumbnail?id={{movie.movieVersionDetails.movieImageUrl}}&sz=w300" alt="Movie poster">
           <div class="row col-10">
