@@ -85,9 +85,8 @@ h1 {
 }
 
 .free input:checked ~ .checkmark {
-  color: #abe6ff;
+  color: #00ABCD;
   font-weight: bold;
-
 }
 
 

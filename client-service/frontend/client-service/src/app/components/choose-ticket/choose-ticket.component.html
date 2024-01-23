@@ -48,6 +48,7 @@
     </div>
 
     <hr/>
+    <h1 class="text-danger">{{this.errorMessage}} </h1>
     <div class="total-container" *ngIf="seatsTypeMap.size > 0">
     <div class="total-div" *ngIf="!isPromotion"><p class="total"> Razem: {{total.toFixed(2)}} PLN</p></div>
     <div class="total-div col" *ngIf="isPromotion">
