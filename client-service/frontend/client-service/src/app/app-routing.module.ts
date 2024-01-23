@@ -6,6 +6,9 @@ import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
 import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
+import {SummaryComponent} from "./components/summary/summary.component";
+import {ReservationResolver} from "./resolvers/reservation.resolver";
+import {PaymentFormComponent} from "./components/payment-form/payment-form.component";
 
 const routes: Routes = [
   {
@@ -34,6 +37,20 @@ const routes: Routes = [
     resolve: {
       data: RepertoireResolver,
     }
+  },
+  {
+    path: 'summary/:reservationId',
+    component: SummaryComponent,
+    resolve: {
+      data: ReservationResolver,
+    }
+  },
+  {
+    path: 'payment/:reservationId',
+    component: PaymentFormComponent,
+    // resolve: {
+    //   data: ReservationResolver,
+    // }
   }
 ]
 

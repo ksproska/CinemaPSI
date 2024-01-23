@@ -1,15 +1,22 @@
 <body>
 <app-top-bar></app-top-bar>
 <article class="p-3" id="content">
-  <h3>{{data?.movieTitle}} | {{data?.languageVersion}} </h3>
+  <a class="col-1" [routerLink]="['/movies/'+data?.repertoireId]">
+    <button type="button" class="btn icon">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+  </a>
+  <div class="headers">
+  <h4>{{data?.movieTitle}} | {{data?.languageVersion}} </h4> <h4>{{data?.date | date: 'dd-MM-YYYY' }} | {{data?.startingTime | date: 'HH:mm'}}</h4>
+  </div>
   <section class="d-flex flex-column gap-2">
     <div class="screen col-11 align-self-end justify-content-center hall-whole">EKRAN</div>
     <div *ngFor="let row of seats; index as i" class="row-m">
       <section class="hall row">
         <p class="col-1">{{numberToLetterMap[i+1]}}</p>
         <div class="col">
-          <div class="row justify-content-center hall-row">
-            <div *ngFor="let f of row; let i2 = index" class="col-1">
+          <div class="row hall-row">
+            <div *ngFor="let f of row; let i2 = index" class="col seatCol">
               <label class="seat" [ngClass]="isTaken(i, i2) ? 'taken' : 'free'" >
                 <input  type="checkbox" (click)="selectSeat$.next(rowAndColToName(i + 1, i2 + 1))"
                         [ngClass]="isTaken(i, i2) ? 'taken-checkbox' : 'free-checkbox'">
@@ -25,23 +32,35 @@
 <!--      <button type="button" class="btn btn-dark">Buy</button>-->
     </ng-container>
 
-    <div *ngFor="let key of seatsTypeMap.keys()" class="ticket-type-row">
-      <span>{{key}}</span>
-    <div class="radio-toolbar" id="key">
-      <input type="radio" id="{{'ticketTypeU' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Uczniowski" (change)="selectTicket($event.target, key)" checked>
-      <label for="{{'ticketTypeU' + key}}">Uczniowski</label>
+    <div *ngFor="let key of selectedSeats" class="ticket-type-row">
+      <div class="ticket-select-key">
+      <span >{{key}}</span>
 
+    <div class="radio-toolbar" id="key">
       <input type="radio" id="{{'ticketTypeS' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Studencki" (change)="selectTicket($event.target, key)">
       <label for="{{'ticketTypeS' + key}}">Studencki</label>
 
-      <input type="radio" id="{{'ticketType' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)">
+      <input type="radio" id="{{'ticketType' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)" checked>
       <label for="{{'ticketType' + key}}">Normalny</label>
     </div>
+      </div>
+      <div class="price">{{getSelectedTicketPrice(key)}} PLN</div>
     </div>
 
-    <div *ngIf="seatsTypeMap.size > 0" class="button-div">
-      <button type="button" class="btn btn-dar id summary">Podsumowanie</button>
+    <hr/>
+    <div class="total-container" *ngIf="seatsTypeMap.size > 0">
+    <div class="total-div" *ngIf="!isPromotion"><p class="total"> Razem: {{total.toFixed(2)}} PLN</p></div>
+    <div class="total-div col" *ngIf="isPromotion">
+      <div class="promo row"> - {{(promotionPct*total/100).toFixed(2)}} PLN</div>
+      <div class="total row"> Razem: {{(total - (promotionPct*total/100)).toFixed(2)}} PLN</div>
+
     </div>
+      <div  class="button-div row">
+        <button type="button" (click)="goToSummary()" class="btn btn-dar row summary">Dalej</button>
+      </div>
+    </div>
+
+
   </section>
 </article>
 </body>

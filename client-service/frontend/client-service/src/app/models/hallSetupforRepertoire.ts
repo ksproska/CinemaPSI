@@ -6,7 +6,7 @@ export interface HallSetupForRepertoire {
   repertoireId: number;
   hallId: number;
   date: Date;
-  startingTime: string;
+  startingTime: Date;
   numbOfRows: number;
   numbOfSeatsInRow: number;
   seats: SeatInfo[][];

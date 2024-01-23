@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { MovieListComponent } from './components/movie-list/movie-list.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {HttpClientModule} from "@angular/common/http";
 import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.component';
+import { SummaryComponent } from './components/summary/summary.component';
+import { PaymentFormComponent } from './components/payment-form/payment-form.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +19,17 @@ import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.
     MovieListComponent,
     MovieDetailsComponent,
     TopBarComponent,
-    ChooseTicketComponent
+    ChooseTicketComponent,
+    SummaryComponent,
+    PaymentFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
