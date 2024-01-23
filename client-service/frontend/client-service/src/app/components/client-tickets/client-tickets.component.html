@@ -1,31 +1,28 @@
 <article class="mt-4">
   <div class="container">
-    <table class="table table-bordered rounded-3 overflow-hidden">
-      <thead>
-      <h2>My tickets</h2>
-      </thead>
-      <tbody *ngFor="let ticket of ticketDetails">
-        <tr scope="d-flex" [ngClass]="{'table-secondary': ticket.isValidated}">
-          <th class="col-auto">
-            <h3>{{ ticket.movieTitle }}</h3>
-            <p *ngIf="ticket.isStudent">STUDENT TICKET</p>
-            <p>Price: {{ ticket.price }} zł</p>
-          </th>
-          <th class="col-auto">
-            <p>Date: {{ ticket.repertoireDate }}</p>
-            <p>Time: {{ ticket.repertoireTime }}</p>
-            <p>Row: {{ ticket.seatRow }}</p>
-            <p>Seat: {{ ticket.seatNumber }}</p>
-          </th>
-          <th class="col-auto">
-            <p *ngIf="!ticket.isValidated">
-              ID: {{ ticket.ticketId }}
-              <qrcode [qrdata]="'' + ticket.ticketId" [width]="150"></qrcode>
-            </p>
-          </th>
-          <th class="col-auto"><p class="verticaltext" *ngIf="ticket.isValidated">VALIDATED</p></th>
-        </tr>
-      </tbody>
-    </table>
+    <h2>My tickets</h2>
+    <div *ngFor="let ticket of ticketDetails" class="row shadow mt-3 p-3 border border-3 border-black rounded-1 bg-opacity-25 fs-4" [ngClass]="ticket.isValidated ? 'bg-secondary bg' : 'bg-primary'">
+      <div class="col-md-5 border-end border-3 border-black">
+        <h2>{{ ticket.movieTitle }}</h2>
+        <p *ngIf="ticket.isStudent" class="">Rodzaj biletu: Ulgowy</p>
+        <p *ngIf="!ticket.isStudent" class="">Rodzaj biletu: Normalny</p>
+        <p>Cena: {{ ticket.price }} zł</p>
+      </div>
+      <div class="col-md-3 border-end border-3 border-black">
+        <p>Data: {{ ticket.repertoireDate }}</p>
+        <p>Godzina: {{ ticket.repertoireTime }}</p>
+        <p>Rząd: {{ ticket.seatRow }}</p>
+        <p>Miejsce: {{ ticket.seatNumber }}</p>
+      </div>
+      <div class="col-md-3 border-end border-3 border-black text-center">
+        <p *ngIf="!ticket.isValidated">
+          ID: {{ ticket.ticketId }}
+          <qrcode [qrdata]="'' + ticket.ticketId" [width]="150"></qrcode>
+        </p>
+      </div>
+      <div class="col-md-1">
+        <p class="verticaltext h3 mt-4" *ngIf="ticket.isValidated">Skasowany</p>
+      </div>
+    </div>
   </div>
 </article>

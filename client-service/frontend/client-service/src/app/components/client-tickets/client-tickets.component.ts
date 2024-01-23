@@ -8,7 +8,7 @@ import {TicketDetails} from "../../models/ticket-details";
   styleUrls: ['./client-tickets.component.css']
 })
 export class ClientTicketsComponent implements OnInit {
-  ticketDetails: TicketDetails[] | any
+  ticketDetails?: TicketDetails[]
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(){
