@@ -50,6 +50,7 @@ export class ChooseTicketComponent implements OnInit {
   isPromotion: boolean = false;
   total = 0;
   promotionPct = 0;
+  errorMessage?: string
 
   constructor(private route: ActivatedRoute, private priceService: PriceService,  private cdRef: ChangeDetectorRef,
               private ticketsService: TicketsService, private router: Router) {}
@@ -167,7 +168,13 @@ export class ChooseTicketComponent implements OnInit {
     this.ticketsService.reserveTickets(reservation).subscribe((reservationId : any) => {
       console.log(reservationId);
       this.router.navigate([`/summary/${reservationId.reservationId}`]);
-    });
+    },
+      error => {
+        this.errorMessage = "Miejsce już zajęte! Wybierz nowe miejsce."
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      });
 
   }
 
