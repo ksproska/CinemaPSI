@@ -82,9 +82,9 @@ public class TicketService {
         var priceEntity = priceRepository.getPriceByDateSinceBeforeAndDateUntilAfter(timeNow, timeNow).orElseThrow();
         var repertoireStartingTime = repertoireRepository.findById(repertoireId).map(Repertoire::getStarting).orElseThrow();
         var isPromotion = timeNow.plusDays(priceEntity.getPromotionMinDays()).isBefore(repertoireStartingTime);
-        var studentPromotion = (isStudent) ? priceEntity.getBasePrice() * priceEntity.getReductionPct() * 0.01 : 0;
-        var timePromotion = (isPromotion) ? priceEntity.getBasePrice() * priceEntity.getPromotionPct() * 0.01 : 0;
-        var price = round(priceEntity.getBasePrice() - studentPromotion - timePromotion, 2);
+        var studentPromotion = (isStudent) ? 1 - (priceEntity.getReductionPct() * 0.01) : 1;
+        var timePromotion = (isPromotion) ? 1 - (priceEntity.getPromotionPct() * 0.01) : 1;
+        var price = round((priceEntity.getBasePrice() * studentPromotion) * timePromotion, 2);
         return new TicketReservation(
                 isStudent,
                 price,
