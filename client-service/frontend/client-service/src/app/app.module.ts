@@ -17,6 +17,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChooseCinemaComponent } from './components/choose-cinema/choose-cinema.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MovieListComponent,
     MovieDetailsComponent,
     TopBarComponent,
-    ChooseTicketComponent
+    ChooseTicketComponent,
+    ChooseCinemaComponent
   ],
   imports: [
     BrowserModule,

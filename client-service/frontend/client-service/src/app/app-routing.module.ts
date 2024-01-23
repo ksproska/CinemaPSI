@@ -6,12 +6,17 @@ import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
 import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
+import {ChooseCinemaComponent} from "./components/choose-cinema/choose-cinema.component";
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/movies'
+    redirectTo: '/selectCinema'
+  },
+  {
+    path: 'selectCinema',
+    component: ChooseCinemaComponent
   },
   {
     path: 'movies',
