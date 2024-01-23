@@ -35,20 +35,20 @@ public class RepertoireService {
         List<Long> movieVersionIds = repertoire.stream().map(RepertoireDTO::getMovieVersionId).toList();
         List<MovieDto> movies = movieRepository.findMovieDtoByVersionID(movieVersionIds);
 
-        Map<Long, MovieDto> movieMap = movies.stream()
+        Map<Long, MovieDto> movieMapForMovieVersionId = movies.stream()
                 .collect(Collectors.toMap(MovieDto::versionId, Function.identity()));
 
-        Map<Long, List<RepertoireDTO>> repertoiresByMovie = repertoire.stream()
-                .collect(Collectors.groupingBy(RepertoireDTO::getMovieVersionId));
+        Map<Long, List<RepertoireDTO>> repertoiresByMovieId = repertoire.stream()
+                .collect(Collectors.groupingBy(r -> movieMapForMovieVersionId.get(r.getMovieVersionId()).movieId()));
 
         List<RepertoireMovieResponseDto> responses = new ArrayList<>();
 
-        for (Map.Entry<Long, List<RepertoireDTO>> entry : repertoiresByMovie.entrySet()) {
-            Long movieVersionId = entry.getKey();
+        for (Map.Entry<Long, List<RepertoireDTO>> entry : repertoiresByMovieId.entrySet()) {
+            Long movieId = entry.getKey();
             List<RepertoireDTO> repertoiresForMovie = entry.getValue();
 
             RepertoireMovieResponseDto response = new RepertoireMovieResponseDto();
-            MovieDto movie = movieMap.get(movieVersionId);
+            MovieDto movie = movies.stream().filter(movieDto -> movieDto.movieId().equals(movieId)).findFirst().orElseThrow();
 
             response.setTitle(movie.title());
             response.setDescription(movie.description());
