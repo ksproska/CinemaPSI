@@ -1,6 +1,9 @@
+<body>
+<app-top-bar></app-top-bar>
+<article class="p-3" id="content">
 <article class="mt-4">
   <div class="container">
-    <h2>My tickets</h2>
+    <h2>Moje bilety</h2>
     <div *ngFor="let ticket of ticketDetails" class="row shadow mt-3 p-3 border border-3 border-black rounded-1 bg-opacity-25 fs-4" [ngClass]="ticket.isValidated ? 'bg-secondary bg' : 'bg-primary'">
       <div class="col-md-5 border-end border-3 border-black">
         <h2>{{ ticket.movieTitle }}</h2>
@@ -26,3 +29,6 @@
     </div>
   </div>
 </article>
+</article>
+</body>
+

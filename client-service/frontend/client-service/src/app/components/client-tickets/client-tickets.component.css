@@ -1,3 +1,25 @@
 .verticaltext{
   writing-mode: vertical-lr;
 }
+
+
+body, html {
+  min-width: 600px;
+  background-color: #11191f;
+  margin: 0; /* Remove default margins */
+  padding: 0;
+  background-attachment: fixed;
+  width: 100%;
+  height: auto;
+}
+
+#content{
+  background-color: #11191f;
+  width: 70%;
+  margin: auto;
+  height: auto;
+  min-height: calc(100vh - 60px);
+  color: #e4e4e4;
+
+
+}

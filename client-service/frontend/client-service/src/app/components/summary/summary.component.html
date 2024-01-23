@@ -13,16 +13,16 @@
     <div class="card-body container">
 
         <div class="mb-3 m-left row">
-          <h5 class="card-subtitle mb-2 col">Wersja językowa:</h5>
-          <p class="card-text col text-c">{{ reservationDetails?.languageVersionName }}</p>
+          <h5 class="card-subtitle mb-2 col card-col">Wersja językowa:</h5>
+          <p class="card-text col text-c card-col">{{ reservationDetails?.languageVersionName }}</p>
         </div>
         <div class="mb-3 m-left row">
-          <h5 class="card-subtitle mb-2 col">Data:</h5>
-          <p class="card-text col text-c">{{ reservationDetails?.date | date: 'dd-MM-YYYY' }}</p>
+          <h5 class="card-subtitle mb-2 col card-col">Data:</h5>
+          <p class="card-text col text-c card-col ">{{ reservationDetails?.date | date: 'dd-MM-YYYY' }}</p>
         </div>
         <div class="mb-3 m-left row">
-          <h5 class="card-subtitle mb-2 col">Godzina:</h5>
-          <p class="card-text col text-c">{{ reservationDetails?.time | date: 'shortTime' }}</p>
+          <h5 class="card-subtitle mb-2 col card-col">Godzina:</h5>
+          <p class="card-text col card-col text-c">{{ reservationDetails?.time | date: 'HH:mm' }}</p>
         </div>
 
       <div class="mb-4 ">
@@ -43,12 +43,32 @@
       </div>
     </div>
     <div class="btn-div m-2">
-      <form [id]="form" #form action="http://localhost:8080/pay" method="GET">
+      <form [id]="form" #form action="http://localhost:8080/pay" method="GET" class="container mb-3">
+        <h4 class="mb-3"> Wybierz metodę płatności: </h4>
+<!--        <input type="number" name="reservationId" value="{{reservationId}}" class="invisible-input">-->
+<!--        <select name="paymentService">-->
+<!--          <option value="mock-service" selected>mock-service</option>-->
+<!--        </select>-->
         <input type="number" name="reservationId" value="{{reservationId}}" class="invisible-input">
-        <select name="paymentService">
-          <option value="mock-service" selected>mock-service</option>
-        </select>
-        <input type="submit" value="Zapłać" class="btn" (click)="form.submit()">
+        <div class="col m-left">
+          <input type="radio" class="btn-check" name="paymentService" id="mock-service" value="mock-service" autocomplete="off" checked>
+          <label class="btn btn-secondary" for="mock-service"><mat-icon>payment</mat-icon></label>
+        </div>
+
+        <div class="col m-left">
+          <input type="radio" class="btn-check" name="paymentService" id="mock-service2" value="mock-service" autocomplete="off">
+          <label class="btn btn-secondary" for="mock-service2"><mat-icon> money</mat-icon></label>
+        </div>
+
+
+        <!-- Radio Button for Mock Service -->
+
+
+        <!-- Radio Button for Real Service (example) -->
+
+      <div class="payment-div">
+        <input type="submit" value="Zapłać" class="btn btn-primary" (click)="form.submit()">
+      </div>
       </form>
     </div>
   </div>

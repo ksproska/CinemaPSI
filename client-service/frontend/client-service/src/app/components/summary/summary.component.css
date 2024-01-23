@@ -37,12 +37,8 @@ body, html {
   justify-content: end;
   align-content: end;
 }
-.col{
-  -ms-flex: 0 0 230px;
-  flex: 0 0 230px;
-}
 
-.col {
+.card-col {
   -ms-flex: 0 0 180px;
   flex: 0 0 180px;
   text-align: end;
@@ -64,12 +60,50 @@ body, html {
   border-color: #004b5b;
 }
 
-.btn-div {
-  display: flex;
-  justify-content: end;
+/*.btn-div {*/
+/*  display: flex;*/
+/*  justify-content: end;*/
 
-}
+/*}*/
 
 .invisible-input {
   display: none;
+}
+
+#form{
+  display: flex;
+  align-items: start;
+}
+
+.btn-secondary{
+  aspect-ratio: 1;
+  margin-bottom: 1rem;
+  width: 100px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary:active{
+  aspect-ratio: 1;
+  background: #6cabb9;
+}
+
+/*.btn-secondary:checked{*/
+/*  aspect-ratio: 1;*/
+/*  background: #6cabb9;*/
+/*}*/
+
+.btn-check:checked + .btn-secondary {
+  background: #6cabb9;
+}
+
+mat-icon{
+  transform: scale(2);
+}
+
+
+.payment-div{
+  display: flex;
+  justify-content: end;
 }

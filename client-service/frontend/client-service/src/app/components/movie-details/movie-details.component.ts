@@ -24,11 +24,14 @@ export class MovieDetailsComponent implements OnInit {
     this.route.data.subscribe(
       ({data}) => {
         this.data = data
+        this.movie = this.data['movie'];
+        this.genres = this.data['genres'];
+        this.repertoiresForDates = this.data['repertoiresForDates']
+        console.log(this.repertoiresForDates);
+        console.log(this.movie?.image);
+        console.log(this.movie)
       });
-    this.movie = this.data['movie'];
-    this.genres = this.data['genres'];
-    this.repertoiresForDates = this.data['repertoiresForDates']
-    console.log(this.repertoiresForDates);
+
   }
 
   datePassed(date: Date): boolean {

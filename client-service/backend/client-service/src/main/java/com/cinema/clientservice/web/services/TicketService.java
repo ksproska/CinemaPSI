@@ -130,7 +130,7 @@ public class TicketService {
                 movieDetails.movieTitle(),
                 movieDetails.languageVersionName(),
                 repertoire.getStarting().toLocalDate(),
-                repertoire.getStarting().toLocalTime(),
+                repertoire.getStarting(),
                 ticketReservations.stream().map(ticketReservation -> new TicketReservationDetailsDto(
                                 ticketReservation.seatRow(),
                                 ticketReservation.seatNumber(),
