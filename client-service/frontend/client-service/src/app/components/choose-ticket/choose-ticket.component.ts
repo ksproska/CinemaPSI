@@ -146,7 +146,7 @@ export class ChooseTicketComponent implements OnInit {
 
   goToSummary(){
 
-    localStorage.setItem("seatsTypeMap",JSON.stringify(this.seatsTypeMap));
+    localStorage.setItem("ticketChosen", "1");
     let studentCnt = 0;
     let seatIds = []
     for (let [key, value] of this.seatsTypeMap) {
