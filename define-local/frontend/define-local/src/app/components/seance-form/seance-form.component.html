@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-5">
+      <img src="{{movieDetails?.movieData?.imageUrl}}">
+    </div>
+    <div class="col-lg-9 col-md-7">
+      <h4 style="margin-bottom: 3vh;">{{movieDetails?.movieData?.title}}</h4>
+      <p>
+        @for(detail of movieDetails?.movieData?.genres; track detail){
+          | {{detail}}
+        }
+      </p>
+      <p>
+        {{movieDetails?.movieData?.description}}
+      </p>
+      <p *ngIf="movieOffer">
+        Dostępność oferty: {{movieOffer.offerDateSince}} - {{movieOffer.offerDateUntil}}
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<form class="container" style="margin-top: 3vh;"[formGroup]="addRepertoiresForm" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+
+    <div class="col-sm-2">
+      <h5>Data:</h5>
+    </div>
+
+    <div class="col-sm-2">
+      <h5>Sala:</h5>
+    </div>
+
+    <div class="col-sm-2">
+      <h5>Start:</h5>
+    </div>
+
+    <div class="col-sm-2">
+      <h5>Koniec:</h5>
+    </div>
+
+    <div class="col-md-3">
+      <h5>Wersja językowa:</h5>
+    </div>
+
+    <div class="col-sm-1">
+    </div>
+
+  </div>
+  <div formArrayName="seances">
+    @for(seance of seances.controls; track seance; let i = $index){
+      <div [formGroupName]="i">
+        <div class="row">
+
+          <div class="col-sm-2">
+            <input type="date" formControlName="date" name="dateStart" value="{{Date.now() | date:'y-M-d'}}" min="{{movieOffer?.offerDateSince}}" max="{{movieOffer?.offerDateUntil}}" />
+          </div>
+
+          <div class="col-sm-2">
+            <select type="text" name="location" formControlName="hall" required>
+              @for(hall of movieDetails?.halls; track hall.id){
+                <option value="{{hall.id}}">{{ hall.hallNumber }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-sm-2">
+            <input type="time" formControlName="startTime" name="startTime" required />
+          </div>
+
+          <div class="col-sm-2">
+            <input type="time" name="endTime" disabled />
+          </div>
+
+          <div class="col-md-3">
+            <select type="text" name="languageVersion" formControlName="languageVersion" required>
+              @for(offer of movieDetails?.movieData?.movieOffers; track offer.offerId){
+                <option value="{{offer.offerId}}">{{ offer.languageVersionName }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-sm-1">
+            <button type="button" (click)="removeSeance(i)">X</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="row">
+    <div class="col-sm-2 offset-sm-10">
+      <button type="button" (click)="addSeance()">Dodaj seans</button>
+    </div>
+
+  </div>
+
+  <button type="submit">Submit</button>
+
+</form>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MoviesService} from "../../services/movies.service";
+import {ActivatedRoute} from "@angular/router";
 import {Movie} from "../../models/movie";
 import {RepertoiresForDates} from "../../models/repertoiresForDates";
 

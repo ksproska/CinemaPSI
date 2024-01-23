@@ -1,0 +1,31 @@
+<article class="mt-4">
+  <div class="container">
+    <table class="table table-bordered rounded-3 overflow-hidden">
+      <thead>
+      <h2>My tickets</h2>
+      </thead>
+      <tbody *ngFor="let ticket of ticketDetails">
+        <tr scope="d-flex" [ngClass]="{'table-secondary': ticket.isValidated}">
+          <th class="col-auto">
+            <h3>{{ ticket.movieTitle }}</h3>
+            <p *ngIf="ticket.isStudent">STUDENT TICKET</p>
+            <p>Price: {{ ticket.price }} zł</p>
+          </th>
+          <th class="col-auto">
+            <p>Date: {{ ticket.repertoireDate }}</p>
+            <p>Time: {{ ticket.repertoireTime }}</p>
+            <p>Row: {{ ticket.seatRow }}</p>
+            <p>Seat: {{ ticket.seatNumber }}</p>
+          </th>
+          <th class="col-auto">
+            <p *ngIf="!ticket.isValidated">
+              ID: {{ ticket.ticketId }}
+              <qrcode [qrdata]="'' + ticket.ticketId" [width]="150"></qrcode>
+            </p>
+          </th>
+          <th class="col-auto"><p class="verticaltext" *ngIf="ticket.isValidated">VALIDATED</p></th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</article>

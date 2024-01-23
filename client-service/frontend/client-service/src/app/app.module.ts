@@ -12,7 +12,10 @@ import {HttpClientModule} from "@angular/common/http";
 import { ChooseTicketComponent } from './components/choose-ticket/choose-ticket.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { PaymentFormComponent } from './components/payment-form/payment-form.component';
-
+import { PaymentFailureComponent } from './components/payment-failure/payment-failure.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
+import {QRCodeModule} from "angularx-qrcode";
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,13 +24,18 @@ import { PaymentFormComponent } from './components/payment-form/payment-form.com
     TopBarComponent,
     ChooseTicketComponent,
     SummaryComponent,
-    PaymentFormComponent
+    PaymentFormComponent,
+    PaymentFailureComponent,
+    PaymentSuccessComponent,
+    ClientTicketsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     MatIconModule,
+    HttpClientModule,
+    QRCodeModule,
     HttpClientModule,
     ReactiveFormsModule
   ],
