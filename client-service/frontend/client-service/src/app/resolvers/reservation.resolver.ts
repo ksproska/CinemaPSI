@@ -8,7 +8,7 @@ import {ReservationDetails} from "../models/reservationDetails";
 
 export const ReservationResolver: ResolveFn<ReservationDetails>  =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    return inject(TicketsService).getReservationDetails(route.paramMap.get('reservationId')!);
+    return inject(TicketsService).getReservationDetails(route.paramMap.get('reservationId')!, route.paramMap.get('city')!);
   };
 
 

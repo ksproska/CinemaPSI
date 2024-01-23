@@ -24,7 +24,7 @@ const routes: Routes = [
     component: ChooseCinemaComponent
   },
   {
-    path: 'movies',
+    path: 'movies/:city',
     component: MovieListComponent,
     // resolve: {
     //   movies: MoviesListResolver,
@@ -32,21 +32,21 @@ const routes: Routes = [
     // }
   },
   {
-    path: 'movies/:movieId',
+    path: 'movies/:city/:movieId',
     component: MovieDetailsComponent,
     resolve: {
       data: MovieDetailsResolver,
     }
   },
   {
-    path: 'tickets/:repertoireId',
+    path: 'tickets/:city/:repertoireId',
     component: ChooseTicketComponent,
     resolve: {
       data: RepertoireResolver,
     }
   },
   {
-    path: 'summary/:reservationId',
+    path: 'summary/:city/:reservationId',
     component: SummaryComponent,
     resolve: {
       data: ReservationResolver,

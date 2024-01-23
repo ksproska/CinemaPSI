@@ -5,5 +5,5 @@ import {MoviesService} from "../services/movies.service";
 
 export const MovieDetailsResolver: ResolveFn<RepertoiresForSingleMovie> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    return inject(MoviesService).getMovieById(route.paramMap.get('movieId')!);
+    return inject(MoviesService).getMovieById(route.paramMap.get('city')!, route.paramMap.get('movieId')!);
   };

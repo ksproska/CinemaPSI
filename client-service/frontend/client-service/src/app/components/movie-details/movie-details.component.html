@@ -44,8 +44,10 @@
     <div class="screnings"></div>
 
     <section class="d-flex flex-column gap-2" id="screenings">
-      <select class="right" id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
-        <option *ngFor="let cinema of cinemas" [value]="cinema">{{ cinema }}</option>
+      <select class="filter" id="cinemaSelect" [(ngModel)]="selectedCinema" (change)="onSelectCinema(selectedCinema)">
+        <option *ngFor="let cinema of cinemas" [value]="cinema">
+          {{ cinema }}
+        </option>
       </select>
       <div class="row mb-3" *ngFor="let repertoireForDate of repertoiresForDates!.slice(0, showMax);">
         <div>{{repertoireForDate.date | date: 'dd-MM-YYYY'}} </div>

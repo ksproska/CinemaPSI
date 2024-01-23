@@ -6,5 +6,5 @@ import {HallSetupForRepertoire} from "../models/hallSetupforRepertoire";
 
 export const RepertoireResolver: ResolveFn<HallSetupForRepertoire> =
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-    return inject(RepertoireService).getHallSetupByRepertoireId(route.paramMap.get('repertoireId')!);
+    return inject(RepertoireService).getHallSetupByRepertoireId(route.paramMap.get('city')!, route.paramMap.get('repertoireId')!);
 };

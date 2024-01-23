@@ -27,12 +27,12 @@ public class RepertoireController {
     }
 
     @GetMapping("/get-future-repertoire-by-date")
-    public ResponseEntity<List<MovieWithRepertoires>> getRepertoireDetailsByDate(@RequestParam LocalDate afterDate) {
+    public ResponseEntity<List<MovieWithRepertoires>> getRepertoireDetailsByDate(@RequestParam LocalDate afterDate, @RequestParam String city) {
         return ResponseEntity.ok(repertoireService.getRepertoireDetailsByDate(afterDate));
     }
 
-    @GetMapping("/get-future-repertoire/{movieId}")
-    public ResponseEntity<RepertoiresForSingleMovie> getRepertoireDetailsForMovie(@PathVariable Long movieId) {
+    @GetMapping("/get-future-repertoire/{city}/{movieId}")
+    public ResponseEntity<RepertoiresForSingleMovie> getRepertoireDetailsForMovie(@PathVariable Long movieId, @PathVariable String city) {
         return ResponseEntity.ok(repertoireService.getFutureRepertoireForMovie(movieId));
     }
 }

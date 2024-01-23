@@ -11,7 +11,7 @@ export class PaymentService {
 
   pay(paymentData: { reservationId: string; paymentService: string }) {
     // Construct the URL with query parameters
-    console.log(paymentData);
+
     const params = new HttpParams()
       .set('reservationId', paymentData.reservationId)
       .set('paymentService', paymentData.paymentService);

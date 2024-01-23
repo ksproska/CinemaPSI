@@ -8,6 +8,7 @@ import {Price} from "../../models/price";
 import {RepertoireDetails} from "../../models/RepertoireDetails";
 import {TicketsService} from "../../services/tickets.service";
 import {Reservation} from "../../models/reservation";
+import {CinemaNamesMapRev} from "../../models/cinemaNamesMapRev";
 
 
 const numberToLetterMap: Record<number, string> = {
@@ -50,27 +51,29 @@ export class ChooseTicketComponent implements OnInit {
   isPromotion: boolean = false;
   total = 0;
   promotionPct = 0;
+  selectedCinema = "wroclaw";
 
   constructor(private route: ActivatedRoute, private priceService: PriceService,  private cdRef: ChangeDetectorRef,
               private ticketsService: TicketsService, private router: Router) {}
   ngOnInit(): void {
+
+    // @ts-ignore
+    this.selectedCinema = (this.route.snapshot.paramMap.get('city') ? this.route.snapshot.paramMap.get('city') : "wroclaw");
     this.route.data.subscribe(
       ({data}) => {
         this.data = data;
         this.seats = data.seats;
-        console.log(this.seats);
+
         this.priceService.getCurrentPrice().subscribe((price : Price )=> {
             this.price = price;
             this.basePrice = price.basePrice;
             this.studentPrice = this.price.basePrice - this.price.basePrice * (this.price.reductionPct/100);
-            // @ts-ignore
-          console.log(this.addDays(new Date(), price.promotionMinDays), new Date(data.startingTime));
           if ( this.addDays(new Date(), price.promotionMinDays) < new Date(data.startingTime)){
-            console.log('here')
+
               this.isPromotion = true
               this.promotionPct = price.promotionPct;
             }
-              console.log(this.price);
+
           }
         )
       });
@@ -79,14 +82,14 @@ export class ChooseTicketComponent implements OnInit {
   registerSeats = (selected: Set<string>, seatName: string) => {
 
     if (selected.has(seatName)) {
-      console.log(seatName);
+
       selected.delete(seatName);
       this.selectedSeats.splice(this.selectedSeats.indexOf(seatName), 1)
       this.seatsTypeMap.delete(seatName);
       this.total -= parseInt(this.getSelectedTicketPrice(seatName));
     } else {
       let seatNameList = this.nameToRowAndCol(seatName);
-      console.log(seatName);
+
       if (!this.isTaken(seatNameList[0] - 1, seatNameList[1] - 1)) {
         selected.add(seatName);
         this.selectedSeats.push(seatName)
@@ -116,7 +119,7 @@ export class ChooseTicketComponent implements OnInit {
   );
 
   isTaken(row: number, seat: number): boolean {
-    // console.log(row, seat, this.seats);
+    //
     let seatInfo = this.seats![row][seat];
     return seatInfo.isTaken;
 
@@ -163,10 +166,13 @@ export class ChooseTicketComponent implements OnInit {
         numberOfStudentTickets: studentCnt
     };
 
-    console.log(reservation)
-    this.ticketsService.reserveTickets(reservation).subscribe((reservationId : any) => {
-      console.log(reservationId);
-      this.router.navigate([`/summary/${reservationId.reservationId}`]);
+
+
+    // @ts-ignore
+
+    this.ticketsService.reserveTickets(reservation, this.selectedCinema).subscribe((reservationId : any) => {
+
+      this.router.navigate([`/summary/${this.selectedCinema}/${reservationId.reservationId}`]);
     });
 
   }
