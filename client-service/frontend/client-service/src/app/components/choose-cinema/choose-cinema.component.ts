@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router} from "@angular/router";
+import {CinemaNamesMapRev} from "../../models/cinemaNamesMapRev";
+import {CinemaNamesMap} from "../../models/cinemaNamesMap";
 
 @Component({
   selector: 'app-choose-cinema',
@@ -17,6 +19,8 @@ export class ChooseCinemaComponent {
   }
 
   onSelectClick() {
-    this.router.navigate([`/movies`]);
+    localStorage.setItem("cinema", CinemaNamesMap.cinemaNamesMap[this.selectedCinema]);
+    this.router.navigate([`/movies/${CinemaNamesMap.cinemaNamesMap[this.selectedCinema]}`]);
   }
+
 }

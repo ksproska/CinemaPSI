@@ -15,8 +15,8 @@ public class HallSetupController {
         this.hallSetupService = hallSetupService;
     }
 
-    @GetMapping("/hall-setup/{repertoireId}")
-    public ResponseEntity<HallSetupForRepertoire> getRepertoireDetails(@PathVariable Long repertoireId) {
+    @GetMapping("/hall-setup/{city}/{repertoireId}")
+    public ResponseEntity<HallSetupForRepertoire> getRepertoireDetails(@PathVariable Long repertoireId, @PathVariable String city) {
         return ResponseEntity.ok(hallSetupService.getHallSetup(repertoireId));
     }
 }

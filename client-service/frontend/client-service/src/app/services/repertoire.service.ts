@@ -13,13 +13,13 @@ export class RepertoireService {
 
   private baseURL = environment.baseURL
   constructor(private readonly http: HttpClient) {  }
-  getHallSetupByRepertoireId(repertoireId: string): Observable<HallSetupForRepertoire> {
-    return this.http.get<HallSetupForRepertoire>(`${this.baseURL}/hall-setup/${repertoireId}`)
+  getHallSetupByRepertoireId(city: string, repertoireId: string): Observable<HallSetupForRepertoire> {
+    return this.http.get<HallSetupForRepertoire>(`${this.baseURL}/hall-setup/${city}/${repertoireId}`)
   }
 
-  getRepertoireByDate(date: Date): Observable<RepertoireByDate[]> {
-    console.log(date.toDateString())
+  getRepertoireByDate(city: string, date: Date): Observable<RepertoireByDate[]> {
     const params = new HttpParams()
+      .set('city', city)
       .set('afterDate', formatDate(date, "yyyy-MM-dd", 'en-GB'))
     return this.http.get<RepertoireByDate[]>(`${this.baseURL}/get-future-repertoire-by-date`, {params})
   }

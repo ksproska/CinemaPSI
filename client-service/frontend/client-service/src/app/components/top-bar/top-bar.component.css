@@ -21,6 +21,7 @@ button{
   display: flex;
   justify-content: flex-start;
   width: fit-content;
+  align-content: center;
 }
 a {
   display: flex;

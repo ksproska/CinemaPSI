@@ -29,7 +29,7 @@ export class PaymentFormComponent {
     if (this.paymentForm.valid) {
       this.paymentService.pay({"reservationId" : this.reservationId, "paymentService" : this.chosenPaymentService}) .subscribe(
         response => {
-          console.log(response);
+
           // window.location.href = 'https://www.externalwebsite.com';
         },
         error => {

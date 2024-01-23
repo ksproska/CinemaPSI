@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MoviesService} from "../../services/movies.service";
 import {Movie} from "../../models/movie";
 import {RepertoiresForDates} from "../../models/repertoiresForDates";
+import {CinemaNamesMapRev} from "../../models/cinemaNamesMapRev";
+import {CinemaNamesMap} from "../../models/cinemaNamesMap";
 
 @Component({
   selector: 'app-movie-details',
@@ -18,7 +20,7 @@ export class MovieDetailsComponent implements OnInit {
   repertoiresForDates: RepertoiresForDates[] | undefined;
   showMax: number = 1;
   selectedCinema: string = 'Wrocław';
-  cinemas = ['Wrocław', 'Warszawa', 'Kraków'];
+  cinemas = ['Wrocław'];
   constructor(private route: ActivatedRoute, private router: Router) {}
   ngOnInit(){
     this.route.data.subscribe(
@@ -27,10 +29,13 @@ export class MovieDetailsComponent implements OnInit {
         this.movie = this.data['movie'];
         this.genres = this.data['genres'];
         this.repertoiresForDates = this.data['repertoiresForDates']
-        console.log(this.repertoiresForDates);
-        console.log(this.movie?.image);
-        console.log(this.movie)
+
+
+
       });
+
+    // @ts-ignore
+    this.selectedCinema = CinemaNamesMapRev.cinemaNamesMapRev[(this.route.snapshot.paramMap.get('city') ? this.route.snapshot.paramMap.get('city') : "wroclaw")];
 
   }
 
@@ -41,7 +46,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   navigateToBuyView(repertoireId: number) {
-      this.router.navigate([`/tickets/${repertoireId}`]);
+      this.router.navigate([`/tickets/${CinemaNamesMap.cinemaNamesMap[this.selectedCinema]}/${repertoireId}`]);
   }
 
   showMoreDates(){

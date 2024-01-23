@@ -13,12 +13,12 @@ export class TicketsService {
 
   private baseURL = environment.baseURL
   constructor(private readonly http: HttpClient) {  }
-  reserveTickets(reservation: Reservation): Observable<number> {
-    return this.http.post<number>(`${this.baseURL}/reserve-tickets`, reservation);
+  reserveTickets(reservation: Reservation, city: string): Observable<number> {
+    return this.http.post<number>(`${this.baseURL}/reserve-tickets/${city}`, reservation);
   }
 
 
-  getReservationDetails(reservationId: string): Observable<ReservationDetails> {
-    return this.http.get<ReservationDetails>(`${this.baseURL}/get-reservation-details/${reservationId}`);
+  getReservationDetails(reservationId: string, city: string): Observable<ReservationDetails> {
+    return this.http.get<ReservationDetails>(`${this.baseURL}/get-reservation-details/${city}/${reservationId}`);
   }
 }

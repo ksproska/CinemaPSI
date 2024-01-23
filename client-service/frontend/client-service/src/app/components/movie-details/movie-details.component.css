@@ -128,3 +128,12 @@ from {
   margin-left: 20px;
   margin-right: 20px;
 }
+#cinemaSelect {
+  background-color: #3f3f3f;
+  color: #00abcd;
+  min-width: 100px;
+  justify-content: flex-end;
+  height: 40px;
+  border-radius: 5px;
+  border-color: #3f3f3f;
+}

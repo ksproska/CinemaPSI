@@ -10,7 +10,7 @@ import {RepertoiresForSingleMovie} from "../models/repertoiresForSingleMovie";
 export class MoviesService {
   private baseURL = environment.baseURL
   constructor(private readonly http: HttpClient) {  }
-  getMovieById(id: string): Observable<RepertoiresForSingleMovie> {
-    return this.http.get<RepertoiresForSingleMovie>(`${this.baseURL}/get-future-repertoire/${id}`)
+  getMovieById(city: string, id: string): Observable<RepertoiresForSingleMovie> {
+    return this.http.get<RepertoiresForSingleMovie>(`${this.baseURL}/get-future-repertoire/${city}/${id}`)
   }
 }
