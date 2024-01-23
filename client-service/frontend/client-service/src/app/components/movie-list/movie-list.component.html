@@ -29,6 +29,9 @@
           <img src="https://drive.google.com/thumbnail?id={{movie.movieVersionDetails.movieImageUrl}}&sz=w300" alt="Movie poster">
           <div class="row col-10">
             <h5 class="card-title">{{ movie.movieVersionDetails.movieTitle }}</h5>
+            <div class="rating">
+              <div id="rating-border"><p id="rating">Ocena: {{movie.movieVersionDetails.rating}} </p></div>
+            </div>
             <div class="genre-list">
               <div *ngFor="let genre of movie.genres" class="genre-item">{{ genre }}
                 <span class="genre-item" *ngIf="!isLast(movie, genre)">|</span>

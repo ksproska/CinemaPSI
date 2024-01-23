@@ -22,6 +22,7 @@ h1{
 img {
   width: 150px;
   height: 200px;
+  margin-left: 10px;
 }
 
 h5{
@@ -128,7 +129,19 @@ span {
   color: #00abcd !important;
 }
 
-.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: #e4e4e4 !important;
+}
+
+::ng-deep .mat-mdc-select {
+  color: #e4e4e4 !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-select-arrow {
+  color: #00abcd !important;
+}
+
+::ng-deep .mat-mdc-select-arrow {
   color: #00abcd !important;
 }
 
@@ -138,4 +151,25 @@ span {
 
 .filter:nth-child(3) {
   margin-right: auto;
+}
+
+.rating{
+  margin-right: 40px;
+  right: 0;
+  width: 100px;
+  margin-left: auto;
+}
+
+#rating-border{
+  border: 2px solid #f2f2f2;
+}
+
+#rating{
+  margin: 5px;
+  width: 100px;
+  color: #f2f2f2;
+
+}
+.flex-child:first-child {
+  margin-right: 20px;
 }
