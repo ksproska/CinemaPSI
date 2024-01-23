@@ -51,7 +51,6 @@ class NetworkModule {
         retrofit.create(TicketCollectorService::class.java)
 
     companion object {
-        private const val CURRENT_IP = "192.168.20.102"
-        private const val BASE_URL = "http://$CURRENT_IP:8080"
+        private const val BASE_URL = "http://cinema-ticket-collector-backend-app.us-east-1.elasticbeanstalk.com:8080"
     }
 }
