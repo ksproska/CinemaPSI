@@ -3,6 +3,5 @@ export interface Price {
   basePrice: number,
   reductionPct: number,
   promotionPct: number,
-  dateSince: Date,
-  dateUntil: Date
+  promotionMinDays: number
 }

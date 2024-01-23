@@ -10,6 +10,9 @@ import {PaymentSuccessComponent} from "./components/payment-success/payment-succ
 import {PaymentFailureComponent} from "./components/payment-failure/payment-failure.component";
 import {ClientTicketsComponent} from "./components/client-tickets/client-tickets.component";
 import {clientTicketsResolver} from "./resolvers/client-tickets.resolver";
+import {SummaryComponent} from "./components/summary/summary.component";
+import {ReservationResolver} from "./resolvers/reservation.resolver";
+import {PaymentFormComponent} from "./components/payment-form/payment-form.component";
 
 const routes: Routes = [
   {
@@ -38,6 +41,20 @@ const routes: Routes = [
     resolve: {
       data: RepertoireResolver,
     }
+  },
+  {
+    path: 'summary/:reservationId',
+    component: SummaryComponent,
+    resolve: {
+      data: ReservationResolver,
+    }
+  },
+  {
+    path: 'payment/:reservationId',
+    component: PaymentFormComponent,
+    // resolve: {
+    //   data: ReservationResolver,
+    // }
   },
   {
     path: 'payment-status/success',

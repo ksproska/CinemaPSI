@@ -180,7 +180,7 @@ public class RepertoireService {
 
     public List<MovieWithRepertoires> getRepertoireDetailsByDate(LocalDate afterDate) {
         LocalDateTime startingBefore = afterDate.atTime(LocalTime.MAX);
-        LocalDateTime startingAfter = afterDate.atTime(LocalTime.now());
+        LocalDateTime startingAfter = (afterDate.equals(LocalDate.now()) ? afterDate.atTime(LocalTime.now()) : afterDate.atTime(LocalTime.MIN));
         //movie version ids in this particular date
         List<Long> movieVersionIds = this.repertoireRepository.getMovieVersionIdByStartingAfterAndStartingBeforeOrderByStarting(startingAfter, startingBefore);
         //repertoires for the date
