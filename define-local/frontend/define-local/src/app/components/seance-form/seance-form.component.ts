@@ -26,6 +26,7 @@ export class SeanceFormComponent implements OnChanges {
   @Input() movieDetails?: MovieDetailDTO
   movieOffer?: MovieOffer
   today?: Date
+  responseMessage?: string
 
   addRepertoiresForm = this.formBuilder.group({
     seances: this.formBuilder.array([], Validators.required)
@@ -86,7 +87,14 @@ export class SeanceFormComponent implements OnChanges {
         repertoireCandidates: repertoireCandidates
       };
       this.defineLocalService.addRepertoire(payload).subscribe({
-        next: value => console.log(value)
+        next: value => console.log(value),
+        // error: err => console.log(err.error.text) //for success
+        error: err => {
+          if(err.status == 400)
+            this.responseMessage = err.error
+          else if (err.status == 200)
+            this.responseMessage = err.error.text
+        }
       })
       console.log('Payload to be sent:', payload);
     } else {
