@@ -26,7 +26,7 @@ public interface VersionOfferMovieMapRepository extends JpaRepository<VersionOff
             "LEFT JOIN Genre g ON mgm.id.genreId = g.id WHERE mgm.id.movieId in :movieIds")
     List<GenreForMovie> getGenresForMoviesWithIds(List<Long> movieIds);
 
-    @Query(value = "SELECT DISTINCT vomm.versionId FROM VersionOfferMovieMap vomm")
+    @Query(value = "SELECT DISTINCT vomm.id FROM VersionOfferMovieMap vomm WHERE vomm.movieId = :movieId")
     List<Long> getMovieVersionsForMovieId(Long movieId);
 
     @Query(value = "SELECT DISTINCT new com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto(m.title, lv.versionName) FROM VersionOfferMovieMap vomm LEFT JOIN " +
