@@ -1,9 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {PriceService} from "../../services/price.service";
-import {TicketsService} from "../../services/tickets.service";
-import {Price} from "../../models/price";
-import {Reservation} from "../../models/reservation";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 import {ReservationDetails} from "../../models/reservationDetails";
 
 @Component({
@@ -14,18 +10,13 @@ import {ReservationDetails} from "../../models/reservationDetails";
 export class SummaryComponent implements OnInit{
 
   reservationDetails: ReservationDetails | undefined;
-  constructor(private route: ActivatedRoute, private priceService: PriceService,  private cdRef: ChangeDetectorRef,
-              private ticketsService: TicketsService, private router: Router) {}
+  reservationId: number | any;
+  constructor(private route: ActivatedRoute) {}
   ngOnInit(): void {
+    this.reservationId = this.route.snapshot.paramMap.get('reservationId');
     this.route.data.subscribe(
       ({data}) => {
         this.reservationDetails = data;
       });
   }
-
-
-  goToPayment(): void {
-    this.router.navigate([`/payment/${this.route.snapshot.paramMap.get('reservationId')}`]);
-  }
-
 }

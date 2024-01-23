@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.math3.util.Precision.round;
@@ -146,7 +147,8 @@ public class TicketService {
         return new AllBoughtTicketsDetails(
                 allTicketsDetails.stream().map(
                         ticketDetails -> new SingleTicketDetails(
-                                versionOfferMovieMapRepository.getMovieTitleFovMovieVersionId(ticketDetails.movieVersionId()).orElseThrow(),
+                                versionOfferMovieMapRepository.getMovieTitleFovMovieVersionId(ticketDetails.movieVersionId())
+                                        .orElse("ERROR: unable to retrieve movie title for movie version id " + ticketDetails.movieVersionId()),
                                 ticketDetails.isStudent(),
                                 round(ticketDetails.price(), 2),
                                 ticketDetails.repertoireStarting().toLocalDate(),
@@ -156,7 +158,7 @@ public class TicketService {
                                 ticketDetails.ticketId(),
                                 ticketDetails.isValidated()
                         )
-                ).toList()
+                ).sorted(Comparator.comparing(SingleTicketDetails::ticketId)).toList().reversed()
         );
     }
 }

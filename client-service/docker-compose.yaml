@@ -87,15 +87,6 @@ services:
     volumes:
       - ./payment-service:/usr/share/nginx/html
 
-  temp-frontend: # temp frontend to test payment
-    image: nginx:latest
-    networks:
-      - priv-network
-    ports:
-      - "81:80"
-    volumes:
-      - ./temp_frontend:/usr/share/nginx/html
-
 networks:
   priv-network:
     driver: bridge

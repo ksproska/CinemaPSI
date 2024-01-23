@@ -9,7 +9,6 @@
     </div>
     <div class="mb-3">
       <h5 class="card-subtitle mb-2 mt-4 m-left">{{ reservationDetails?.movieTitle }}</h5>
-      <!--        <p class="card-text"></p>-->
     </div>
     <div class="card-body container">
 
@@ -44,7 +43,13 @@
       </div>
     </div>
     <div class="btn-div m-2">
-    <button type="button" (click)="goToPayment()" class="btn btn-primary">Zapłać</button>
+      <form [id]="form" #form action="http://localhost:8080/pay" method="GET">
+        <input type="number" name="reservationId" value="{{reservationId}}" class="invisible-input">
+        <select name="paymentService">
+          <option value="mock-service" selected>mock-service</option>
+        </select>
+        <input type="submit" value="Zapłać" class="btn" (click)="form.submit()">
+      </form>
     </div>
   </div>
 </div>

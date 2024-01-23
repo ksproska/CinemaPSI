@@ -4,18 +4,13 @@ import {MovieListComponent} from "./components/movie-list/movie-list.component";
 import {MovieDetailsComponent} from "./components/movie-details/movie-details.component";
 import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
-import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
 import {SummaryComponent} from "./components/summary/summary.component";
 import {ReservationResolver} from "./resolvers/reservation.resolver";
-import {PaymentFormComponent} from "./components/payment-form/payment-form.component";
 import {PaymentSuccessComponent} from "./components/payment-success/payment-success.component";
 import {PaymentFailureComponent} from "./components/payment-failure/payment-failure.component";
 import {ClientTicketsComponent} from "./components/client-tickets/client-tickets.component";
 import {clientTicketsResolver} from "./resolvers/client-tickets.resolver";
-import {SummaryComponent} from "./components/summary/summary.component";
-import {ReservationResolver} from "./resolvers/reservation.resolver";
-import {PaymentFormComponent} from "./components/payment-form/payment-form.component";
 
 const routes: Routes = [
   {
@@ -51,13 +46,6 @@ const routes: Routes = [
     resolve: {
       data: ReservationResolver,
     }
-  },
-  {
-    path: 'payment/:reservationId',
-    component: PaymentFormComponent,
-    // resolve: {
-    //   data: ReservationResolver,
-    // }
   },
   {
     path: 'payment-status/success',
