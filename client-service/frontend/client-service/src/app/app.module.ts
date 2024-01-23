@@ -16,7 +16,6 @@ import { PaymentFailureComponent } from './components/payment-failure/payment-fa
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { ClientTicketsComponent } from './components/client-tickets/client-tickets.component';
 import {QRCodeModule} from "angularx-qrcode";
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +24,8 @@ import {QRCodeModule} from "angularx-qrcode";
     TopBarComponent,
     ChooseTicketComponent,
     SummaryComponent,
-    PaymentFormComponent
+    PaymentFormComponent,
+    SummaryComponent,
     ChooseTicketComponent,
     PaymentFailureComponent,
     PaymentSuccessComponent,
@@ -37,9 +37,10 @@ import {QRCodeModule} from "angularx-qrcode";
     FormsModule,
     MatIconModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QRCodeModule,
     HttpClientModule,
-    QRCodeModule
+    ReactiveFormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
