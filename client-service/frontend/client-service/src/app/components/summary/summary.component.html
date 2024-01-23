@@ -1,0 +1,57 @@
+
+<body>
+<app-top-bar></app-top-bar>
+<article class="p-3" id="content">
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title ">Podsumowanie rezerwacji</h2>
+    </div>
+    <div class="mb-3">
+      <h5 class="card-subtitle mb-2 mt-4 m-left">{{ reservationDetails?.movieTitle }}</h5>
+    </div>
+    <div class="card-body container">
+
+        <div class="mb-3 m-left row">
+          <h5 class="card-subtitle mb-2 col">Wersja językowa:</h5>
+          <p class="card-text col text-c">{{ reservationDetails?.languageVersionName }}</p>
+        </div>
+        <div class="mb-3 m-left row">
+          <h5 class="card-subtitle mb-2 col">Data:</h5>
+          <p class="card-text col text-c">{{ reservationDetails?.date | date: 'dd-MM-YYYY' }}</p>
+        </div>
+        <div class="mb-3 m-left row">
+          <h5 class="card-subtitle mb-2 col">Godzina:</h5>
+          <p class="card-text col text-c">{{ reservationDetails?.time | date: 'shortTime' }}</p>
+        </div>
+
+      <div class="mb-4 ">
+        <h4 class="card-subtitle mb-3 m-left">Miejsca:</h4>
+        <ul class="list-group m-left">
+          <li class="list-group-item" *ngFor="let ticket of reservationDetails?.tickets">
+            <div class="d-flex justify-content-between">
+              <div class="fw-bold">Rząd {{ ticket.seatRow }}, Miejsce {{ ticket.seatNumber }}</div>
+              <div>{{ ticket.isStudent ? 'Studencki' : 'Normalny' }} - {{ ticket.price}} PLN</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="d-flex justify-content-between m-left">
+        <h5 class="card-subtitle">Suma:</h5>
+        <p class="card-text">{{ reservationDetails?.total }} PLN</p>
+      </div>
+    </div>
+    <div class="btn-div m-2">
+      <form [id]="form" #form action="http://localhost:8080/pay" method="GET">
+        <input type="number" name="reservationId" value="{{reservationId}}" class="invisible-input">
+        <select name="paymentService">
+          <option value="mock-service" selected>mock-service</option>
+        </select>
+        <input type="submit" value="Zapłać" class="btn" (click)="form.submit()">
+      </form>
+    </div>
+  </div>
+</div>
+</article>
+</body>

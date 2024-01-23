@@ -81,9 +81,7 @@ export class MovieListComponent {
   }
 
   navigateToBuyView(screening: number) {
-    // if (!this.datePassed(new Date(screening.date))) {
-    //   this.router.navigate([`/movies/${screening.id}/${screening.hallId}/book`]);
-    // }
+
   }
 
   isLast(movie: any, genre: string): boolean {

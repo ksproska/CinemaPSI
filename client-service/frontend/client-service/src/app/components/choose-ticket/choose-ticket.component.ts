@@ -1,9 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {SeatInfo} from "../../models/seatInfo";
 import {HallSetupForRepertoire} from "../../models/hallSetupforRepertoire";
 import {map, scan, share, startWith, Subject} from "rxjs";
-
+import {PriceService} from "../../services/price.service";
+import {Price} from "../../models/price";
+import {RepertoireDetails} from "../../models/RepertoireDetails";
+import {TicketsService} from "../../services/tickets.service";
+import {Reservation} from "../../models/reservation";
 
 
 const numberToLetterMap: Record<number, string> = {
@@ -35,20 +39,41 @@ export class ChooseTicketComponent implements OnInit {
 
   data: HallSetupForRepertoire | undefined;
   seats: SeatInfo[][] | undefined;
-  selectedSeats: Object[] = [];
+  selectedSeats: string[] = [];
   seatsTypeMap: Map<string, TicketType> =  new Map()
   readonly noneMessage = "nothing";
   readonly selectSeat$ = new Subject<string>();
+  price: Price | undefined;
+  studentPrice: number = 100;
+  basePrice = 100;
+  repertoire: RepertoireDetails | undefined;
+  isPromotion: boolean = false;
+  total = 0;
+  promotionPct = 0;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private priceService: PriceService,  private cdRef: ChangeDetectorRef,
+              private ticketsService: TicketsService, private router: Router) {}
   ngOnInit(): void {
     this.route.data.subscribe(
       ({data}) => {
         this.data = data;
         this.seats = data.seats;
+        console.log(this.seats);
+        this.priceService.getCurrentPrice().subscribe((price : Price )=> {
+            this.price = price;
+            this.basePrice = price.basePrice;
+            this.studentPrice = this.price.basePrice - this.price.basePrice * (this.price.reductionPct/100);
+            // @ts-ignore
+          console.log(this.addDays(new Date(), price.promotionMinDays), new Date(data.startingTime));
+          if ( this.addDays(new Date(), price.promotionMinDays) < new Date(data.startingTime)){
+            console.log('here')
+              this.isPromotion = true
+              this.promotionPct = price.promotionPct;
+            }
+              console.log(this.price);
+          }
+        )
       });
-
-    console.log(this.isTaken(0, 0));
   }
 
   registerSeats = (selected: Set<string>, seatName: string) => {
@@ -58,13 +83,15 @@ export class ChooseTicketComponent implements OnInit {
       selected.delete(seatName);
       this.selectedSeats.splice(this.selectedSeats.indexOf(seatName), 1)
       this.seatsTypeMap.delete(seatName);
+      this.total -= parseInt(this.getSelectedTicketPrice(seatName));
     } else {
       let seatNameList = this.nameToRowAndCol(seatName);
       console.log(seatName);
-      if (!this.isTaken(seatNameList[0], seatNameList[1])) {
+      if (!this.isTaken(seatNameList[0] - 1, seatNameList[1] - 1)) {
         selected.add(seatName);
         this.selectedSeats.push(seatName)
         this.seatsTypeMap.set(seatName, TicketType.Normalny);
+        this.total += this.basePrice;
       }
     }
     return selected;
@@ -102,7 +129,56 @@ export class ChooseTicketComponent implements OnInit {
   selectTicket(event: any, key: string): void {
     // const element = event.currentTarget as HTMLInputElement
     this.seatsTypeMap.set(key, event.value);
+    if (event.value == TicketType.Studencki) {
+      this.total -= this.basePrice;
+      this.total += this.studentPrice;
+    } else {
+      this.total -= this.studentPrice;
+      this.total += this.basePrice;
+    }
+    this.cdRef.detectChanges();
+  }
+
+  addDays(date: Date, days: number): Date {
+    date.setDate(date.getDate() + days);
+    return date;
+  }
+
+  goToSummary(){
+
+    localStorage.setItem("seatsTypeMap",JSON.stringify(this.seatsTypeMap));
+    let studentCnt = 0;
+    let seatIds = []
+    for (let [key, value] of this.seatsTypeMap) {
+      let nameList = this.nameToRowAndCol(key);
+      seatIds.push(this.seats![nameList[0]-1][nameList[1]-1].seatId);
+      if (value === TicketType.Studencki){
+        studentCnt += 1
+      }
+    }
+
+    let reservation: Reservation = {
+        repertoireId: (this.data ? parseInt(String(this.data.repertoireId)) : -1),
+        seatIds: seatIds,
+        numberOfStudentTickets: studentCnt
+    };
+
+    console.log(reservation)
+    this.ticketsService.reserveTickets(reservation).subscribe((reservationId : any) => {
+      console.log(reservationId);
+      this.router.navigate([`/summary/${reservationId.reservationId}`]);
+    });
+
   }
 
   protected readonly TicketType = TicketType;
+
+  getSelectedTicketPrice(key: string): string {
+    let selected = this.seatsTypeMap.get(key);
+    if (selected === TicketType.Studencki){
+      return this.studentPrice.toFixed(2);
+    } else {
+      return this.price ? this.price.basePrice.toFixed(2) : "100.00";
+    }
+  }
 }
