@@ -1,10 +1,11 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {BASE_URL} from "../../assets/globals";
 import {MovieCinemaDTO} from "../dto/movie-cinema-dto";
 import {Movie} from "../models/movie";
 import {MovieDetailDTO} from "../dto/movie-detail-dto";
+import {AddRepertoireRequest} from "../dto/add-repertoire-request";
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,10 @@ export class DefineLocalService {
       .set('movieId', movieId)
 
     return this.http.get<MovieDetailDTO>(url, { params });
+  }
+
+  addRepertoire(payload: AddRepertoireRequest):Observable<string>{
+    let url = BASE_URL + '/add-repertoire-for-movie';
+    return this.http.post<string>(url, payload);
   }
 }

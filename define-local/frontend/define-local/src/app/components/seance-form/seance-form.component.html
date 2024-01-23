@@ -21,7 +21,7 @@
 </div>
 
 
-<form class="container" style="margin-top: 3vh;"[formGroup]="addRepertoiresForm" (ngSubmit)="onSubmit()">
+<form *ngIf="movieDetails" class="container" style="margin-top: 3vh;"[formGroup]="addRepertoiresForm" (ngSubmit)="onSubmit()">
 
   <div class="row">
 
@@ -55,12 +55,12 @@
         <div class="row">
 
           <div class="col-sm-2">
-            <input type="date" formControlName="date" name="dateStart" value="{{Date.now() | date:'y-M-d'}}" min="{{movieOffer?.offerDateSince}}" max="{{movieOffer?.offerDateUntil}}" />
+            <input type="date" formControlName="date" name="dateStart" min="{{movieOffer?.offerDateSince}}" max="{{movieOffer?.offerDateUntil}}" />
           </div>
 
           <div class="col-sm-2">
             <select type="text" name="location" formControlName="hall" required>
-              @for(hall of movieDetails?.halls; track hall.id){
+              @for(hall of movieDetails.halls; track hall.id){
                 <option value="{{hall.id}}">{{ hall.hallNumber }}</option>
               }
             </select>
@@ -71,12 +71,12 @@
           </div>
 
           <div class="col-sm-2">
-            <input type="time" name="endTime" disabled />
+            <input type="time" [value]="seance.get('endTime')?.value" name="endTime" disabled />
           </div>
 
           <div class="col-md-3">
             <select type="text" name="languageVersion" formControlName="languageVersion" required>
-              @for(offer of movieDetails?.movieData?.movieOffers; track offer.offerId){
+              @for(offer of movieDetails.movieData.movieOffers; track offer.offerId){
                 <option value="{{offer.offerId}}">{{ offer.languageVersionName }}</option>
               }
             </select>
