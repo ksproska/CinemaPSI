@@ -58,7 +58,7 @@ public class HallSetupService {
                 repertoire.getId(),
                 repertoire.getHallId(),
                 repertoire.getStarting().toLocalDate(),
-                repertoire.getStarting().toLocalTime(),
+                repertoire.getStarting(),
                 hall.getRowsNum(),
                 hall.getSeatsInRow(),
                 seatPlacement

@@ -13,7 +13,7 @@ import java.util.List;
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Cacheable(value = "movieDto")
-    @Query(value = "SELECT new com.cinema.repertoire.web.dtos.MovieDto(m.title, m.description, m.image, map.id) " +
+    @Query(value = "SELECT new com.cinema.repertoire.web.dtos.MovieDto(m.id, m.title, m.description, m.image, map.id) " +
             "FROM Movie m LEFT JOIN VersionOfferMovieMap map ON m.id = map.movieId WHERE map.id in :versionId")
     List<MovieDto> findMovieDtoByVersionID(List<Long> versionId);
 }

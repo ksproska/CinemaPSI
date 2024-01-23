@@ -27,6 +27,9 @@ public class Price {
     @Column(name = "date_untill")
     private LocalDateTime dateUntil;
 
+    @Column(name = "promotion_min_days")
+    private Integer promotionMinDays;
+
     public Double getBasePrice() {
         return basePrice;
     }
@@ -41,5 +44,9 @@ public class Price {
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getPromotionMinDays() {
+        return promotionMinDays;
     }
 }

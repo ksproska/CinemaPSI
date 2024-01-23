@@ -11,11 +11,11 @@ import com.cinema.clientservice.db.instance.repositories.TicketReservationReposi
 import com.cinema.clientservice.web.dtos.MovieWithLanguageVersionNameDto;
 import com.cinema.clientservice.web.exceptions.SeatTakenException;
 import com.cinema.clientservice.web.requests.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.math3.util.Precision.round;
@@ -35,9 +35,6 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
         this.versionOfferMovieMapRepository = versionOfferMovieMapRepository;
     }
-
-    @Value("${promotion.min.days}")
-    private int minDaysToApplyPromotion;
 
     public Long addMultipleTicketReservations(Reservation reservation) throws SeatTakenException {
         checkIfSeatsAlreadyTaken(reservation);
@@ -84,10 +81,10 @@ public class TicketService {
         var timeNow = LocalDateTime.now();
         var priceEntity = priceRepository.getPriceByDateSinceBeforeAndDateUntilAfter(timeNow, timeNow).orElseThrow();
         var repertoireStartingTime = repertoireRepository.findById(repertoireId).map(Repertoire::getStarting).orElseThrow();
-        var isPromotion = timeNow.plusDays(minDaysToApplyPromotion).isBefore(repertoireStartingTime);
-        var studentPromotion = (isStudent) ? priceEntity.getBasePrice() * priceEntity.getReductionPct() * 0.01 : 0;
-        var timePromotion = (isPromotion) ? priceEntity.getBasePrice() * priceEntity.getPromotionPct() * 0.01 : 0;
-        var price = round(priceEntity.getBasePrice() - studentPromotion - timePromotion, 2);
+        var isPromotion = timeNow.plusDays(priceEntity.getPromotionMinDays()).isBefore(repertoireStartingTime);
+        var studentPromotion = (isStudent) ? 1 - (priceEntity.getReductionPct() * 0.01) : 1;
+        var timePromotion = (isPromotion) ? 1 - (priceEntity.getPromotionPct() * 0.01) : 1;
+        var price = round((priceEntity.getBasePrice() * studentPromotion) * timePromotion, 2);
         return new TicketReservation(
                 isStudent,
                 price,
@@ -133,7 +130,7 @@ public class TicketService {
                 movieDetails.movieTitle(),
                 movieDetails.languageVersionName(),
                 repertoire.getStarting().toLocalDate(),
-                repertoire.getStarting().toLocalTime(),
+                repertoire.getStarting(),
                 ticketReservations.stream().map(ticketReservation -> new TicketReservationDetailsDto(
                                 ticketReservation.seatRow(),
                                 ticketReservation.seatNumber(),
@@ -150,7 +147,8 @@ public class TicketService {
         return new AllBoughtTicketsDetails(
                 allTicketsDetails.stream().map(
                         ticketDetails -> new SingleTicketDetails(
-                                versionOfferMovieMapRepository.getMovieTitleFovMovieVersionId(ticketDetails.movieVersionId()).orElseThrow(),
+                                versionOfferMovieMapRepository.getMovieTitleFovMovieVersionId(ticketDetails.movieVersionId())
+                                        .orElse("ERROR: unable to retrieve movie title for movie version id " + ticketDetails.movieVersionId()),
                                 ticketDetails.isStudent(),
                                 round(ticketDetails.price(), 2),
                                 ticketDetails.repertoireStarting().toLocalDate(),
@@ -160,7 +158,7 @@ public class TicketService {
                                 ticketDetails.ticketId(),
                                 ticketDetails.isValidated()
                         )
-                ).toList()
+                ).sorted(Comparator.comparing(SingleTicketDetails::ticketId)).toList().reversed()
         );
     }
 }

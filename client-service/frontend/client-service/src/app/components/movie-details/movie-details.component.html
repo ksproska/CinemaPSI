@@ -8,7 +8,7 @@
       </button>
     </a>
     <div class="row mb-3">
-      <img id="movie-image" src="assets/images/{{movie?.image}}" style="max-width:300px;" class="col">
+      <img id="movie-image" src="{{movie?.image}}" style="max-width:300px;" class="col">
       <div class="col">
 
 
@@ -58,9 +58,11 @@
           </button>
         </ng-container>
       </div>
+
       <button type="button" class="btn" (click)="showMoreDates()">
         <mat-icon>arrow_downward</mat-icon>
       </button>
+
     </section>
   </section>
 </article>

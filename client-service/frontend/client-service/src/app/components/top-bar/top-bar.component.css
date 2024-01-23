@@ -8,7 +8,7 @@
   max-width: 100%;
   width: 100%;
   height: 60px;
-  justify-content: space-between;
+  justify-content: start;
 }
 
 button{
@@ -20,8 +20,16 @@ button{
 .button-container{
   display: flex;
   justify-content: flex-start;
+  width: fit-content;
 }
 a {
   display: flex;
   justify-content: flex-end;
+}
+
+
+.col {
+  -ms-flex: 0 0 120px;
+  flex: 0 0 120px;
+  text-align: end;
 }

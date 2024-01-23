@@ -1,10 +1,7 @@
 package com.cinema.definelocal.web.controllers;
 
 import com.cinema.definelocal.web.requests.*;
-import com.cinema.definelocal.web.services.CinemaService;
-import com.cinema.definelocal.web.services.GenreService;
-import com.cinema.definelocal.web.services.MovieService;
-import com.cinema.definelocal.web.services.RepertoireService;
+import com.cinema.definelocal.web.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +15,14 @@ public class ShowDefinitionController {
     private final GenreService genreService;
     private final RepertoireService repertoireService;
 
-    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService, RepertoireService repertoireService) {
+    private final HallService hallService;
+
+    public ShowDefinitionController(CinemaService cinemaService, MovieService movieService, GenreService genreService, RepertoireService repertoireService, HallService hallService) {
         this.cinemaService = cinemaService;
         this.movieService = movieService;
         this.genreService = genreService;
         this.repertoireService = repertoireService;
+        this.hallService = hallService;
     }
 
     @GetMapping("/get-cinemas-and-movies")
@@ -36,14 +36,16 @@ public class ShowDefinitionController {
     }
 
     @GetMapping("/get-define-repertoire-info")
-    public ResponseEntity<DefineRepertoireInfoResponse> getDefineRepertoireInfo(@RequestBody MovieAndCinemaSelectionRequest movieAndCinemaSelectionRequest) {
+    public ResponseEntity<DefineRepertoireInfoResponse> getDefineRepertoireInfo(MovieAndCinemaSelectionRequest movieAndCinemaSelectionRequest) {
         var cinema = cinemaService.findById(movieAndCinemaSelectionRequest.cinemaId()).orElseThrow();
         var movie = movieService.findMovieDataById(movieAndCinemaSelectionRequest.movieId()).orElseThrow();
         var genres = genreService.findAllForMovieId(movie.id());
         var movieOffersVersion = movieService.findMovieOffersVersionForMovieId(movie.id());
+        var halls = hallService.findAllHalls();
         return ResponseEntity.ok(
                 new DefineRepertoireInfoResponse(
                         cinema,
+                        halls,
                         new MovieData(
                                 movie.id(),
                                 movie.title(),
@@ -59,7 +61,6 @@ public class ShowDefinitionController {
 
     @PostMapping("/add-repertoire-for-movie")
     public ResponseEntity<String> addRepertoire(@RequestBody RepertoiresRequest repertoireRequest) {
-        // TODO this endpoint creates required Repertoires but does not save it to db
         var responseMessage = repertoireService.addRepertoires(repertoireRequest);
         return responseMessage
                 .map(ResponseEntity.badRequest()::body)

@@ -3,6 +3,7 @@ package com.cinema.clientservice.web.requests;
 import com.cinema.clientservice.web.dtos.SeatInfo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public record HallSetupForRepertoire(
         Long repertoireId,
         Long hallId,
         LocalDate date,
-        LocalTime startingTime,
+        LocalDateTime startingTime,
 
         Integer numbOfRows,
         Integer numbOfSeatsInRow,

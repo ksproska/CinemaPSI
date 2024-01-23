@@ -12,9 +12,8 @@
 /*}*/
 
 body, html {
-  background-color: #0b0b0b;
   min-width: 600px;
-  background-color: #0b0b0b;
+  background-color: #11191f;
   margin: 0; /* Remove default margins */
   padding: 0;
   background-attachment: fixed;
@@ -23,12 +22,12 @@ body, html {
 }
 
 #content{
-  background-color: #333333;
+  background-color: #11191f;
   width: 70%;
   margin: auto;
   height: auto;
   min-height: calc(100vh - 60px);
-  color: #e4e4e4
+  color: #e4e4e4;
 
 
 }
@@ -46,18 +45,37 @@ h1 {
 
 .seat {
   appearance: none;
-  margin: 12px 8px;
+  /*margin: 12px 8px;*/
   border-radius: 2px;
-//background-color: #3f3f3f;
-//background-color: #e4e4e4;
   border: 1px rgb(194, 194, 194) solid;
-  padding: 6px 10px;
+  /*padding: 6px 12px;*/
+  /*height: fit-content;*/
+  height: 30px;
+  width: 40px;
+  /*padding-top: 6px;*/
+  /*width: 60px;*/
+  aspect-ratio: 1/1;
+  margin: 0px;
+  display: flex;
+  padding-top: 4px;
+  justify-content: center;
+  align-content: center;
+  /*width: fit-content;*/
+  /*height: fit-content;*/
+  flex-shrink: 0;
 }
 
 .seat input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+  height: fit-content;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+
 }
 
 .free:hover {
@@ -67,12 +85,21 @@ h1 {
 }
 
 .free input:checked ~ .checkmark {
-  color: #00a2d9;
+  color: #abe6ff;
   font-weight: bold;
+
 }
 
+
+
+
+
+/*.label.seat.free {*/
+/*  background: #f2f2f2;*/
+/*}*/
+
 span {
-  color: white;
+  color: #bebebe;
 }
 
 p {
@@ -92,11 +119,11 @@ p {
 button {
   background-color: #3f3f3f;
   color: #00abcd;
-  width: 70px;
+  width: fit-content;
 }
 
 .taken {
-  background-color: #171717;
+  background-color: #424242;
 }
 
 .taken-checkbox {
@@ -105,12 +132,13 @@ button {
 
 .hall-row {
   display: flex;
-  column-gap: 0px;
+  /*column-gap: 0px;*/
+  justify-content: center;
 }
 
-.row-m {
-  height: 5vh;
-}
+/*.row-m {*/
+/*  height: 5vh;*/
+/*}*/
 
 .col-1 {
   width: 5vh;
@@ -153,12 +181,95 @@ button {
 .ticket-type-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 10px 0; /* Adjust margin as needed */
+  height: fit-content;
 }
 
+.ticket-select-key {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 10px 0;
+}
+
+.price {
+  margin-right: 40px;
+}
 /* Style for key (the label) */
 .ticket-type-row span {
   margin-right: 10px; /* Adjust margin as needed */
   font-weight: bold; /* Optional: Apply bold font to key */
 }
 
+
+.button-div{
+  display: flex;
+  justify-content: end;
+  margin-top: 40px;
+}
+
+.hall-whole{
+  margin-top: 20px;
+  color: #0b0b0b;
+}
+
+.headers{
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+.icon {
+  color: #e4e4e4;
+  background: #11191f;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.total-div.col {
+  display: flex;
+  flex-direction: column; /* Stack child elements vertically */
+  width: fit-content;
+  align-items: flex-end;
+  margin-right: 20px;
+}
+
+.promo.row,
+.total.row {
+  /* Add margin or padding to separate the elements vertically */
+  margin-top: 5px; /* You can adjust this value to control the spacing */
+  width: fit-content;
+  margin-right: 20px;
+}
+
+.promo {
+  color: #db7473
+}
+
+.total-container{
+  display: flex;
+  justify-content: end;
+}
+
+.summary {
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+
+/*.seatsCol{*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*}*/
+
+
+.seatCol{
+  width: fit-content !important;
+}

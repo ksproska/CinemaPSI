@@ -1,16 +1,22 @@
 <body>
 <app-top-bar></app-top-bar>
 <article class="p-3" id="content">
-  <h1>Choose your seat</h1>
-
+  <a class="col-1" [routerLink]="['/movies/'+data?.repertoireId]">
+    <button type="button" class="btn icon">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+  </a>
+  <div class="headers">
+  <h4>{{data?.movieTitle}} | {{data?.languageVersion}} </h4> <h4>{{data?.date | date: 'dd-MM-YYYY' }} | {{data?.startingTime | date: 'HH:mm'}}</h4>
+  </div>
   <section class="d-flex flex-column gap-2">
-    <div class="screen col-11 align-self-end hall-whole">SCREEN</div>
+    <div class="screen col-11 align-self-end justify-content-center hall-whole">EKRAN</div>
     <div *ngFor="let row of seats; index as i" class="row-m">
       <section class="hall row">
         <p class="col-1">{{numberToLetterMap[i+1]}}</p>
         <div class="col">
-          <div class="row justify-content-center hall-row">
-            <div *ngFor="let f of row; let i2 = index" class="col-1">
+          <div class="row hall-row">
+            <div *ngFor="let f of row; let i2 = index" class="col seatCol">
               <label class="seat" [ngClass]="isTaken(i, i2) ? 'taken' : 'free'" >
                 <input  type="checkbox" (click)="selectSeat$.next(rowAndColToName(i + 1, i2 + 1))"
                         [ngClass]="isTaken(i, i2) ? 'taken-checkbox' : 'free-checkbox'">
@@ -22,45 +28,39 @@
       </section>
     </div>
     <ng-container *ngIf="selectedMessage$ | async as message">
-      <p>Selected: {{message}}</p>
-      <button type="button" class="btn btn-dark">Buy</button>
+<!--      <p>Selected: {{message}}</p>-->
+<!--      <button type="button" class="btn btn-dark">Buy</button>-->
     </ng-container>
 
-<!--    <div *ngFor="let key of seatsTypeMap.keys()" class="ticket-type-row">-->
-<!--      <span>{{key}}</span>-->
-<!--      <div class="row">-->
-<!--&lt;!&ndash;        {{key}}&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="radio-toolbar">&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;          <div class="ticket-type-buttons">&ndash;&gt;&ndash;&gt;-->
+    <div *ngFor="let key of selectedSeats" class="ticket-type-row">
+      <div class="ticket-select-key">
+      <span >{{key}}</span>
 
-<!--&lt;!&ndash;              <input type="radio" name="ticketTypeU" id="ticketTypeU" [value]="TicketType.Uczniowski" (change)="selectTicket($event.target, key)">&ndash;&gt;-->
-<!--&lt;!&ndash;          <label for="ticketTypeU">Uczniowski</label>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;              <input type="radio" name="ticketTypeS" id="ticketTypeS" [value]="TicketType.Studencki" (change)="selectTicket($event.target, key)">&ndash;&gt;-->
-<!--&lt;!&ndash;              <label for="ticketTypeS"> Studencki</label>&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;              <input type="radio"  name="ticketType" id="ticketType" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)" checked>&ndash;&gt;-->
-<!--&lt;!&ndash;          <label for="ticketType">Normalny </label>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;          </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <div *ngFor="let key of seatsTypeMap.keys()" class="ticket-type-row">
-      <span>{{key}}</span>
     <div class="radio-toolbar" id="key">
-      <input type="radio" id="{{'ticketTypeU' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Uczniowski" (change)="selectTicket($event.target, key)" checked>
-      <label for="{{'ticketTypeU' + key}}">Uczniowski</label>
-
       <input type="radio" id="{{'ticketTypeS' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Studencki" (change)="selectTicket($event.target, key)">
       <label for="{{'ticketTypeS' + key}}">Studencki</label>
 
-      <input type="radio" id="{{'ticketType' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)">
+      <input type="radio" id="{{'ticketType' + key}}" name="{{'radio_' + key }}" [value]="TicketType.Normalny" (change)="selectTicket($event.target, key)" checked>
       <label for="{{'ticketType' + key}}">Normalny</label>
     </div>
+      </div>
+      <div class="price">{{getSelectedTicketPrice(key)}} PLN</div>
     </div>
+
+    <hr/>
+    <div class="total-container" *ngIf="seatsTypeMap.size > 0">
+    <div class="total-div" *ngIf="!isPromotion"><p class="total"> Razem: {{total.toFixed(2)}} PLN</p></div>
+    <div class="total-div col" *ngIf="isPromotion">
+      <div class="promo row"> - {{(promotionPct*total/100).toFixed(2)}} PLN</div>
+      <div class="total row"> Razem: {{(total - (promotionPct*total/100)).toFixed(2)}} PLN</div>
+
+    </div>
+      <div  class="button-div row">
+        <button type="button" (click)="goToSummary()" class="btn btn-dar row summary">Dalej</button>
+      </div>
+    </div>
+
+
   </section>
 </article>
 </body>

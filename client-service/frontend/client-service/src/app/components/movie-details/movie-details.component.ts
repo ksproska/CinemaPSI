@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MoviesService} from "../../services/movies.service";
 import {Movie} from "../../models/movie";
 import {RepertoiresForDates} from "../../models/repertoiresForDates";
@@ -19,29 +19,29 @@ export class MovieDetailsComponent implements OnInit {
   showMax: number = 1;
   selectedCinema: string = 'Wrocław';
   cinemas = ['Wrocław', 'Warszawa', 'Kraków'];
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
   ngOnInit(){
     this.route.data.subscribe(
       ({data}) => {
         this.data = data
+        this.movie = this.data['movie'];
+        this.genres = this.data['genres'];
+        this.repertoiresForDates = this.data['repertoiresForDates']
+        console.log(this.repertoiresForDates);
+        console.log(this.movie?.image);
+        console.log(this.movie)
       });
-    this.movie = this.data['movie'];
-    this.genres = this.data['genres'];
-    this.repertoiresForDates = this.data['repertoiresForDates']
-    console.log(this.repertoiresForDates);
+
   }
 
   datePassed(date: Date): boolean {
-    console.log(date);
     let now = new Date()
     date = new Date(date)
     return now > date;
   }
 
-  navigateToBuyView(screening: number) {
-    // if (!this.datePassed(new Date(screening.date))) {
-    //   this.router.navigate([`/movies/${screening.id}/${screening.hallId}/book`]);
-    // }
+  navigateToBuyView(repertoireId: number) {
+      this.router.navigate([`/tickets/${repertoireId}`]);
   }
 
   showMoreDates(){

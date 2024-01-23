@@ -4,8 +4,13 @@ import {MovieListComponent} from "./components/movie-list/movie-list.component";
 import {MovieDetailsComponent} from "./components/movie-details/movie-details.component";
 import {MovieDetailsResolver} from "./resolvers/movie-details.resolver";
 import {ChooseTicketComponent} from "./components/choose-ticket/choose-ticket.component";
-import {RepertoireService} from "./services/repertoire.service";
 import {RepertoireResolver} from "./resolvers/repertoire.resolver";
+import {SummaryComponent} from "./components/summary/summary.component";
+import {ReservationResolver} from "./resolvers/reservation.resolver";
+import {PaymentSuccessComponent} from "./components/payment-success/payment-success.component";
+import {PaymentFailureComponent} from "./components/payment-failure/payment-failure.component";
+import {ClientTicketsComponent} from "./components/client-tickets/client-tickets.component";
+import {clientTicketsResolver} from "./resolvers/client-tickets.resolver";
 import {ChooseCinemaComponent} from "./components/choose-cinema/choose-cinema.component";
 
 const routes: Routes = [
@@ -38,6 +43,28 @@ const routes: Routes = [
     component: ChooseTicketComponent,
     resolve: {
       data: RepertoireResolver,
+    }
+  },
+  {
+    path: 'summary/:reservationId',
+    component: SummaryComponent,
+    resolve: {
+      data: ReservationResolver,
+    }
+  },
+  {
+    path: 'payment-status/success',
+    component: PaymentSuccessComponent
+  },
+  {
+    path: 'payment-status/failure',
+    component: PaymentFailureComponent
+  },
+  {
+    path: 'my-tickets',
+    component: ClientTicketsComponent,
+    resolve: {
+      data: clientTicketsResolver
     }
   }
 ]

@@ -1,0 +1,19 @@
+<form #form action="http://localhost:8080/pay" method="GET">
+  <label>Reservation id:</label>
+  <input type="number" name="reservationId">
+  <br>
+  <label>Service type:</label>
+  <input type="text" name="paymentService" value="mock-service">
+  <br>
+  <input type="submit" value="PAY" class="btn" (click)="form.submit()">
+</form>
+
+<!--<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">-->
+
+<!--  <div class="form-group">-->
+<!--    <label for="paymentService">Service type:</label>-->
+<!--    <input type="text" formControlName="paymentService" id="paymentService" class="form-control" value="mock-service">-->
+<!--  </div>-->
+
+<!--  <button type="submit" class="btn btn-primary">PAY</button>-->
+<!--</form>-->
