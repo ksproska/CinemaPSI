@@ -1,7 +1,5 @@
 package com.cinema.definelocal.web.controllers;
 
-import com.cinema.definelocal.db.instance.models.Hall;
-import com.cinema.definelocal.db.instance.repositories.HallRepository;
 import com.cinema.definelocal.web.requests.*;
 import com.cinema.definelocal.web.services.*;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
 
 @Controller
 public class ShowDefinitionController {
@@ -65,7 +61,6 @@ public class ShowDefinitionController {
 
     @PostMapping("/add-repertoire-for-movie")
     public ResponseEntity<String> addRepertoire(@RequestBody RepertoiresRequest repertoireRequest) {
-        // TODO this endpoint creates required Repertoires but does not save it to db
         var responseMessage = repertoireService.addRepertoires(repertoireRequest);
         return responseMessage
                 .map(ResponseEntity.badRequest()::body)

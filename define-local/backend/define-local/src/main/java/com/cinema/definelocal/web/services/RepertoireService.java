@@ -60,13 +60,13 @@ public class RepertoireService {
                     repertoireCandidate.versionOfferMovieId()
             ));
         }
-        // TODO fix so that endpoint saves required repertoires
         repertoireRepository.saveAll(repertoiresToSave);
         return Optional.empty();
     }
 
     private static Optional<String> canRepertoireBeAdded(RepertoireCandidate repertoireCandidate, List<Pair<LocalDateTime, LocalDateTime>> breaksBetweenShowsForHallId, LocalDateTime repertoireCandidateStartingTime, LocalDateTime repertoireCandidateEndingTime, HashMap<Long, List<Repertoire>> hallIdToRepertoires) {
-        if (breaksBetweenShowsForHallId.isEmpty()) return Optional.empty();
+        List<Repertoire> allRepertoiresForHall = hallIdToRepertoires.get(repertoireCandidate.hallId());
+        if (allRepertoiresForHall.isEmpty()) return Optional.empty();
         var breakBetweenShowBigEnough = breaksBetweenShowsForHallId
                 .stream()
                 .filter(p ->
@@ -76,12 +76,10 @@ public class RepertoireService {
                 .findFirst();
         if (breakBetweenShowBigEnough.isPresent()) return Optional.empty();
 
-        var firstShowStartingTime = hallIdToRepertoires
-                .get(repertoireCandidate.hallId())
+        var firstShowStartingTime = allRepertoiresForHall
                 .getFirst()
                 .getStarting();
-        var lastShowEndingTime = hallIdToRepertoires
-                .get(repertoireCandidate.hallId())
+        var lastShowEndingTime = allRepertoiresForHall
                 .getLast()
                 .getEnding();
 
