@@ -9,10 +9,16 @@
   background-color: #3f3f3f;
 }
 
-html, body{
+body, html {
   background-color: #0b0b0b;
   min-width: 600px;
-
+  background-color: #0b0b0b;
+  margin: 0; /* Remove default margins */
+  padding: 0;
+  background-attachment: fixed;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
 }
 
 h1{
@@ -156,7 +162,7 @@ span {
 .rating{
   margin-right: 40px;
   right: 0;
-  width: 100px;
+  width: fit-content;
   margin-left: auto;
 }
 
@@ -166,7 +172,7 @@ span {
 
 #rating{
   margin: 5px;
-  width: 100px;
+  width: fit-content;
   color: #f2f2f2;
 
 }
