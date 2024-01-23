@@ -16,6 +16,10 @@ export class SummaryComponent implements OnInit{
     if (localStorage.getItem("ticketChosen") !== "1"){
       this.router.navigate([`/movies`]);
     }
+    setTimeout(() => {
+      // Redirect to the main page
+      window.location.href = '/';
+    },  15*60*1000); // 15 minutes = 900000 = 15*60*1000
     this.reservationId = this.route.snapshot.paramMap.get('reservationId');
     this.route.data.subscribe(
       ({data}) => {

@@ -1,0 +1,7 @@
+version: "2.4"
+services:
+  payment-service:
+    container_name: payment-service
+    hostname: payment-service
+    image: ksproska/cinema-mock-payment-service
+    network_mode: host

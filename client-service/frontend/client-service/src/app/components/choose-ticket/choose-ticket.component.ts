@@ -52,6 +52,7 @@ export class ChooseTicketComponent implements OnInit {
   total = 0;
   promotionPct = 0;
   selectedCinema = "wroclaw";
+  errorMessage?: string
 
   constructor(private route: ActivatedRoute, private priceService: PriceService,  private cdRef: ChangeDetectorRef,
               private ticketsService: TicketsService, private router: Router) {}
@@ -168,12 +169,17 @@ export class ChooseTicketComponent implements OnInit {
 
 
 
-    // @ts-ignore
-
+    console.log(reservation)
     this.ticketsService.reserveTickets(reservation, this.selectedCinema).subscribe((reservationId : any) => {
-
-      this.router.navigate([`/summary/${this.selectedCinema}/${reservationId.reservationId}`]);
-    });
+      console.log(reservationId);
+        this.router.navigate([`/summary/${this.selectedCinema}/${reservationId.reservationId}`]);
+    },
+      error => {
+        this.errorMessage = "Miejsce już zajęte! Wybierz nowe miejsce."
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      });
 
   }
 

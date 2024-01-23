@@ -26,7 +26,7 @@
     <div *ngFor="let movie of moviesInSelectedGenre" class="card">
       <div class="card-body" (click)="onMovieSelected(movie.movieVersionDetails.movieId)">
         <div class="row">
-          <img src="https://drive.google.com/thumbnail?id={{movie.movieVersionDetails.movieImageUrl}}&sz=w300" alt="Movie poster">
+          <img src="{{movie.movieVersionDetails.movieImageUrl}}" alt="Movie poster">
           <div class="row col-10">
             <h5 class="card-title">{{ movie.movieVersionDetails.movieTitle }}</h5>
             <div class="rating">
