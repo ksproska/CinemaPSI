@@ -44,14 +44,10 @@ services:
       dockerfile: Dockerfile
       target: "backend"
     environment:
-      SPRING_DATASOURCE_COMMON_URL: jdbc:postgresql://db-common:5432/postgres?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
-      SPRING_DATASOURCE_COMMON_USERNAME: postgres
-      SPRING_DATASOURCE_COMMON_PASSWORD: password
-      SPRING_DATASOURCE_COMMON_DRIVER_CLASS_NAME: org.postgresql.Driver
-      SPRING_DATASOURCE_INSTANCE_URL: jdbc:postgresql://db-instance:5432/postgres?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
-      SPRING_DATASOURCE_INSTANCE_USERNAME: postgres
-      SPRING_DATASOURCE_INSTANCE_PASSWORD: password
-      SPRING_DATASOURCE_INSTANCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-instance:5432/postgres?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
     networks:
       - priv-network
     ports:

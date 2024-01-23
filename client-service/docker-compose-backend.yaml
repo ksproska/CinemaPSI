@@ -1,0 +1,19 @@
+version: "3.4"
+services:
+  backend:
+    container_name: backend
+    hostname: backend
+    image: ksproska/cinema-backend-client-service
+    environment:
+      SPRING_DATASOURCE_COMMON_URL: jdbc:postgresql://jenkins.cdkuk0q2a24a.us-east-1.rds.amazonaws.com:5432/jenkins
+      SPRING_DATASOURCE_COMMON_USERNAME: jenkins
+      SPRING_DATASOURCE_COMMON_PASSWORD: rootroot
+      SPRING_DATASOURCE_COMMON_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_INSTANCE_URL: jdbc:postgresql://jinstance.cdkuk0q2a24a.us-east-1.rds.amazonaws.com/jinstance
+      SPRING_DATASOURCE_INSTANCE_USERNAME: jinstance
+      SPRING_DATASOURCE_INSTANCE_PASSWORD: rootroot
+      SPRING_DATASOURCE_INSTANCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      FRONTEND_PAYMENT_RETURN_URL_SUCCESS: http://cinema-client-service-frontend-app.us-east-1.elasticbeanstalk.com/payment-status/success
+      FRONTEND_PAYMENT_RETURN_URL_FAILURE: http://cinema-client-service-frontend-app.us-east-1.elasticbeanstalk.com/payment-status/failure
+      EXTERNAL_PAYMENT_SERVICE_MOCK_SERVICE_URL: http://cinema-client-service-payment-service.us-east-1.elasticbeanstalk.com
+    network_mode: host

@@ -1,0 +1,7 @@
+version: "3.4"
+services:
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    image: ksproska/cinema-frontend-define-local
+    network_mode: host
