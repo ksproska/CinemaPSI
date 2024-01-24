@@ -8,7 +8,9 @@
 ![](.images/define-local.gif)
 ## Client-service
 ![](.images/client-service.gif)
-
+## Ticket-collector
+![](.images/ticket-collector.gif)
+![](.images/my-tickets.gif)
 ---
 
 ## Technologie wspierające rozwijanie oprogramowania - treść zadania
