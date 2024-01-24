@@ -75,9 +75,9 @@
           </div>
 
           <div class="col-md-3">
-            <select type="text" name="languageVersion" formControlName="languageVersion" required>
+            <select type="text" name="versionOfferMovieId" formControlName="versionOfferMovieId" required>
               @for(offer of movieDetails.movieData.movieOffers; track offer.offerId){
-                <option value="{{offer.offerId}}">{{ offer.languageVersionName }}</option>
+                <option value="{{offer.versionOfferMovieId}}">{{ offer.languageVersionName }}</option>
               }
             </select>
           </div>
