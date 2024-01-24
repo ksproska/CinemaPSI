@@ -2,6 +2,13 @@
 ## Overall architecture
 ![architecture.drawio.png](.images/architecture.drawio.png)
 
+## Repertoire
+![](.images/repertoire.gif)
+## Define-local
+![](.images/define-local.gif)
+## Client-service
+![](.images/client-service.gif)
+
 ---
 
 ## Technologie wspierające rozwijanie oprogramowania - treść zadania
