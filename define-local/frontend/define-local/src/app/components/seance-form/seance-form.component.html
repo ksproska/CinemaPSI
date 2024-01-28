@@ -21,7 +21,7 @@
 </div>
 
 
-<form *ngIf="movieDetails" class="container" style="margin-top: 3vh;"[formGroup]="addRepertoiresForm" (ngSubmit)="onSubmit()">
+<form *ngIf="movieDetails" class="container" style="margin-top: 3vh;" [formGroup]="addRepertoiresForm" (ngSubmit)="onSubmit()">
 
   <div class="row">
 
@@ -92,6 +92,7 @@
   <div class="row">
     <div class="col-sm-10">
       <span> {{responseMessage}}</span>
+      <span style="color: red"> {{submitMessage}} </span>
     </div>
     <div class="col-sm-2">
       <button type="button" (click)="addSeance()">Dodaj seans</button>

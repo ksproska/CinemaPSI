@@ -27,6 +27,7 @@ export class SeanceFormComponent implements OnChanges {
   movieOffer?: MovieOffer
   today?: Date
   responseMessage?: string
+  submitMessage?: string
 
   addRepertoiresForm = this.formBuilder.group({
     seances: this.formBuilder.array([], Validators.required)
@@ -44,11 +45,11 @@ export class SeanceFormComponent implements OnChanges {
 
   addSeance() {
     const seance = this.formBuilder.group({
-      date: ['', Validators.required],
-      hall: [0, Validators.required],
-      startTime: ['', Validators.required],
+      date: [null, Validators.required],
+      hall: [null, Validators.required],
+      startTime: [null, Validators.required],
       endTime: [''],
-      versionOfferMovieId: [0, Validators.required]
+      versionOfferMovieId: [null, Validators.required]
     });
 
     seance.get('startTime')?.valueChanges.subscribe(startTime => {
@@ -97,8 +98,10 @@ export class SeanceFormComponent implements OnChanges {
         }
       })
       console.log('Payload to be sent:', payload);
+      this.submitMessage = ""
     } else {
       console.log('Form is not valid');
+      this.submitMessage = "Upewnij się że wszystkie pola są uzupełnione!"
     }
   }
 
