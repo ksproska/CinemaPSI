@@ -14,7 +14,7 @@ export class RepertoireService {
     let url = BASE_URL + '/get-repertoire2'
 
     const params = new HttpParams()
-      .set('hoursInterval', 300)
+      .set('hoursInterval', 24)
       .set('cinemaId', 1);
 
     return this.http.get<Repertoire[]>(url, { params });

@@ -57,7 +57,7 @@ export class SeanceFormComponent implements OnChanges {
         endTime = this.calculateEndTime(startTime, this.movieDetails?.movieData?.lengthMinutes);
       }
       if(endTime)
-        seance.get('endTime')?.setValue(endTime, { emitEvent: false });
+        seance.get('endTime')?.setValue(endTime, { emitEvent: true });
     });
 
     this.seances.push(seance);
