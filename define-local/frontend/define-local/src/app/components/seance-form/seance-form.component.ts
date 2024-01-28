@@ -48,7 +48,7 @@ export class SeanceFormComponent implements OnChanges {
       hall: [0, Validators.required],
       startTime: ['', Validators.required],
       endTime: [''],
-      languageVersion: [0, Validators.required]
+      versionOfferMovieId: [0, Validators.required]
     });
 
     seance.get('startTime')?.valueChanges.subscribe(startTime => {
@@ -74,11 +74,12 @@ export class SeanceFormComponent implements OnChanges {
       const movieId = this.movieDetails!.movieData.id
 
       const repertoireCandidates: RepertoireCandidate[] = seances.map(seanceData => {
+        console.log(seanceData)
         const startingDateTime = `${seanceData.date}T${seanceData.startTime}:00`;
         return {
           starting: startingDateTime,
           hallId: seanceData.hall,
-          versionOfferMovieId: seanceData.languageVersion
+          versionOfferMovieId: seanceData.versionOfferMovieId
         };
       });
 
@@ -88,7 +89,6 @@ export class SeanceFormComponent implements OnChanges {
       };
       this.defineLocalService.addRepertoire(payload).subscribe({
         next: value => console.log(value),
-        // error: err => console.log(err.error.text) //for success
         error: err => {
           if(err.status == 400)
             this.responseMessage = err.error

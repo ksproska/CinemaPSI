@@ -2,6 +2,37 @@
 ## Overall architecture
 ![architecture.drawio.png](.images/architecture.drawio.png)
 
+## Descriptions of services
+
+| Application                                       | Description                                                                                     |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| [client-service](client-service)                  | Service for browsing repertoires, selecting seats, buying tickets and displaying bought tickets |
+| [repertoire](repertoire)                          | Monitor to display repertoires for the nearest future                                           |
+| [define-local](define-local)                      | Service for creating new repertoires by local administrator                                     |
+| [ticket-collector](ticket-collector)              | Mobile app for collecting tickets                                                               |
+| [payment-service](client-service/payment-service) | Mock for external payment service                                                               |
+
+## Deployments
+As for time of writing services are deployed in the following locations, however this may change in the nearest future since AWS costs money ;)
+
+| Application                          | Frontend                                                                            | Backend                                                                        |
+|--------------------------------------|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| [client-service](client-service)     | http://cinema-client-service-frontend-app.us-east-1.elasticbeanstalk.com            | http://cinema-client-service-backend-app.us-east-1.elasticbeanstalk.com:8080   |
+| [repertoire](repertoire)             | http://repertoire-front-env.eba-3pmiemyr.us-east-1.elasticbeanstalk.com             | http://repertoire-env.eba-he7zfnjb.us-east-1.elasticbeanstalk.com:8080         |
+| [define-local](define-local)         | http://cinema-define-local-frontend-env.eba-ppmix8af.us-east-1.elasticbeanstalk.com | http://cinema-define-local-backend-app.us-east-1.elasticbeanstalk.com:8080     |
+| [ticket-collector](ticket-collector) | [mobile app](ticket-collector/ticket-collector-app.apk) - for Android               | http://cinema-ticket-collector-backend-app.us-east-1.elasticbeanstalk.com:8080 |
+
+Additionally, for mocking of external payment service the [payment service](client-service/payment-service) 
+is deployed in under http://cinema-client-service-payment-service.us-east-1.elasticbeanstalk.com URL.
+
+## Repertoire
+![](.images/repertoire.gif)
+## Define-local
+![](.images/define-local.gif)
+## Client-service
+![](.images/client-service.gif)
+## Ticket-collector
+![](.images/ticket-collector.gif)
 ---
 
 ## Technologie wspierające rozwijanie oprogramowania - treść zadania

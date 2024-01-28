@@ -24,6 +24,10 @@ public class RepertoireService {
     Comparator<Repertoire> comparatorByStartingTime = Comparator.comparing(Repertoire::getStarting);
 
     public Optional<String> addRepertoires(RepertoiresRequest repertoiresRequest) {
+        Optional<String> areRepertoiresCorrectErrorMessage = validateRepertoireRequest(repertoiresRequest);
+        if (areRepertoiresCorrectErrorMessage.isPresent()) {
+            return areRepertoiresCorrectErrorMessage;
+        }
         var allStartingTimes = repertoiresRequest.repertoireCandidates().stream().map(RepertoireCandidate::starting).distinct().sorted().toList();
         var allHallIds = repertoiresRequest.repertoireCandidates().stream().map(RepertoireCandidate::hallId).distinct().sorted().toList();
         var repertoiresForDates =
@@ -61,6 +65,18 @@ public class RepertoireService {
             ));
         }
         repertoireRepository.saveAll(repertoiresToSave);
+        return Optional.empty();
+    }
+
+    private Optional<String> validateRepertoireRequest(RepertoiresRequest repertoiresRequest) {
+        var repertoireStartingTimes = repertoiresRequest.repertoireCandidates().stream().map(RepertoireCandidate::starting).sorted().toList();
+        var movieDuration = movieRepository.findById(repertoiresRequest.movieId()).orElseThrow().getDuration();
+        for (int i = 0; i < repertoireStartingTimes.size() - 1; i++) {
+            if (repertoireStartingTimes.get(i).plusMinutes(movieDuration).isAfter(repertoireStartingTimes.get(i + 1))
+                    && Objects.equals(repertoiresRequest.repertoireCandidates().get(i).hallId(), repertoiresRequest.repertoireCandidates().get(i + 1).hallId())) {
+                return Optional.of("Repertoire " + (i + 1) + " and " + (i + 2) + " are overlaping");
+            }
+        }
         return Optional.empty();
     }
 

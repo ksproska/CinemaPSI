@@ -2,7 +2,7 @@
 <app-top-bar></app-top-bar>
 <article class="p-3" id="content">
   <section class="d-flex flex-column gap-2">
-    <a class="col-1" [routerLink]="['/movies']">
+    <a class="col-1" [routerLink]="['/movies', CinemaNamesMap.cinemaNamesMap[selectedCinema]]">
       <button type="button" class="btn">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
@@ -15,12 +15,12 @@
         <div class="flex-container" id="title-rating">
 
           <div class="flex-child">
-            <h1>{{movie?.title}} </h1>
+            <h1>{{ movie?.title }} </h1>
           </div>
 
 
           <div class="flex-child rating">
-            <div id="rating-border"><p id="rating">Ocena: {{movie?.rating}} </p></div>
+            <div id="rating-border"><p id="rating">Ocena: {{ movie?.rating }} </p></div>
 
           </div>
 
@@ -28,16 +28,16 @@
         <div class="flex-container" id="genres">
 
           <div class="flex-child genres" *ngFor="let genre of genres">
-            {{genre}}
+            {{ genre }}
           </div>
 
 
         </div>
-        <p> reżyseria: {{movie?.director}}</p>
-        <p> scenariusz: {{movie?.director}}</p>
-        <p> aktorzy: {{movie?.actors}} min</p>
-        <p> Duration: {{movie?.duration}} min</p>
-        <p>{{movie?.description}}</p>
+        <p> reżyseria: {{ movie?.director }}</p>
+        <p> scenariusz: {{ movie?.director }}</p>
+        <p> aktorzy: {{ movie?.actors }} min</p>
+        <p> Duration: {{ movie?.duration }} min</p>
+        <p>{{ movie?.description }}</p>
       </div>
     </div>
     <h2>Seanse:</h2>
@@ -50,7 +50,7 @@
         </option>
       </select>
       <div class="row mb-3" *ngFor="let repertoireForDate of repertoiresForDates!.slice(0, showMax);">
-        <div>{{repertoireForDate.date | date: 'dd-MM-YYYY'}} </div>
+        <div>{{ repertoireForDate.date | date: 'dd-MM-YYYY' }}</div>
         <ng-container class="col" *ngFor="let repertoire of repertoireForDate.repertoires;">
           <button type="button" id="{{repertoire.repertoireId}}"
                   [ngClass]="datePassed(repertoire.starting) ? 'passed' : 'future'"

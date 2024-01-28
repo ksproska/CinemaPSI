@@ -21,15 +21,17 @@ export class MovieDetailsComponent implements OnInit {
   showMax: number = 1;
   selectedCinema: string = 'Wrocław';
   cinemas = ['Wrocław'];
-  constructor(private route: ActivatedRoute, private router: Router) {}
-  ngOnInit(){
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+  }
+
+  ngOnInit() {
     this.route.data.subscribe(
       ({data}) => {
         this.data = data
         this.movie = this.data['movie'];
         this.genres = this.data['genres'];
         this.repertoiresForDates = this.data['repertoiresForDates']
-
 
 
       });
@@ -46,14 +48,16 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   navigateToBuyView(repertoireId: number) {
-      this.router.navigate([`/tickets/${CinemaNamesMap.cinemaNamesMap[this.selectedCinema]}/${repertoireId}`]);
+    this.router.navigate([`/tickets/${CinemaNamesMap.cinemaNamesMap[this.selectedCinema]}/${repertoireId}`]);
   }
 
-  showMoreDates(){
+  showMoreDates() {
     this.showMax += 3;
   }
 
   onSelectCinema(cinema: string): void {
     this.selectedCinema = cinema;
   }
+
+  protected readonly CinemaNamesMap = CinemaNamesMap;
 }
